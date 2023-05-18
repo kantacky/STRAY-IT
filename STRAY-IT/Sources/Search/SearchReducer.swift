@@ -15,7 +15,6 @@ public struct SearchReducer: ReducerProtocol {
     public struct State: Equatable {
         public var isLoading: Bool
         public var alert: AlertState<Action>?
-        public var isSearchMode: Bool
         public var searchQuery: String
         public var request: MKLocalSearch.Request
         public var search: MKLocalSearch
@@ -26,7 +25,6 @@ public struct SearchReducer: ReducerProtocol {
 
         public init() {
             self.isLoading = false
-            self.isSearchMode = false
             self.searchQuery = ""
             self.request = .init()
             self.request.resultTypes = [.address, .pointOfInterest]
@@ -40,7 +38,6 @@ public struct SearchReducer: ReducerProtocol {
         case onAppear
         case onDisappear
         case alertDismissed
-        case setSearchMode(Bool)
         case setSearchQuery(String)
         case executeQuery
         case querySearchResponse(TaskResult<[MKMapItem]>)
@@ -64,21 +61,18 @@ public struct SearchReducer: ReducerProtocol {
             state.alert = nil
             return .none
 
-        case let .setSearchMode(newSearchMode):
-            state.isSearchMode = newSearchMode
-            return .none
-
         case let .setSearchQuery(newQuery):
             state.searchQuery = newQuery
             if newQuery.isEmpty {
                 state.isSearching = false
+                state.querySearchResults = []
             } else {
                 state.isSearching = true
             }
             return .merge(
                 .cancel(id: SearchExecutionId()),
                 .task {
-                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                    try? await Task.sleep(nanoseconds: 500_000_000)
                     return .executeQuery
                 }
                 .cancellable(id: SearchExecutionId())
