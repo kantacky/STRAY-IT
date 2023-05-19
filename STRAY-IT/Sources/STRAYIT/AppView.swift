@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import ExtendedMKModels
 import Search
 import SharedModel
 import SwiftUI
@@ -18,13 +19,7 @@ public struct AppView: View {
             VStack(spacing: 0) {
                 if hasShownTutorial {
                     if viewStore.state.search.goal != nil {
-                        if viewStore.state.isLoading {
-                            ProgressView()
-                        } else {
-                            SelectedTabView(store: store)
-
-                            CustomTabBar(selection: viewStore.binding(get: \.tabSelection, send: AppReducer.Action.setTabSelection))
-                        }
+                        ComposedTabView(store: store)
                     } else {
                         SearchView(store: store.scope(state: \.search, action: AppReducer.Action.search))
                     }
