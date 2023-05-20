@@ -14,6 +14,10 @@ public enum L10n {
   public static let search = L10n.tr("Localizable", "Search", fallback: "検索")
   /// STRAY-ITへようこそ!!
   public static let welcomeToSTRAYIT = L10n.tr("Localizable", "Welcome to STRAY-IT!!", fallback: "STRAY-ITへようこそ!!")
+  public enum ThisAppUsesYourLocationForNavigation {
+    /// このアプリは、ナビゲーションにあなたの位置情報を使用します。あなたの位置情報は、あなたの同意なしに収集または共有されることはありません。
+    public static let yourLocationWillNotBeCollectedOrSharedWithoutYourConsent = L10n.tr("Localizable", "This app uses your location for navigation. Your location will not be collected or shared without your consent.", fallback: "このアプリは、ナビゲーションにあなたの位置情報を使用します。あなたの位置情報は、あなたの同意なしに収集または共有されることはありません。")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

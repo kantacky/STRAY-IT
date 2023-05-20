@@ -1,3 +1,3 @@
-# AppPackage
+# STRAY-IT
 
-A description of this package.
+&copy; 2023 Kanta Oikawa
