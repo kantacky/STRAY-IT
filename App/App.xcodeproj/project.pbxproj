@@ -14,6 +14,7 @@
 		F11485AB2A0274F900E0EA01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11485AA2A0274F900E0EA01 /* Assets.xcassets */; };
 		F11485AE2A02750F00E0EA01 /* AppMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11485AD2A02750E00E0EA01 /* AppMainView.swift */; };
 		F11485B22A027BD000E0EA01 /* STRAYIT in Frameworks */ = {isa = PBXBuildFile; productRef = F11485B12A027BD000E0EA01 /* STRAYIT */; };
+		F1B0DF692A187D4F005498D7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F1B0DF682A187D4F005498D7 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		F11485652A02736100E0EA01 /* AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F11485AA2A0274F900E0EA01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F11485AD2A02750E00E0EA01 /* AppMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppMainView.swift; sourceTree = "<group>"; };
+		F1B0DF682A187D4F005498D7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				F11485AD2A02750E00E0EA01 /* AppMainView.swift */,
 				F11485AA2A0274F900E0EA01 /* Assets.xcassets */,
 				F114854E2A02736100E0EA01 /* Preview Content */,
+				F1B0DF682A187D4F005498D7 /* Settings.bundle */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11485502A02736100E0EA01 /* Preview Assets.xcassets in Resources */,
+				F1B0DF692A187D4F005498D7 /* Settings.bundle in Resources */,
 				F11485AB2A0274F900E0EA01 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,7 +447,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -479,7 +483,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

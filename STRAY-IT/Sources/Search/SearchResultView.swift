@@ -20,27 +20,7 @@ public struct SearchResultView: View {
                         .foregroundColor(.gray)
                         .padding()
                 } else {
-                    ForEach(viewStore.state.querySearchResults, id: \.self) { result in
-                        Button(action: { viewStore.send(.onSelectResult(result)) }, label: {
-                            HStack {
-                                VStack {
-                                    HStack {
-                                        Text(result.name ?? "No Name")
-                                        Spacer()
-                                    }
-                                    .padding(.vertical, 2.0)
-                                }
-                                .multilineTextAlignment(.leading)
-                                Spacer()
-                            }
-                            .foregroundColor(Asset.Colors.accent.swiftUIColor)
-                        })
-                        .padding(.top, 8.0)
-                        .padding(.bottom, 2.0)
-                        .padding(.horizontal, 32.0)
-                        Divider()
-                            .padding(.horizontal)
-                    }
+                    SearchResultList(store: store)
                 }
             }
         })

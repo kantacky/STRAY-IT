@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kantacky/SwiftMKMap",
       "state" : {
-        "revision" : "e36c1afc1384e0c0cb7e25fc8fb701a61d9ed770",
-        "version" : "0.1.1"
+        "revision" : "06f9e2d843649f98a61a05a01712436574b4bd67",
+        "version" : "0.1.2"
       }
     },
     {
