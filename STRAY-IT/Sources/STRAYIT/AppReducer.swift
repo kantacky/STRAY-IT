@@ -41,7 +41,6 @@ public struct AppReducer: ReducerProtocol {
         case onAppear
         case onDisappear
         case alertDismissed
-        case openURL(URL)
         case setTabSelection(TabSelection)
         case setCurrentLocationResponse(TaskResult<Bool>)
         case locationManager(LocationManager.Action)
@@ -51,7 +50,7 @@ public struct AppReducer: ReducerProtocol {
         case cheating(CheatingReducer.Action)
     }
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func core(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .onAppear:
             state.isLoading = true
@@ -67,10 +66,6 @@ public struct AppReducer: ReducerProtocol {
 
         case .onDisappear:
             return .cancel(id: LocationManagerId())
-
-        case let .openURL(url):
-            print(url)
-            return .none
 
         case .alertDismissed:
             state.alert = nil
@@ -122,8 +117,9 @@ public struct AppReducer: ReducerProtocol {
 
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
-            self.reduce(into: &state, action: action)
+            self.core(into: &state, action: action)
         }
+
         Scope(state: \.search, action: /Action.search) {
             SearchReducer()
         }

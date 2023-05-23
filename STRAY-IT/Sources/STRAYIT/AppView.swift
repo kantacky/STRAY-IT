@@ -33,9 +33,6 @@ public struct AppView: View {
             .onDisappear {
                 viewStore.send(.onDisappear)
             }
-            .onOpenURL {
-                viewStore.send(.openURL($0))
-            }
         })
     }
 }
