@@ -18,18 +18,18 @@ public struct AppReducer: ReducerProtocol {
     private struct LocationManagerId: Hashable {}
 
     public struct State: Equatable {
-        public var isLoading: Bool
         public var alert: AlertState<Action>?
         public var tabSelection: TabSelection
         public var currentCoordinate: CLLocationCoordinate2D?
+
         public var search: SearchReducer.State
         public var direction: DirectionReducer.State
         public var adventure: AdventureReducer.State
         public var cheating: CheatingReducer.State
 
         public init() {
-            self.isLoading = false
             self.tabSelection = .direction
+
             self.search = .init()
             self.direction = .init()
             self.adventure = .init()
@@ -40,10 +40,17 @@ public struct AppReducer: ReducerProtocol {
     public enum Action: Equatable {
         case onAppear
         case onDisappear
+
         case alertDismissed
+
+        case onSearchButtonTapped
+        case resetStartAndGoal
+        case resetStartAndGoalResponse(TaskResult<Bool>)
         case setTabSelection(TabSelection)
         case setCurrentLocationResponse(TaskResult<Bool>)
+
         case locationManager(LocationManager.Action)
+
         case search(SearchReducer.Action)
         case direction(DirectionReducer.Action)
         case adventure(AdventureReducer.Action)
@@ -53,8 +60,6 @@ public struct AppReducer: ReducerProtocol {
     public func core(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .onAppear:
-            state.isLoading = true
-            state.isLoading = false
             return .merge(
                 locationManager.delegate()
                     .map(Action.locationManager)
@@ -65,11 +70,28 @@ public struct AppReducer: ReducerProtocol {
             )
 
         case .onDisappear:
-            return .cancel(id: LocationManagerId())
+            return .merge(
+                .cancel(id: LocationManagerId()),
+                .task { .resetStartAndGoal }
+            )
 
         case .alertDismissed:
             state.alert = nil
             return .none
+
+        case .onSearchButtonTapped:
+            return .task { .resetStartAndGoal }
+
+        case .resetStartAndGoal:
+            return .task {
+                .resetStartAndGoalResponse(
+                    await TaskResult {
+                        try await userDefaults.set(nil, forKey: UserDefaultsKeys.start)
+                        try await userDefaults.set(nil, forKey: UserDefaultsKeys.goal)
+                        return true
+                    }
+                )
+            }
 
         case let .setTabSelection(newTab):
             state.tabSelection = newTab

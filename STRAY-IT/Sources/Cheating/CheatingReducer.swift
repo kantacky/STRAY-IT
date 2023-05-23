@@ -14,7 +14,6 @@ public struct CheatingReducer: ReducerProtocol {
     public init() {}
 
     public struct State: Equatable {
-        public var isLoading: Bool
         public var currentLocation: CLLocationCoordinate2D?
         public var region: MKCoordinateRegion?
         public var annotations: [Annotation]
@@ -25,7 +24,6 @@ public struct CheatingReducer: ReducerProtocol {
             annotations: [Annotation] = [],
             pathPoints: [CLLocationCoordinate2D] = []
         ) {
-            self.isLoading = false
             self.region = region
             self.annotations = annotations
             self.pathPoints = pathPoints
@@ -34,6 +32,7 @@ public struct CheatingReducer: ReducerProtocol {
 
     public enum Action: Equatable {
         case onAppear
+
         case setStartAndGoal
         case setRegion(MKCoordinateRegion?)
         case setAnnotations([Annotation])

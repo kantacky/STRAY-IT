@@ -13,7 +13,6 @@ public struct AdventureReducer: ReducerProtocol {
     public init() {}
 
     public struct State: Equatable {
-        public var isLoading: Bool
         public var currentLocation: CLLocationCoordinate2D?
         public var region: MKCoordinateRegion?
         public var annotations: [Annotation]
@@ -22,7 +21,6 @@ public struct AdventureReducer: ReducerProtocol {
             region: MKCoordinateRegion? = nil,
             annotations: [Annotation] = []
         ) {
-            self.isLoading = false
             self.region = region
             self.annotations = annotations
         }
@@ -30,9 +28,11 @@ public struct AdventureReducer: ReducerProtocol {
 
     public enum Action: Equatable {
         case onAppear
+
         case setStartAndGoal
         case setRegion(MKCoordinateRegion?)
         case setAnnotations([Annotation])
+
         case locationManager(LocationManager.Action)
     }
 

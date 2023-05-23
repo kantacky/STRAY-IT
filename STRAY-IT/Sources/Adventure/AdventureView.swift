@@ -6,14 +6,16 @@ import SwiftMKMap
 import SwiftUI
 
 public struct AdventureView: View {
-    private let store: StoreOf<AdventureReducer>
+    public typealias Reducer = AdventureReducer
 
-    public init(store: StoreOf<AdventureReducer>) {
+    private let store: StoreOf<Reducer>
+
+    public init(store: StoreOf<Reducer>) {
         self.store = store
     }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }, content: { viewStore in
+        WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             SwiftMKMapView(
                 region: viewStore.binding(
                     get: \.region,
@@ -40,7 +42,7 @@ public struct AdventureView_Previews: PreviewProvider {
     public static var previews: some View {
         AdventureView(
             store: Store(
-                initialState: AdventureReducer.State(
+                initialState: AdventureView.Reducer.State(
                     region: MKCoordinateRegion(
                         center: CLLocationCoordinate2DMake(35.681042, 139.767214),
                         span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -50,7 +52,7 @@ public struct AdventureView_Previews: PreviewProvider {
                         Annotation(coordinate: CLLocationCoordinate2DMake(35.681042, 139.767214))
                     ]
                 ),
-                reducer: AdventureReducer()
+                reducer: AdventureView.Reducer()
             )
         )
     }

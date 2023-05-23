@@ -13,19 +13,19 @@ public struct DirectionReducer: ReducerProtocol {
     public init() {}
 
     public struct State: Equatable {
-        public var isLoading: Bool
         public var currentCoordinate: CLLocationCoordinate2D
         public var headingDirection: Double
         public var goal: Annotation?
         public var distanceToGoal: Double
         public var directionToGoal: Double
+        public var landmarks: [Annotation]
 
         public init() {
-            self.isLoading = false
             self.currentCoordinate = .init(latitude: 0.0, longitude: 0.0)
             self.headingDirection = 0.0
             self.distanceToGoal = 0
             self.directionToGoal = 0.0
+            self.landmarks = []
         }
     }
 

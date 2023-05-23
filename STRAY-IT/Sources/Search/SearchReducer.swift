@@ -13,7 +13,6 @@ public struct SearchReducer: ReducerProtocol {
     private struct SearchExecutionId: Hashable {}
 
     public struct State: Equatable {
-        public var isLoading: Bool
         public var alert: AlertState<Action>?
         public var searchQuery: String
         public var request: MKLocalSearch.Request
@@ -24,7 +23,6 @@ public struct SearchReducer: ReducerProtocol {
         public var searchExecutedTimestamp: Date?
 
         public init() {
-            self.isLoading = false
             self.searchQuery = ""
             self.request = .init()
             self.request.resultTypes = [.address, .pointOfInterest]

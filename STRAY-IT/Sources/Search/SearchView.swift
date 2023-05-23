@@ -3,14 +3,16 @@ import Resource
 import SwiftUI
 
 public struct SearchView: View {
-    private let store: StoreOf<SearchReducer>
+    public typealias Reducer = SearchReducer
 
-    public init(store: StoreOf<SearchReducer>) {
+    private let store: StoreOf<Reducer>
+
+    public init(store: StoreOf<Reducer>) {
         self.store = store
     }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }, content: { viewStore in
+        WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             VStack {
                 SearchBox(
                     searchQuery: viewStore.binding(
@@ -19,7 +21,9 @@ public struct SearchView: View {
                     )
                 )
                 .padding()
-                SearchResultView(store: store)
+
+                SearchResultView(store: self.store)
+
                 Spacer()
             }
             .onAppear {
@@ -35,6 +39,6 @@ public struct SearchView: View {
 
 public struct SearchView_Previews: PreviewProvider {
     public static var previews: some View {
-        SearchView(store: Store(initialState: SearchReducer.State(), reducer: SearchReducer()))
+        SearchView(store: Store(initialState: SearchView.Reducer.State(), reducer: SearchView.Reducer()))
     }
 }

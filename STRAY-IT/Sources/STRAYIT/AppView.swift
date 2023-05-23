@@ -6,12 +6,15 @@ import SwiftUI
 import Tutorial
 
 public struct AppView: View {
+    public typealias Reducer = AppReducer
+
+    private let store: StoreOf<Reducer>
+
     @AppStorage("hasShownTutorial")
     private var hasShownTutorial: Bool = .init(false)
-    private let store: StoreOf<AppReducer>
 
     public init() {
-        self.store = Store(initialState: AppReducer.State(), reducer: AppReducer())
+        self.store = Store(initialState: Reducer.State(), reducer: Reducer())
     }
 
     public var body: some View {

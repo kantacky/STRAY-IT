@@ -6,20 +6,22 @@ import SwiftMKMap
 import SwiftUI
 
 public struct CheatingView: View {
-    private let store: StoreOf<CheatingReducer>
+    public typealias Reducer = CheatingReducer
 
-    public init(store: StoreOf<CheatingReducer>) {
+    private let store: StoreOf<Reducer>
+
+    public init(store: StoreOf<Reducer>) {
         self.store = store
     }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }, content: { viewStore in
+        WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             SwiftMKMapView(
                 region: viewStore.binding(
                     get: \.region,
                     send: CheatingReducer.Action.setRegion
                 ),
-                userTrackingMode: .constant(.followWithHeading),
+                userTrackingMode: .constant(.follow),
                 annotations: viewStore.binding(
                     get: \.annotations,
                     send: CheatingReducer.Action.setAnnotations
@@ -44,7 +46,7 @@ public struct CheatingView_Previews: PreviewProvider {
     public static var previews: some View {
         CheatingView(
             store: Store(
-                initialState: CheatingReducer.State(
+                initialState: CheatingView.Reducer.State(
                     region: MKCoordinateRegion(
                         center: CLLocationCoordinate2DMake(35.681042, 139.767214),
                         span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -58,7 +60,7 @@ public struct CheatingView_Previews: PreviewProvider {
                         CLLocationCoordinate2DMake(35.681042, 139.767214)
                     ]
                 ),
-                reducer: CheatingReducer()
+                reducer: CheatingView.Reducer()
             )
         )
     }
