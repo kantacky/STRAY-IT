@@ -2,8 +2,8 @@ import ComposableArchitecture
 import Resource
 import SwiftUI
 
-struct SearchButton: View {
-    public typealias Reducer = AppReducer
+public struct SearchButton: View {
+    public typealias Reducer = CoreReducer
 
     private let store: StoreOf<Reducer>
 
@@ -11,12 +11,12 @@ struct SearchButton: View {
         self.store = store
     }
 
-    var body: some View {
+    public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             Button(action: {
                 viewStore.send(.onSearchButtonTapped)
             }, label: {
-                Asset.Assets.search.swiftUIImage
+                Asset.Assets.searchSmall.swiftUIImage
                     .resizable()
                     .scaledToFit()
                     .frame(width: 32)
@@ -28,8 +28,9 @@ struct SearchButton: View {
     }
 }
 
-struct SearchButton_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchButton(store: Store(initialState: ComposedTabView.Reducer.State(), reducer: ComposedTabView.Reducer()))
-    }
+#Preview {
+    SearchButton(store: Store(
+        initialState: SearchButton.Reducer.State(),
+        reducer: SearchButton.Reducer()
+    ))
 }

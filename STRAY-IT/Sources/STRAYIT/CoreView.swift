@@ -1,15 +1,12 @@
 import ComposableArchitecture
-import ExtendedMKModels
 import Search
-import SharedModel
 import SwiftUI
 import Tutorial
 
-public struct AppView: View {
-    public typealias Reducer = AppReducer
+public struct CoreView: View {
+    public typealias Reducer = CoreReducer
 
     private let store: StoreOf<Reducer>
-
     @AppStorage("hasShownTutorial")
     private var hasShownTutorial: Bool = .init(false)
 
@@ -23,8 +20,11 @@ public struct AppView: View {
                 if hasShownTutorial {
                     if viewStore.state.search.goal != nil {
                         ComposedTabView(store: store)
+                            .onAppear {
+                                viewStore.send(.setStartAndGoal)
+                            }
                     } else {
-                        SearchView(store: store.scope(state: \.search, action: AppReducer.Action.search))
+                        SearchView(store: store.scope(state: \.search, action: CoreReducer.Action.search))
                     }
                 } else {
                     TutorialView()
@@ -40,8 +40,6 @@ public struct AppView: View {
     }
 }
 
-public struct AppView_Previews: PreviewProvider {
-    public static var previews: some View {
-        AppView()
-    }
+#Preview {
+    CoreView()
 }

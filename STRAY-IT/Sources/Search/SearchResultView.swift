@@ -3,9 +3,11 @@ import Resource
 import SwiftUI
 
 public struct SearchResultView: View {
-    private let store: StoreOf<SearchReducer>
+    public typealias Reducer = SearchReducer
 
-    public init(store: StoreOf<SearchReducer>) {
+    private let store: StoreOf<Reducer>
+
+    public init(store: StoreOf<Reducer>) {
         self.store = store
     }
 
@@ -27,8 +29,9 @@ public struct SearchResultView: View {
     }
 }
 
-public struct SearchResultView_Previews: PreviewProvider {
-    public static var previews: some View {
-        SearchResultView(store: Store(initialState: SearchReducer.State(), reducer: SearchReducer()))
-    }
+#Preview {
+    SearchResultView(store: Store(
+        initialState: SearchResultView.Reducer.State(),
+        reducer: SearchResultView.Reducer()
+    ))
 }

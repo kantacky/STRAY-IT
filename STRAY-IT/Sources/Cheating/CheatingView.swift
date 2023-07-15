@@ -1,8 +1,6 @@
 import ComposableArchitecture
-import ExtendedMKModels
 import MapKit
 import Resource
-import SwiftMKMap
 import SwiftUI
 
 public struct CheatingView: View {
@@ -16,23 +14,20 @@ public struct CheatingView: View {
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            SwiftMKMapView(
-                region: viewStore.binding(
-                    get: \.region,
-                    send: CheatingReducer.Action.setRegion
-                ),
-                userTrackingMode: .constant(.follow),
-                annotations: viewStore.binding(
-                    get: \.annotations,
-                    send: CheatingReducer.Action.setAnnotations
-                ),
-                pathPoints: viewStore.binding(
-                    get: \.pathPoints,
-                    send: CheatingReducer.Action.setPathPoints
-                ),
-                annotationImage: Asset.Assets.marker.image,
-                strokeColor: Asset.Colors.route.swiftUIColor
-            )
+            Map {
+                UserAnnotation()
+
+                Annotation("Start", coordinate: viewStore.start, anchor: .bottom) {
+                    Asset.Assets.marker.swiftUIImage
+                }
+
+                Annotation("Goal", coordinate: viewStore.goal, anchor: .bottom) {
+                    Asset.Assets.marker.swiftUIImage
+                }
+
+                MapPolyline(coordinates: viewStore.points)
+                    .stroke(Asset.Colors.route.swiftUIColor, lineWidth: 8)
+            }
             .background(Asset.Colors.background.swiftUIColor)
             .ignoresSafeArea(edges: [.top, .horizontal])
             .onAppear {
@@ -42,26 +37,28 @@ public struct CheatingView: View {
     }
 }
 
-public struct CheatingView_Previews: PreviewProvider {
-    public static var previews: some View {
-        CheatingView(
-            store: Store(
-                initialState: CheatingView.Reducer.State(
-                    region: MKCoordinateRegion(
-                        center: CLLocationCoordinate2DMake(35.681042, 139.767214),
-                        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-                    ),
-                    annotations: [
-                        Annotation(coordinate: CLLocationCoordinate2DMake(35.683588, 139.750323)),
-                        Annotation(coordinate: CLLocationCoordinate2DMake(35.681042, 139.767214))
-                    ],
-                    pathPoints: [
-                        CLLocationCoordinate2DMake(35.683588, 139.750323),
-                        CLLocationCoordinate2DMake(35.681042, 139.767214)
-                    ]
-                ),
-                reducer: CheatingView.Reducer()
-            )
-        )
-    }
+#Preview {
+    CheatingView(store: Store(
+        initialState: CheatingView.Reducer.State(
+            start: CLLocationCoordinate2DMake(35.683588, 139.750323),
+            goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
+        ),
+        reducer: CheatingView.Reducer()
+    ))
+}
+
+#Preview {
+    CheatingView(store: Store(
+        initialState: CheatingView.Reducer.State(
+            start: CLLocationCoordinate2DMake(35.683588, 139.750323),
+            goal: CLLocationCoordinate2DMake(35.681042, 139.767214),
+            points: [
+                CLLocationCoordinate2DMake(35.679579, 139.757615),
+                CLLocationCoordinate2DMake(35.678550, 139.760955),
+                CLLocationCoordinate2DMake(35.682187, 139.762234),
+                CLLocationCoordinate2DMake(35.681658, 139.764547)
+            ]
+        ),
+        reducer: CheatingView.Reducer()
+    ))
 }

@@ -37,8 +37,9 @@ public struct SearchView: View {
     }
 }
 
-public struct SearchView_Previews: PreviewProvider {
-    public static var previews: some View {
-        SearchView(store: Store(initialState: SearchView.Reducer.State(), reducer: SearchView.Reducer()))
-    }
+#Preview {
+    SearchView(store: Store(
+        initialState: SearchView.Reducer.State(),
+        reducer: SearchView.Reducer()
+    ))
 }

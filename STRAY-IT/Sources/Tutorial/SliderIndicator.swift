@@ -2,10 +2,10 @@ import Resource
 import SwiftUI
 
 public struct SliderIndicator: View {
-    @State private var page: Int
+    @Binding private var page: Int
 
-    public init(page: Int) {
-        self._page = .init(initialValue: page)
+    public init(page: Binding<Int>) {
+        self._page = page
     }
 
     public var body: some View {
@@ -27,8 +27,6 @@ public struct SliderIndicator: View {
     }
 }
 
-public struct SwiftUIView_Previews: PreviewProvider {
-    public static var previews: some View {
-        SliderIndicator(page: 0)
-    }
+#Preview {
+    SliderIndicator(page: .constant(0))
 }

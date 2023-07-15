@@ -24,8 +24,6 @@ public struct TutorialPage2: View {
     }
 }
 
-public struct TutorialPage2_Previews: PreviewProvider {
-    public static var previews: some View {
-        TutorialPage2()
-    }
+#Preview {
+    TutorialPage2()
 }

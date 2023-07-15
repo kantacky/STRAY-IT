@@ -3,7 +3,7 @@ import Dependencies
 
 public enum LocationManagerKey: DependencyKey {
     public static let liveValue: LocationManager = .live
-    public static let testValue: LocationManager = .live
+    public static let testValue: LocationManager = .failing
 }
 
 extension DependencyValues {

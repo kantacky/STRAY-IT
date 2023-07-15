@@ -2,7 +2,7 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct ComposedTabView: View {
-    public typealias Reducer = AppReducer
+    public typealias Reducer = CoreReducer
 
     private let store: StoreOf<Reducer>
 
@@ -19,7 +19,7 @@ public struct ComposedTabView: View {
                     CustomTabBar(
                         selection: viewStore.binding(
                             get: \.tabSelection,
-                            send: AppReducer.Action.setTabSelection
+                            send: CoreReducer.Action.setTabSelection
                         )
                     )
                 }
@@ -39,6 +39,9 @@ public struct ComposedTabView: View {
 
 public struct ComposedTabView_Previews: PreviewProvider {
     public static var previews: some View {
-        ComposedTabView(store: Store(initialState: ComposedTabView.Reducer.State(), reducer: ComposedTabView.Reducer()))
+        ComposedTabView(store: Store(
+            initialState: ComposedTabView.Reducer.State(),
+            reducer: ComposedTabView.Reducer()
+        ))
     }
 }

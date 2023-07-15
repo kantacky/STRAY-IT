@@ -1,77 +1,69 @@
 import ComposableArchitecture
-import ComposableCoreLocation
-import Dependency
-import ExtendedMKModels
+import CoreLocation
 import SharedLogic
+import SharedModel
 
 public struct DirectionReducer: ReducerProtocol {
-    @Dependency(\.userDefaults)
-    private var userDefaults: UserDefaultsClient
-    @Dependency(\.locationManager)
-    private var locationManager: LocationManager
-
     public init() {}
 
     public struct State: Equatable {
-        public var currentCoordinate: CLLocationCoordinate2D
-        public var headingDirection: Double
-        public var goal: Annotation?
+        public var currentLocation: CLLocationCoordinate2D?
+        public var headingDirection: CLLocationDirection?
+        public var goal: CLLocationCoordinate2D
         public var distanceToGoal: Double
         public var directionToGoal: Double
-        public var landmarks: [Annotation]
+        public var landmarks: [Landmark]
 
-        public init() {
-            self.currentCoordinate = .init(latitude: 0.0, longitude: 0.0)
-            self.headingDirection = 0.0
-            self.distanceToGoal = 0
-            self.directionToGoal = 0.0
-            self.landmarks = []
+        public init(
+            currentCoordinate: CLLocationCoordinate2D? = nil,
+            headingDirection: Double? = nil,
+            goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
+            landmarks: [Landmark] = []
+        ) {
+            self.currentLocation = currentCoordinate
+            self.headingDirection = headingDirection
+            self.goal = goal
+            if let currentCoordinate = self.currentLocation,
+               let headingDirection = self.headingDirection {
+                self.distanceToGoal = LocationLogic.getDistance(originLC: currentCoordinate, targetLC: self.goal)
+                self.directionToGoal = LocationLogic.getDirectionDelta(currentCoordinate, self.goal, heading: headingDirection)
+            } else {
+                self.distanceToGoal = 0
+                self.directionToGoal = 0
+            }
+            self.landmarks = landmarks
         }
     }
 
     public enum Action: Equatable {
         case onAppear
-        case setGoal
-        case locationManager(LocationManager.Action)
+        case onUpdateLocation(CLLocationCoordinate2D)
+        case onUpdateHeading(CLLocationDirection)
+        case calculate
     }
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .onAppear:
-            if state.goal == nil {
-                return .task { .setGoal }
-            }
-            return .none
+            return .task { .calculate }
 
-        case .setGoal:
-            if let goal: Annotation = try? userDefaults.customType(forKey: UserDefaultsKeys.goal) {
-                state.goal = goal
-            }
-            return .none
+        case let .onUpdateLocation(coordinate):
+            state.currentLocation = coordinate
+            return .task { .calculate }
 
-        case let .locationManager(.didUpdateLocations(locations)):
-            guard let location = locations.first else {
-                return .none
-            }
-            state.currentCoordinate = location.coordinate
-            if let goal = state.goal {
-                state.distanceToGoal = LocationLogic.getDistance(originLC: state.currentCoordinate, targetLC: goal.coordinate)
-                state.directionToGoal = LocationLogic.getDirectionDelta(location.coordinate, goal.coordinate, heading: state.headingDirection)
+        case let .onUpdateHeading(direction):
+            state.headingDirection = direction
+            return .task { .calculate }
+
+        case .calculate:
+            if let currentCoordinate = state.currentLocation,
+               let headingDirection = state.headingDirection {
+                state.distanceToGoal = LocationLogic.getDistance(originLC: currentCoordinate, targetLC: state.goal)
+                state.directionToGoal = LocationLogic.getDirectionDelta(currentCoordinate, state.goal, heading: headingDirection)
             } else {
+                state.distanceToGoal = 0
                 state.directionToGoal = 0
             }
-            return .none
-
-        case let .locationManager(.didUpdateHeading(heading)):
-            state.headingDirection = heading.magneticHeading
-            if let goal = state.goal {
-                state.distanceToGoal = LocationLogic.getDirectionDelta(state.currentCoordinate, goal.coordinate, heading: state.headingDirection)
-            } else {
-                state.directionToGoal = 0.0
-            }
-            return .none
-
-        default:
             return .none
         }
     }

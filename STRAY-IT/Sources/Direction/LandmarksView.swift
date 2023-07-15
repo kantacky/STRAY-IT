@@ -3,7 +3,7 @@ import Resource
 import SharedLogic
 import SwiftUI
 
-public struct Landmarks: View {
+public struct LandmarksView: View {
     public typealias Reducer = DirectionReducer
 
     private let store: StoreOf<Reducer>
@@ -40,8 +40,9 @@ public struct Landmarks: View {
     }
 }
 
-public struct Landmarks_Previews: PreviewProvider {
-    public static var previews: some View {
-        Landmarks(store: Store(initialState: Landmarks.Reducer.State(), reducer: Landmarks.Reducer()))
-    }
+#Preview {
+    LandmarksView(store: Store(
+        initialState: LandmarksView.Reducer.State(),
+        reducer: LandmarksView.Reducer()
+    ))
 }

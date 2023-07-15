@@ -20,14 +20,12 @@ public struct TutorialView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
 
-            SliderIndicator(page: page)
+            SliderIndicator(page: $page)
         }
         .background(Asset.Colors.background.swiftUIColor)
     }
 }
 
-public struct TutorialView_Previews: PreviewProvider {
-    public static var previews: some View {
-        TutorialView()
-    }
+#Preview {
+    TutorialView()
 }

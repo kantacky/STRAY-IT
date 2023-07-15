@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import CoreLocation
 import Resource
 import SwiftUI
 
@@ -19,9 +20,9 @@ public struct DirectionView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .rotationEffect(.degrees(viewStore.state.headingDirection))
+                    .rotationEffect(.degrees(viewStore.state.directionToGoal))
 
-                Landmarks(store: self.store)
+                LandmarksView(store: self.store)
 
                 Text("\(Int(viewStore.state.distanceToGoal)) m")
                     .foregroundColor(Asset.Colors.accentFont.swiftUIColor)
@@ -38,8 +39,13 @@ public struct DirectionView: View {
     }
 }
 
-public struct DirectionView_Previews: PreviewProvider {
-    public static var previews: some View {
-        DirectionView(store: Store(initialState: DirectionView.Reducer.State(), reducer: DirectionView.Reducer()))
-    }
+#Preview {
+    DirectionView(store: Store(
+        initialState: DirectionView.Reducer.State(
+            currentCoordinate: CLLocationCoordinate2DMake(35.683588, 139.750323),
+            headingDirection: 0,
+            goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
+        ),
+        reducer: DirectionView.Reducer()
+    ))
 }

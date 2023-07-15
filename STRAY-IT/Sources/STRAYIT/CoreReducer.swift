@@ -4,14 +4,11 @@ import ComposableArchitecture
 import ComposableCoreLocation
 import Dependency
 import Direction
-import ExtendedMKModels
 import Foundation
 import Search
 import SharedModel
 
-public struct AppReducer: ReducerProtocol {
-    @Dependency(\.userDefaults)
-    private var userDefaults: UserDefaultsClient
+public struct CoreReducer: ReducerProtocol {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
 
@@ -19,21 +16,31 @@ public struct AppReducer: ReducerProtocol {
 
     public struct State: Equatable {
         public var alert: AlertState<Action>?
+
         public var tabSelection: TabSelection
-        public var currentCoordinate: CLLocationCoordinate2D?
+
+        public var coordinate: CLLocationCoordinate2D?
 
         public var search: SearchReducer.State
         public var direction: DirectionReducer.State
         public var adventure: AdventureReducer.State
         public var cheating: CheatingReducer.State
 
-        public init() {
+        public init(
+            coordinate: CLLocationCoordinate2D? = nil,
+            search: SearchReducer.State = .init(),
+            direction: DirectionReducer.State = .init(),
+            adventure: AdventureReducer.State = .init(),
+            cheating: CheatingReducer.State = .init()
+        ) {
             self.tabSelection = .direction
 
-            self.search = .init()
-            self.direction = .init()
-            self.adventure = .init()
-            self.cheating = .init()
+            self.coordinate = coordinate
+
+            self.search = search
+            self.direction = direction
+            self.adventure = adventure
+            self.cheating = cheating
         }
     }
 
@@ -44,10 +51,8 @@ public struct AppReducer: ReducerProtocol {
         case alertDismissed
 
         case onSearchButtonTapped
-        case resetStartAndGoal
-        case resetStartAndGoalResponse(TaskResult<Bool>)
         case setTabSelection(TabSelection)
-        case setCurrentLocationResponse(TaskResult<Bool>)
+        case setStartAndGoal
 
         case locationManager(LocationManager.Action)
 
@@ -70,49 +75,42 @@ public struct AppReducer: ReducerProtocol {
             )
 
         case .onDisappear:
-            return .merge(
-                .cancel(id: LocationManagerId()),
-                .task { .resetStartAndGoal }
-            )
+            return .cancel(id: LocationManagerId())
 
         case .alertDismissed:
             state.alert = nil
             return .none
 
         case .onSearchButtonTapped:
-            return .task { .resetStartAndGoal }
-
-        case .resetStartAndGoal:
-            return .task {
-                .resetStartAndGoalResponse(
-                    await TaskResult {
-                        try await userDefaults.set(nil, forKey: UserDefaultsKeys.start)
-                        try await userDefaults.set(nil, forKey: UserDefaultsKeys.goal)
-                        return true
-                    }
-                )
-            }
+            state.search.goal = nil
+            return .none
 
         case let .setTabSelection(newTab):
             state.tabSelection = newTab
             return .none
 
-        case .setCurrentLocationResponse(.success):
+        case .setStartAndGoal:
+            if let start = state.coordinate,
+               let goal = state.search.goal {
+                state.direction.goal = goal
+
+                state.adventure.start = start
+                state.adventure.goal = goal
+
+                state.cheating.start = start
+                state.cheating.goal = goal
+                state.cheating.points = []
+            }
             return .none
 
-        case let .setCurrentLocationResponse(.failure(error)):
-            state.alert = .init(
-                title: .init("Error"),
-                message: .init(error.localizedDescription)
-            )
-            return .none
-
-        case .locationManager(.didChangeAuthorization(.authorizedAlways)), .locationManager(.didChangeAuthorization(.authorizedWhenInUse)):
+        case .locationManager(.didChangeAuthorization(.authorizedAlways)),
+             .locationManager(.didChangeAuthorization(.authorizedWhenInUse)):
             return locationManager
                 .requestLocation()
                 .fireAndForget()
 
-        case .locationManager(.didChangeAuthorization(.denied)), .locationManager(.didChangeAuthorization(.restricted)):
+        case .locationManager(.didChangeAuthorization(.denied)),
+             .locationManager(.didChangeAuthorization(.restricted)):
             state.alert = .init(
                 title: .init("Enable the Location Service"),
                 message: .init("For full access to this app")
@@ -123,13 +121,19 @@ public struct AppReducer: ReducerProtocol {
             guard let location: Location = locations.first else {
                 return .none
             }
+            print(location.coordinate)
+            state.coordinate = location.coordinate
+
+            state.cheating.points.append(location.coordinate)
+
             return .task {
-                .setCurrentLocationResponse(
-                    await TaskResult {
-                        try await userDefaults.set(location.coordinate, forKey: UserDefaultsKeys.currentLocation)
-                        return true
-                    }
-                )
+                .direction(.onUpdateLocation(location.coordinate))
+            }
+
+        case let .locationManager(.didUpdateHeading(heading)):
+            print(heading.magneticHeading)
+            return .task {
+                .direction(.onUpdateHeading(heading.magneticHeading))
             }
 
         default:
