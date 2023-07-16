@@ -1,8 +1,8 @@
 import ComposableArchitecture
 import Dependency
-import ExtendedMKModels
 import MapKit
 import SharedLogic
+import SharedModel
 
 public struct SearchReducer: ReducerProtocol {
     @Dependency(\.userDefaults)
@@ -13,24 +13,24 @@ public struct SearchReducer: ReducerProtocol {
     private struct SearchExecutionId: Hashable {}
 
     public struct State: Equatable {
-        public var isLoading: Bool
         public var alert: AlertState<Action>?
         public var searchQuery: String
         public var request: MKLocalSearch.Request
         public var search: MKLocalSearch
         public var isSearching: Bool
         public var querySearchResults: [MKMapItem]
-        public var goal: Annotation?
+        public var goal: CLLocationCoordinate2D?
         public var searchExecutedTimestamp: Date?
 
-        public init() {
-            self.isLoading = false
+        public init(goal: CLLocationCoordinate2D? = nil) {
             self.searchQuery = ""
             self.request = .init()
             self.request.resultTypes = [.address, .pointOfInterest]
             self.search = MKLocalSearch(request: request)
             self.isSearching = false
             self.querySearchResults = []
+            // For Testing
+            self.goal = goal
         }
     }
 
@@ -42,7 +42,6 @@ public struct SearchReducer: ReducerProtocol {
         case executeQuery
         case querySearchResponse(TaskResult<[MKMapItem]>)
         case onSelectResult(MKMapItem)
-        case setStartAndGoalResponse(TaskResult<Bool>)
     }
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -107,29 +106,7 @@ public struct SearchReducer: ReducerProtocol {
 
         case let .onSelectResult(result):
             let coordinate: CLLocationCoordinate2D = result.placemark.coordinate
-            let title: String? = result.name
-            state.goal = .init(coordinate: coordinate, title: title)
-            return .task { [goal = state.goal] in
-                .setStartAndGoalResponse(
-                    await TaskResult {
-                        let startCoordinate: CLLocationCoordinate2D = try userDefaults.customType(forKey: UserDefaultsKeys.currentLocation)
-                        let start: Annotation = .init(coordinate: startCoordinate)
-
-                        try await userDefaults.set(start, forKey: UserDefaultsKeys.start)
-                        try await userDefaults.set(goal, forKey: UserDefaultsKeys.goal)
-                        return true
-                    }
-                )
-            }
-
-        case .setStartAndGoalResponse(.success):
-            return .none
-
-        case let .setStartAndGoalResponse(.failure(error)):
-            state.alert = .init(
-                title: .init("Error"),
-                message: .init(error.localizedDescription)
-            )
+            state.goal = coordinate
             return .none
         }
     }

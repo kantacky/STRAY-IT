@@ -1,14 +1,25 @@
 import ComposableArchitecture
-import XCTest
+import CoreLocation
+import Search
 @testable import STRAYIT
+import XCTest
 
 @MainActor
-final class STRAYITTests: XCTestCase {
-    func testOnAppear() async {
-        let store: TestStore = .init(initialState: STRAYIT.AppReducer.State(), reducer: STRAYIT.AppReducer())
+public final class STRAYITTests: XCTestCase {
+    deinit {}
 
-//        await store.send(.onAppear) {
-//            $0.isLoading = false
-//        }
+    public func testOnSearchButtonTapped() async {
+        let store: TestStore = .init(
+            initialState: STRAYIT.CoreReducer.State(
+                search: SearchReducer.State(
+                    goal: CLLocationCoordinate2DMake(143, 46)
+                )
+            ),
+            reducer: STRAYIT.CoreReducer()
+        )
+
+        await store.send(.onSearchButtonTapped) {
+            $0.search.goal = nil
+        }
     }
 }

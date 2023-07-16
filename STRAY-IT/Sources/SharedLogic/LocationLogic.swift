@@ -1,4 +1,3 @@
-import ExtendedMKModels
 import MapKit
 
 /// Shared Logic of Handling Location

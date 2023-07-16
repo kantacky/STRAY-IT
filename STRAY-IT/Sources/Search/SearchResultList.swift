@@ -2,14 +2,16 @@ import ComposableArchitecture
 import Resource
 import SwiftUI
 
-struct SearchResultList: View {
-    private let store: StoreOf<SearchReducer>
+public struct SearchResultList: View {
+    public typealias Reducer = SearchReducer
 
-    public init(store: StoreOf<SearchReducer>) {
+    private let store: StoreOf<Reducer>
+
+    public init(store: StoreOf<Reducer>) {
         self.store = store
     }
 
-    var body: some View {
+    public var body: some View {
         WithViewStore(store, observe: { $0 }, content: { viewStore in
             ForEach(viewStore.state.querySearchResults, id: \.self) { result in
                 Button(action: { viewStore.send(.onSelectResult(result)) }, label: {
@@ -36,8 +38,9 @@ struct SearchResultList: View {
     }
 }
 
-struct SearchResultList_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchResultList(store: Store(initialState: SearchReducer.State(), reducer: SearchReducer()))
-    }
+#Preview {
+    SearchResultList(store: Store(
+        initialState: SearchResultList.Reducer.State(),
+        reducer: SearchResultList.Reducer()
+    ))
 }

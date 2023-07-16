@@ -8,8 +8,6 @@ public struct TutorialPage0: View {
     }
 }
 
-public struct TutorialPage0_Previews: PreviewProvider {
-    public static var previews: some View {
-        TutorialPage0()
-    }
+#Preview {
+    TutorialPage0()
 }

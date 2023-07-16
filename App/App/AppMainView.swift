@@ -5,7 +5,7 @@ import STRAYIT
 struct AppMainView: App {
     public var body: some Scene {
         WindowGroup {
-            AppView()
+            CoreView()
         }
     }
 }

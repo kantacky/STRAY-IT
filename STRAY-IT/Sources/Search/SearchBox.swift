@@ -1,4 +1,3 @@
-import ComposableArchitecture
 import Resource
 import SwiftUI
 
@@ -23,8 +22,8 @@ public struct SearchBox: View {
                     Text("Search")
                         .foregroundColor(Asset.Colors.background.swiftUIColor)
                 }
-                .onChange(of: text) { newText in
-                    searchQuery = newText
+                .onChange(of: text) {
+                    searchQuery = text
                 }
                 .focused($isFocused)
                 .accentColor(Asset.Colors.background.swiftUIColor)
@@ -40,8 +39,6 @@ public struct SearchBox: View {
     }
 }
 
-public struct SearchBox_Previews: PreviewProvider {
-    public static var previews: some View {
-        SearchBox(searchQuery: .constant(""))
-    }
+#Preview {
+    SearchBox(searchQuery: .constant(""))
 }
