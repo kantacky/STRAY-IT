@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import MapKit
+import _MapKit_SwiftUI
 import Resource
 import SwiftUI
 
@@ -14,22 +14,26 @@ public struct CheatingView: View {
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            Map {
+            Map(position: viewStore.binding(get: \.postion, send: Reducer.Action.onChangePosition)) {
                 UserAnnotation()
+                    .mapOverlayLevel(level: .aboveLabels)
 
                 Annotation("Start", coordinate: viewStore.start, anchor: .bottom) {
                     Asset.Assets.marker.swiftUIImage
                 }
+                .mapOverlayLevel(level: .aboveRoads)
 
                 Annotation("Goal", coordinate: viewStore.goal, anchor: .bottom) {
                     Asset.Assets.marker.swiftUIImage
                 }
+                .mapOverlayLevel(level: .aboveRoads)
 
                 MapPolyline(coordinates: viewStore.points)
                     .stroke(Asset.Colors.route.swiftUIColor, lineWidth: 8)
+                    .mapOverlayLevel(level: .aboveRoads)
             }
+            .mapControlVisibility(.visible)
             .background(Asset.Colors.background.swiftUIColor)
-            .ignoresSafeArea(edges: [.top, .horizontal])
             .onAppear {
                 viewStore.send(.onAppear)
             }

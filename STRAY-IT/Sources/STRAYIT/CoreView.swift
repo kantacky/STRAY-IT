@@ -18,13 +18,13 @@ public struct CoreView: View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             VStack(spacing: 0) {
                 if hasShownTutorial {
-                    if viewStore.state.search.goal != nil {
+                    if viewStore.state.search.goal == nil {
+                        SearchView(store: store.scope(state: \.search, action: Reducer.Action.search))
+                    } else {
                         ComposedTabView(store: store)
                             .onAppear {
                                 viewStore.send(.setStartAndGoal)
                             }
-                    } else {
-                        SearchView(store: store.scope(state: \.search, action: CoreReducer.Action.search))
                     }
                 } else {
                     TutorialView()

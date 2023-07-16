@@ -126,14 +126,15 @@ public struct CoreReducer: ReducerProtocol {
 
             state.cheating.points.append(location.coordinate)
 
-            return .task {
-                .direction(.onUpdateLocation(location.coordinate))
+            return .run { send in
+                await send(.direction(.onUpdateLocation(location.coordinate)))
+                await send(.cheating(.onPointAppended(location.coordinate)))
             }
 
         case let .locationManager(.didUpdateHeading(heading)):
             print(heading.magneticHeading)
-            return .task {
-                .direction(.onUpdateHeading(heading.magneticHeading))
+            return .run { send in
+                await send(.direction(.onUpdateHeading(heading.magneticHeading)))
             }
 
         default:

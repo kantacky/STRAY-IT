@@ -17,7 +17,7 @@ public struct SearchView: View {
                 SearchBox(
                     searchQuery: viewStore.binding(
                         get: \.searchQuery,
-                        send: SearchReducer.Action.setSearchQuery
+                        send: Reducer.Action.setSearchQuery
                     )
                 )
                 .padding()

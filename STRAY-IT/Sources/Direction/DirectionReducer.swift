@@ -45,15 +45,21 @@ public struct DirectionReducer: ReducerProtocol {
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .onAppear:
-            return .task { .calculate }
+            return .run { send in
+                await send(.calculate)
+            }
 
         case let .onUpdateLocation(coordinate):
             state.currentLocation = coordinate
-            return .task { .calculate }
+            return .run { send in
+                await send(.calculate)
+            }
 
         case let .onUpdateHeading(direction):
             state.headingDirection = direction
-            return .task { .calculate }
+            return .run { send in
+                await send(.calculate)
+            }
 
         case .calculate:
             if let currentCoordinate = state.currentLocation,

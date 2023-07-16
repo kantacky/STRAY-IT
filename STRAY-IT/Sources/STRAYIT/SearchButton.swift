@@ -19,7 +19,7 @@ public struct SearchButton: View {
                 Asset.Assets.searchSmall.swiftUIImage
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 32)
+                    .frame(width: 24)
             })
             .padding()
             .background(Asset.Colors.accent.swiftUIColor)

@@ -8,10 +8,9 @@ import XCTest
 public final class STRAYITTests: XCTestCase {
     deinit {}
 
-    public func testSettingStartAndGoal() async {
+    public func testOnSearchButtonTapped() async {
         let store: TestStore = .init(
             initialState: STRAYIT.CoreReducer.State(
-                coordinate: CLLocationCoordinate2DMake(137, 43),
                 search: SearchReducer.State(
                     goal: CLLocationCoordinate2DMake(143, 46)
                 )
@@ -19,8 +18,8 @@ public final class STRAYITTests: XCTestCase {
             reducer: STRAYIT.CoreReducer()
         )
 
-        await store.send(.setStartAndGoal) {
-            $0.direction.goal = CLLocationCoordinate2DMake(143, 46)
+        await store.send(.onSearchButtonTapped) {
+            $0.search.goal = nil
         }
     }
 }

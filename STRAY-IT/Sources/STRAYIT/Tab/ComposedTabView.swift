@@ -28,6 +28,7 @@ public struct ComposedTabView: View {
                     HStack {
                         SearchButton(store: store)
                             .padding()
+                            .padding(.top, 24)
                         Spacer()
                     }
                     Spacer()
