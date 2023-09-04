@@ -27,11 +27,10 @@ public struct SelectedTabView: View {
     }
 }
 
-public struct SelectedTabView_Previews: PreviewProvider {
-    public static var previews: some View {
-        SelectedTabView(store: Store(
-            initialState: CoreReducer.State(),
-            reducer: CoreReducer()
-        ))
-    }
+#Preview {
+    SelectedTabView(store: Store(
+        initialState: CoreReducer.State()
+    ) {
+        CoreReducer()
+    })
 }

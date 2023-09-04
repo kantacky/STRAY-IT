@@ -45,7 +45,8 @@ public struct DirectionView: View {
             currentCoordinate: CLLocationCoordinate2DMake(35.683588, 139.750323),
             headingDirection: 0,
             goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
-        ),
-        reducer: DirectionView.Reducer()
-    ))
+        )
+    ) {
+        DirectionView.Reducer()
+    })
 }

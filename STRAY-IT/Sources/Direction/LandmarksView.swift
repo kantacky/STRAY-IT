@@ -1,6 +1,5 @@
 import ComposableArchitecture
 import Resource
-import SharedLogic
 import SwiftUI
 
 public struct LandmarksView: View {
@@ -42,7 +41,8 @@ public struct LandmarksView: View {
 
 #Preview {
     LandmarksView(store: Store(
-        initialState: LandmarksView.Reducer.State(),
-        reducer: LandmarksView.Reducer()
-    ))
+        initialState: LandmarksView.Reducer.State()
+    ) {
+        LandmarksView.Reducer()
+    })
 }

@@ -4,18 +4,10 @@ import MapKit
 public enum LocationLogic {
     /// Get Region from Coordinates
     public static func getRegion(coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion {
-        let minLatitude: Double = coordinates.sorted {
-            $0.latitude < $1.latitude
-        }[0].latitude
-        let maxLatitude: Double = coordinates.sorted {
-            $0.latitude > $1.latitude
-        }[0].latitude
-        let minLongitude: Double = coordinates.sorted {
-            $0.longitude < $1.longitude
-        }[0].longitude
-        let maxLongitude: Double = coordinates.sorted {
-            $0.longitude > $1.longitude
-        }[0].longitude
+        let minLatitude: Double = coordinates.sorted { $0.latitude < $1.latitude }[0].latitude
+        let maxLatitude: Double = coordinates.sorted { $0.latitude > $1.latitude }[0].latitude
+        let minLongitude: Double = coordinates.sorted { $0.longitude < $1.longitude }[0].longitude
+        let maxLongitude: Double = coordinates.sorted { $0.longitude > $1.longitude }[0].longitude
 
         let latitudeDelta: Double = maxLatitude - minLatitude
         let longitudeDelta: Double = maxLongitude - minLongitude

@@ -1,13 +1,16 @@
-import ComposableArchitecture
 import _MapKit_SwiftUI
-import SharedLogic
+import ComposableArchitecture
+import Dependency
 import SharedModel
 
-public struct CheatingReducer: ReducerProtocol {
+public struct CheatingReducer: Reducer {
+    @Dependency(\.locationManager)
+    private var locationManager: LocationManager
+
     public init() {}
 
     public struct State: Equatable {
-        public var postion: MapCameraPosition
+        public var position: MapCameraPosition
         public var start: CLLocationCoordinate2D
         public var goal: CLLocationCoordinate2D
         public var points: [CLLocationCoordinate2D]
@@ -22,33 +25,41 @@ public struct CheatingReducer: ReducerProtocol {
             self.points = points
             var allPoints: [CLLocationCoordinate2D] = [self.start, self.goal]
             allPoints.append(contentsOf: self.points)
-            self.postion = .region(LocationLogic.getRegion(coordinates: allPoints))
+            self.position = .region(LocationLogic.getRegion(coordinates: allPoints))
         }
     }
 
     public enum Action: Equatable {
         case onAppear
         case onChangePosition(MapCameraPosition)
-        case onPointAppended(CLLocationCoordinate2D)
+        case onAppendPoint(CLLocationCoordinate2D)
     }
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
             var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
             allPoints.append(contentsOf: state.points)
-            state.postion = .region(LocationLogic.getRegion(coordinates: allPoints))
+            state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
+            if let data = UserDefaults.standard.data(forKey: "start"),
+               let start = try? JSONDecoder().decode(CLLocationCoordinate2D.self, from: data) {
+                state.start = start
+            }
+            if let data = UserDefaults.standard.data(forKey: "goal"),
+               let goal = try? JSONDecoder().decode(CLLocationCoordinate2D.self, from: data) {
+                state.goal = goal
+            }
             return .none
 
         case let .onChangePosition(position):
-            state.postion = position
+            state.position = position
             return .none
 
-        case let .onPointAppended(point):
+        case let .onAppendPoint(point):
             state.points.append(point)
             var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
             allPoints.append(contentsOf: state.points)
-            state.postion = .region(LocationLogic.getRegion(coordinates: allPoints))
+            state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
             return .none
         }
     }

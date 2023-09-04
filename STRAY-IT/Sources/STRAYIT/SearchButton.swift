@@ -30,7 +30,8 @@ public struct SearchButton: View {
 
 #Preview {
     SearchButton(store: Store(
-        initialState: SearchButton.Reducer.State(),
-        reducer: SearchButton.Reducer()
-    ))
+        initialState: SearchButton.Reducer.State()
+    ) {
+        SearchButton.Reducer()
+    })
 }

@@ -1,5 +1,5 @@
-import ComposableArchitecture
 import _MapKit_SwiftUI
+import ComposableArchitecture
 import Resource
 import SwiftUI
 
@@ -14,7 +14,7 @@ public struct AdventureView: View {
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            Map(position: viewStore.binding(get: \.postion, send: Reducer.Action.onChangePosition)) {
+            Map(position: viewStore.binding(get: \.position, send: Reducer.Action.onChangePosition)) {
                 UserAnnotation()
                     .mapOverlayLevel(level: .aboveLabels)
 
@@ -42,7 +42,8 @@ public struct AdventureView: View {
         initialState: AdventureView.Reducer.State(
             start: CLLocationCoordinate2DMake(35.683588, 139.750323),
             goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
-        ),
-        reducer: AdventureView.Reducer()
-    ))
+        )
+    ) {
+        AdventureView.Reducer()
+    })
 }

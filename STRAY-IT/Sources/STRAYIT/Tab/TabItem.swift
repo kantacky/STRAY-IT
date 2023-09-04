@@ -1,6 +1,6 @@
 import Resource
 
-public enum TabSelection: String, CaseIterable, Hashable, Codable {
+public enum TabItem: String, CaseIterable {
     case direction, adventure, cheating
 
     public var tabButtonIconFilledSymbol: SymbolAsset {

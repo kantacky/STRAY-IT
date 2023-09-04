@@ -1,26 +1,30 @@
 import Adventure
 import Cheating
+import Combine
 import ComposableArchitecture
-import ComposableCoreLocation
-import Dependency
+import CoreLocation
 import Direction
 import Foundation
+import MapKit
 import Search
 import SharedModel
 
-public struct CoreReducer: ReducerProtocol {
+public struct CoreReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
 
-    private struct LocationManagerId: Hashable {}
+    public enum CancelID {
+        case coordinateSubscription, degreesSubscription
+    }
+
+    public init() {}
 
     public struct State: Equatable {
-        public var alert: AlertState<Action>?
-
-        public var tabSelection: TabSelection
-
+        public var alert: Alert?
+        public var cancellables: Set<AnyCancellable>
+        public var tabSelection: TabItem
         public var coordinate: CLLocationCoordinate2D?
-
+        public var degrees: CLLocationDirection?
         public var search: SearchReducer.State
         public var direction: DirectionReducer.State
         public var adventure: AdventureReducer.State
@@ -28,15 +32,16 @@ public struct CoreReducer: ReducerProtocol {
 
         public init(
             coordinate: CLLocationCoordinate2D? = nil,
+            degrees: CLLocationDirection? = nil,
             search: SearchReducer.State = .init(),
             direction: DirectionReducer.State = .init(),
             adventure: AdventureReducer.State = .init(),
             cheating: CheatingReducer.State = .init()
         ) {
+            self.cancellables = .init()
             self.tabSelection = .direction
-
             self.coordinate = coordinate
-
+            self.degrees = degrees
             self.search = search
             self.direction = direction
             self.adventure = adventure
@@ -47,102 +52,87 @@ public struct CoreReducer: ReducerProtocol {
     public enum Action: Equatable {
         case onAppear
         case onDisappear
-
+        case setAlert(String, String)
         case alertDismissed
-
+        case subscribeCoordinate
+        case subscribeDegrees
+        case onChangeCoordinate(CLLocationCoordinate2D)
+        case onChangeDegrees(CLLocationDirection)
         case onSearchButtonTapped
-        case setTabSelection(TabSelection)
-        case setStartAndGoal
-
-        case locationManager(LocationManager.Action)
-
+        case setTabSelection(TabItem)
         case search(SearchReducer.Action)
         case direction(DirectionReducer.Action)
         case adventure(AdventureReducer.Action)
         case cheating(CheatingReducer.Action)
     }
 
-    public func core(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func core(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            return .merge(
-                locationManager.delegate()
-                    .map(Action.locationManager)
-                    .cancellable(id: LocationManagerId()),
-                locationManager
-                    .requestWhenInUseAuthorization()
-                    .fireAndForget()
-            )
+            locationManager.startUpdatingLocation()
+            return .run { send in
+                Task.detached {
+                    await send(.subscribeCoordinate)
+                }
+                Task.detached {
+                    await send(.subscribeDegrees)
+                }
+            }
 
         case .onDisappear:
-            return .cancel(id: LocationManagerId())
+            return .none
+
+        case let .setAlert(title, message):
+            state.alert = .init(title: title, message: message)
+            return .none
 
         case .alertDismissed:
             state.alert = nil
             return .none
 
+        case .subscribeCoordinate:
+            return .run { send in
+                for await value in locationManager.coordinate {
+                    Task.detached { @MainActor in
+                        send(.onChangeCoordinate(value))
+                    }
+                }
+            }
+            .cancellable(id: CancelID.coordinateSubscription)
+
+        case .subscribeDegrees:
+            return .run { send in
+                for await value in locationManager.degrees {
+                    Task.detached { @MainActor in
+                        send(.onChangeDegrees(value))
+                    }
+                }
+            }
+            .cancellable(id: CancelID.degreesSubscription)
+
+        case let .onChangeCoordinate(coordinate):
+            print(coordinate)
+            return .none
+
+        case let .onChangeDegrees(degrees):
+            print(degrees)
+            return .none
+
         case .onSearchButtonTapped:
-            state.search.goal = nil
+            UserDefaults.standard.removeObject(forKey: "start")
+            UserDefaults.standard.removeObject(forKey: "goal")
             return .none
 
         case let .setTabSelection(newTab):
             state.tabSelection = newTab
             return .none
 
-        case .setStartAndGoal:
-            if let start = state.coordinate,
-               let goal = state.search.goal {
-                state.direction.goal = goal
-
-                state.adventure.start = start
-                state.adventure.goal = goal
-
-                state.cheating.start = start
-                state.cheating.goal = goal
-                state.cheating.points = []
-            }
-            return .none
-
-        case .locationManager(.didChangeAuthorization(.authorizedAlways)),
-             .locationManager(.didChangeAuthorization(.authorizedWhenInUse)):
-            return locationManager
-                .requestLocation()
-                .fireAndForget()
-
-        case .locationManager(.didChangeAuthorization(.denied)),
-             .locationManager(.didChangeAuthorization(.restricted)):
-            state.alert = .init(
-                title: .init("Enable the Location Service"),
-                message: .init("For full access to this app")
-            )
-            return .none
-
-        case let .locationManager(.didUpdateLocations(locations)):
-            guard let location: Location = locations.first else {
-                return .none
-            }
-            print(location.coordinate)
-            state.coordinate = location.coordinate
-
-            state.cheating.points.append(location.coordinate)
-
-            return .run { send in
-                await send(.direction(.onUpdateLocation(location.coordinate)))
-                await send(.cheating(.onPointAppended(location.coordinate)))
-            }
-
-        case let .locationManager(.didUpdateHeading(heading)):
-            print(heading.magneticHeading)
-            return .run { send in
-                await send(.direction(.onUpdateHeading(heading.magneticHeading)))
-            }
-
         default:
             return .none
         }
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some Reducer<State, Action> {
         Reduce { state, action in
             self.core(into: &state, action: action)
         }

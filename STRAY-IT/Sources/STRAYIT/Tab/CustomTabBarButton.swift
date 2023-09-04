@@ -3,10 +3,10 @@ import SharedModel
 import SwiftUI
 
 public struct CustomTabBarButton: View {
-    private let tab: TabSelection
-    @Binding public var selection: TabSelection
+    private let tab: TabItem
+    @Binding public var selection: TabItem
 
-    public init(tab: TabSelection, selection: Binding<TabSelection>) {
+    public init(tab: TabItem, selection: Binding<TabItem>) {
         self.tab = tab
         self._selection = selection
     }
@@ -34,8 +34,6 @@ public struct CustomTabBarButton: View {
     }
 }
 
-public struct CustomTabBarButton_Previews: PreviewProvider {
-    public static var previews: some View {
-        CustomTabBarButton(tab: .direction, selection: .constant(.direction))
-    }
+#Preview {
+    CustomTabBarButton(tab: .direction, selection: .constant(.direction))
 }
