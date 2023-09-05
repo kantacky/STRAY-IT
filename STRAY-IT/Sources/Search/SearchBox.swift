@@ -33,9 +33,6 @@ public struct SearchBox: View {
         }
         .frame(height: 40)
         .cornerRadius(24)
-        .task {
-            isFocused = true
-        }
     }
 }
 

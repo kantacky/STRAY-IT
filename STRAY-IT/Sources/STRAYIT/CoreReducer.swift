@@ -111,12 +111,18 @@ public struct CoreReducer: Reducer {
             .cancellable(id: CancelID.degreesSubscription)
 
         case let .onChangeCoordinate(coordinate):
-            print(coordinate)
-            return .none
+            return .run { send in
+                await send(.direction(.onChangeCoordinate(coordinate)))
+                await send(.adventure(.onChangeCoordinate(coordinate)))
+                await send(.cheating(.onChangeCoordinate(coordinate)))
+            }
 
         case let .onChangeDegrees(degrees):
-            print(degrees)
-            return .none
+            return .run { send in
+                await send(.direction(.onChangeDegrees(degrees)))
+                await send(.adventure(.onChangeDegrees(degrees)))
+                await send(.cheating(.onChangeDegrees(degrees)))
+            }
 
         case .onSearchButtonTapped:
             UserDefaults.standard.removeObject(forKey: "start")

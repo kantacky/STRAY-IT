@@ -6,20 +6,28 @@ import SharedModel
 public struct CheatingReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
+    @Dependency(\.userDefaults)
+    private var userDefaults: UserDefaultsClient
 
     public init() {}
 
     public struct State: Equatable {
         public var position: MapCameraPosition
+        public var coordinate: CLLocationCoordinate2D
+        public var degrees: CLLocationDirection
         public var start: CLLocationCoordinate2D
         public var goal: CLLocationCoordinate2D
         public var points: [CLLocationCoordinate2D]
 
         public init(
+            coordinate: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
+            degrees: CLLocationDirection = 0,
             start: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
             goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
             points: [CLLocationCoordinate2D] = []
         ) {
+            self.coordinate = coordinate
+            self.degrees = degrees
             self.start = start
             self.goal = goal
             self.points = points
@@ -32,6 +40,8 @@ public struct CheatingReducer: Reducer {
     public enum Action: Equatable {
         case onAppear
         case onChangePosition(MapCameraPosition)
+        case onChangeCoordinate(CLLocationCoordinate2D)
+        case onChangeDegrees(CLLocationDirection)
         case onAppendPoint(CLLocationCoordinate2D)
     }
 
@@ -41,13 +51,15 @@ public struct CheatingReducer: Reducer {
             var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
             allPoints.append(contentsOf: state.points)
             state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
-            if let data = UserDefaults.standard.data(forKey: "start"),
-               let start = try? JSONDecoder().decode(CLLocationCoordinate2D.self, from: data) {
-                state.start = start
+            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.start) {
+                if coordinate != state.start {
+                    state.start = coordinate
+                }
             }
-            if let data = UserDefaults.standard.data(forKey: "goal"),
-               let goal = try? JSONDecoder().decode(CLLocationCoordinate2D.self, from: data) {
-                state.goal = goal
+            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.goal) {
+                if coordinate != state.goal {
+                    state.goal = coordinate
+                }
             }
             return .none
 
@@ -60,6 +72,16 @@ public struct CheatingReducer: Reducer {
             var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
             allPoints.append(contentsOf: state.points)
             state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
+            return .none
+
+        case let .onChangeCoordinate(coordinate):
+            state.coordinate = coordinate
+            return .run { send in
+                await send(.onAppendPoint(coordinate))
+            }
+
+        case let .onChangeDegrees(degrees):
+            state.degrees = degrees
             return .none
         }
     }

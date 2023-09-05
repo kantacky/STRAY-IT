@@ -35,8 +35,11 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
         if let coordinate = self.getCoordinate() {
             self.coordinateChangeHandler?(coordinate)
         }
+        if let degrees = self.getHeading() {
+            self.degreesChangeHandler?(degrees)
+        }
         self.locationManager.allowsBackgroundLocationUpdates = true
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.distanceFilter = 1
         self.locationManager.activityType = .fitness
     }
@@ -51,22 +54,28 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
         self.locationManager.location?.coordinate
     }
 
+    public func getHeading() -> CLLocationDirection? {
+        self.locationManager.heading?.magneticHeading
+    }
+
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.first?.coordinate {
             self.coordinateChangeHandler?(coordinate)
         }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didUpdateHeading: CLHeading) {
-        let degrees = didUpdateHeading.trueHeading
+    public func locationManager(_ manager: CLLocationManager, didUpdateHeading heading: CLHeading) {
+        let degrees = heading.magneticHeading
         self.degreesChangeHandler?(degrees)
     }
 
     public func startUpdatingLocation() {
         self.locationManager.startUpdatingLocation()
+        self.locationManager.startUpdatingHeading()
     }
 
     public func stopUpdatingLocation() {
         self.locationManager.stopUpdatingLocation()
+        self.locationManager.stopUpdatingHeading()
     }
 }

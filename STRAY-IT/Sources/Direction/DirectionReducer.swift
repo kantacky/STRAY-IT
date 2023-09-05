@@ -6,29 +6,27 @@ import SharedModel
 public struct DirectionReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
-
-    public enum CancelID {
-        case coordinateSubscription, degreesSubscription
-    }
+    @Dependency(\.userDefaults)
+    private var userDefaults: UserDefaultsClient
 
     public init() {}
 
     public struct State: Equatable {
-        public var currentLocation: CLLocationCoordinate2D
-        public var headingDirection: CLLocationDirection
+        public var coordinate: CLLocationCoordinate2D
+        public var degrees: CLLocationDirection
         public var goal: CLLocationCoordinate2D
         public var distanceToGoal: Double
         public var directionToGoal: Double
         public var landmarks: [Landmark]
 
         public init(
-            currentCoordinate: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            headingDirection: Double = 0,
+            coordinate: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
+            degrees: CLLocationDirection = 0,
             goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
             landmarks: [Landmark] = []
         ) {
-            self.currentLocation = currentCoordinate
-            self.headingDirection = headingDirection
+            self.coordinate = coordinate
+            self.degrees = degrees
             self.goal = goal
             self.distanceToGoal = 0
             self.directionToGoal = 0
@@ -38,8 +36,6 @@ public struct DirectionReducer: Reducer {
 
     public enum Action: Equatable {
         case onAppear
-        case subscribeCoordinate
-        case subscribeDegrees
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
         case calculate
@@ -48,55 +44,36 @@ public struct DirectionReducer: Reducer {
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            if let data = UserDefaults.standard.data(forKey: "goal"),
-               let goal = try? JSONDecoder().decode(CLLocationCoordinate2D.self, from: data) {
-                state.goal = goal
+            if let coordinate = locationManager.getCoordinate() {
+                state.coordinate = coordinate
+            }
+            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.goal) {
+                if coordinate != state.goal {
+                    state.goal = coordinate
+                }
+            }
+            if let degrees = locationManager.getHeading() {
+                state.degrees = degrees
             }
             return .run { send in
-                Task.detached {
-                    await send(.subscribeCoordinate)
-                }
-                Task.detached {
-                    await send(.subscribeDegrees)
-                }
                 await send(.calculate)
             }
-
-        case .subscribeCoordinate:
-            return .run { send in
-                for await value in locationManager.coordinate {
-                    Task.detached { @MainActor in
-                        send(.onChangeCoordinate(value))
-                    }
-                }
-            }
-            .cancellable(id: CancelID.coordinateSubscription)
-
-        case .subscribeDegrees:
-            return .run { send in
-                for await value in locationManager.degrees {
-                    Task.detached { @MainActor in
-                        send(.onChangeDegrees(value))
-                    }
-                }
-            }
-            .cancellable(id: CancelID.degreesSubscription)
 
         case let .onChangeCoordinate(coordinate):
-            state.currentLocation = coordinate
+            state.coordinate = coordinate
             return .run { send in
                 await send(.calculate)
             }
 
-        case let .onChangeDegrees(direction):
-            state.headingDirection = direction
+        case let .onChangeDegrees(degrees):
+            state.degrees = degrees
             return .run { send in
                 await send(.calculate)
             }
 
         case .calculate:
-            state.distanceToGoal = LocationLogic.getDistance(originLC: state.currentLocation, targetLC: state.goal)
-            state.directionToGoal = LocationLogic.getDirectionDelta(state.currentLocation, state.goal, heading: state.headingDirection)
+            state.distanceToGoal = LocationLogic.getDistance(originLC: state.coordinate, targetLC: state.goal)
+            state.directionToGoal = LocationLogic.getDirectionDelta(state.coordinate, state.goal, heading: state.degrees)
             return .none
         }
     }

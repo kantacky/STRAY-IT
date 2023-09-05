@@ -6,6 +6,8 @@ import SharedModel
 public struct SearchReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
+    @Dependency(\.userDefaults)
+    private var userDefaults: UserDefaultsClient
 
     public init() {}
 
@@ -70,7 +72,7 @@ public struct SearchReducer: Reducer {
                     try? await Task.sleep(nanoseconds: 500_000_000)
                     await send(.executeQuery)
                 }
-                .cancellable(id: SearchExecutionId())
+                    .cancellable(id: SearchExecutionId())
             )
 
         case .executeQuery:
@@ -101,12 +103,13 @@ public struct SearchReducer: Reducer {
             return .none
 
         case let .onSelectResult(result):
-            if let start: CLLocationCoordinate2D = locationManager.getCoordinate() {
-                UserDefaults.standard.set(start, forKey: "start")
+            return .run { send in
+                if let coordinate: CLLocationCoordinate2D = locationManager.getCoordinate() {
+                    try? await userDefaults.set(coordinate, forKey: UserDefaultsKeys.start)
+                }
+                let coordinate: CLLocationCoordinate2D = result.placemark.coordinate
+                try? await userDefaults.set(coordinate, forKey: UserDefaultsKeys.goal)
             }
-            let goal: CLLocationCoordinate2D = result.placemark.coordinate
-            UserDefaults.standard.set(goal, forKey: "goal")
-            return .none
         }
     }
 }
