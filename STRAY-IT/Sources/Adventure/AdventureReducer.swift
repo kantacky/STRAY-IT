@@ -1,39 +1,94 @@
-import ComposableArchitecture
 import _MapKit_SwiftUI
-import SharedLogic
+import ComposableArchitecture
+import Dependency
 import SharedModel
 
-public struct AdventureReducer: ReducerProtocol {
+public struct AdventureReducer: Reducer {
+    @Dependency(\.locationManager)
+    private var locationManager: LocationManager
+    @Dependency(\.userDefaults)
+    private var userDefaults: UserDefaultsClient
+
     public init() {}
 
     public struct State: Equatable {
-        public var postion: MapCameraPosition
+        public var position: MapCameraPosition
+        public var coordinate: CLLocationCoordinate2D
+        public var degrees: CLLocationDirection
         public var start: CLLocationCoordinate2D
         public var goal: CLLocationCoordinate2D
+        public var points: [CLLocationCoordinate2D]
 
         public init(
+            coordinate: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
+            degrees: CLLocationDirection = 0,
             start: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0)
+            goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
+            points: [CLLocationCoordinate2D] = []
         ) {
+            self.coordinate = coordinate
+            self.degrees = degrees
             self.start = start
             self.goal = goal
-            self.postion = .region(LocationLogic.getRegion(coordinates: [start, goal]))
+            self.points = points
+            var allPoints: [CLLocationCoordinate2D] = [self.start, self.goal]
+            allPoints.append(contentsOf: self.points)
+            self.position = .region(LocationLogic.getRegion(coordinates: allPoints))
         }
     }
 
     public enum Action: Equatable {
         case onAppear
         case onChangePosition(MapCameraPosition)
+        case onChangeCoordinate(CLLocationCoordinate2D)
+        case onChangeDegrees(CLLocationDirection)
+        case onAppendPoint(CLLocationCoordinate2D)
+        case onResetPosition
     }
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            state.postion = .region(LocationLogic.getRegion(coordinates: [state.start, state.goal]))
-            return .none
+            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.start) {
+                if coordinate != state.start {
+                    state.start = coordinate
+                }
+            }
+            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.goal) {
+                if coordinate != state.goal {
+                    state.goal = coordinate
+                }
+            }
+            return .run { send in
+                await send(.onResetPosition)
+            }
 
         case let .onChangePosition(position):
-            state.postion = position
+            state.position = position
+            return .none
+
+        case let .onChangeCoordinate(coordinate):
+            state.coordinate = coordinate
+            return .run { send in
+                await send(.onAppendPoint(coordinate))
+            }
+
+        case .onResetPosition:
+            return .run { [state] send in
+                var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
+                allPoints.append(contentsOf: state.points)
+                await send(.onChangePosition(.region(LocationLogic.getRegion(coordinates: allPoints))))
+            }
+
+        case let .onChangeDegrees(degrees):
+            state.degrees = degrees
+            return .none
+
+        case let .onAppendPoint(point):
+            state.points.append(point)
+            var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
+            allPoints.append(contentsOf: state.points)
+            state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
             return .none
         }
     }

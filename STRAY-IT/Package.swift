@@ -47,8 +47,8 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/composable-core-location", .upToNextMajor(from: "0.2.0")),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.55.0")),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "1.0.0")),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", .upToNextMajor(from: "1.0.0")),
         .package(url: "https://github.com/SwiftGen/SwiftGenPlugin", .upToNextMajor(from: "6.6.0")),
         .package(url: "https://github.com/realm/SwiftLint", .upToNextMajor(from: "0.52.0")),
     ],
@@ -64,11 +64,10 @@ let package = Package(
                 "Search",
                 "Tutorial",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "ComposableCoreLocation", package: "composable-core-location"),
             ],
             plugins: [
                 .plugin(name: "SwiftGenPlugin", package: "SwiftGenPlugin"),
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .testTarget(
@@ -77,7 +76,7 @@ let package = Package(
                 "STRAYIT",
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .target(
@@ -85,13 +84,11 @@ let package = Package(
             dependencies: [
                 "Dependency",
                 "Resource",
-                "SharedLogic",
                 "SharedModel",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "ComposableCoreLocation", package: "composable-core-location"),
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .target(
@@ -99,22 +96,22 @@ let package = Package(
             dependencies: [
                 "Dependency",
                 "Resource",
-                "SharedLogic",
                 "SharedModel",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "ComposableCoreLocation", package: "composable-core-location"),
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .target(
             name: "Dependency",
             dependencies: [
-                .product(name: "ComposableCoreLocation", package: "composable-core-location"),
+                "SharedModel",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "Dependencies", package: "swift-dependencies"),
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .target(
@@ -122,13 +119,11 @@ let package = Package(
             dependencies: [
                 "Dependency",
                 "Resource",
-                "SharedLogic",
                 "SharedModel",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "ComposableCoreLocation", package: "composable-core-location"),
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .target(
@@ -141,20 +136,11 @@ let package = Package(
             dependencies: [
                 "Dependency",
                 "Resource",
-                "SharedLogic",
                 "SharedModel",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "ComposableCoreLocation", package: "composable-core-location"),
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
-            ]
-        ),
-        .target(
-            name: "SharedLogic",
-            dependencies: [],
-            plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .target(
@@ -163,7 +149,7 @@ let package = Package(
                 "Resource",
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         ),
         .target(
@@ -172,7 +158,7 @@ let package = Package(
                 "Resource",
             ],
             plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint"),
             ]
         )
     ]

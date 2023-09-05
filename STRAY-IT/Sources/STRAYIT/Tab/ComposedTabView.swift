@@ -38,11 +38,10 @@ public struct ComposedTabView: View {
     }
 }
 
-public struct ComposedTabView_Previews: PreviewProvider {
-    public static var previews: some View {
-        ComposedTabView(store: Store(
-            initialState: ComposedTabView.Reducer.State(),
-            reducer: ComposedTabView.Reducer()
-        ))
-    }
+#Preview {
+    ComposedTabView(store: Store(
+        initialState: ComposedTabView.Reducer.State()
+    ) {
+        ComposedTabView.Reducer()
+    })
 }

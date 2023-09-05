@@ -42,10 +42,11 @@ public struct DirectionView: View {
 #Preview {
     DirectionView(store: Store(
         initialState: DirectionView.Reducer.State(
-            currentCoordinate: CLLocationCoordinate2DMake(35.683588, 139.750323),
-            headingDirection: 0,
+            coordinate: CLLocationCoordinate2DMake(35.683588, 139.750323),
+            degrees: 0,
             goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
-        ),
-        reducer: DirectionView.Reducer()
-    ))
+        )
+    ) {
+        DirectionView.Reducer()
+    })
 }

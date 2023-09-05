@@ -40,7 +40,8 @@ public struct SearchResultList: View {
 
 #Preview {
     SearchResultList(store: Store(
-        initialState: SearchResultList.Reducer.State(),
-        reducer: SearchResultList.Reducer()
-    ))
+        initialState: SearchResultList.Reducer.State()
+    ) {
+        SearchResultList.Reducer()
+    })
 }

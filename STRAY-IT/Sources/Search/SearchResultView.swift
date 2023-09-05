@@ -31,7 +31,8 @@ public struct SearchResultView: View {
 
 #Preview {
     SearchResultView(store: Store(
-        initialState: SearchResultView.Reducer.State(),
-        reducer: SearchResultView.Reducer()
-    ))
+        initialState: SearchResultView.Reducer.State()
+    ) {
+        SearchResultView.Reducer()
+    })
 }

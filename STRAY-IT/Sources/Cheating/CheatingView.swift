@@ -1,5 +1,5 @@
-import ComposableArchitecture
 import _MapKit_SwiftUI
+import ComposableArchitecture
 import Resource
 import SwiftUI
 
@@ -14,7 +14,10 @@ public struct CheatingView: View {
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            Map(position: viewStore.binding(get: \.postion, send: Reducer.Action.onChangePosition)) {
+            Map(position: viewStore.binding(
+                get: \.position,
+                send: Reducer.Action.onChangePosition
+            )) {
                 UserAnnotation()
                     .mapOverlayLevel(level: .aboveLabels)
 
@@ -42,13 +45,14 @@ public struct CheatingView: View {
 }
 
 #Preview {
-    CheatingView(store: Store(
+    CheatingView(store: .init(
         initialState: CheatingView.Reducer.State(
             start: CLLocationCoordinate2DMake(35.683588, 139.750323),
             goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
-        ),
-        reducer: CheatingView.Reducer()
-    ))
+        )
+    ) {
+        CheatingView.Reducer()
+    })
 }
 
 #Preview {
@@ -62,7 +66,8 @@ public struct CheatingView: View {
                 CLLocationCoordinate2DMake(35.682187, 139.762234),
                 CLLocationCoordinate2DMake(35.681658, 139.764547)
             ]
-        ),
-        reducer: CheatingView.Reducer()
-    ))
+        )
+    ) {
+        CheatingView.Reducer()
+    })
 }
