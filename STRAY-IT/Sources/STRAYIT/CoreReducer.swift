@@ -51,7 +51,6 @@ public struct CoreReducer: Reducer {
 
     public enum Action: Equatable {
         case onAppear
-        case onDisappear
         case setAlert(String, String)
         case alertDismissed
         case subscribeCoordinate
@@ -72,14 +71,10 @@ public struct CoreReducer: Reducer {
         case .onAppear:
             locationManager.startUpdatingLocation()
             return .run { send in
+                await send(.onResetStartAndGoal)
                 async let subscribeCoordinate: Void = await send(.subscribeCoordinate)
                 async let subscribeDegrees: Void = await send(.subscribeDegrees)
                 _ = await (subscribeCoordinate, subscribeDegrees)
-            }
-
-        case .onDisappear:
-            return .run { send in
-                await send(.onResetStartAndGoal)
             }
 
         case let .setAlert(title, message):

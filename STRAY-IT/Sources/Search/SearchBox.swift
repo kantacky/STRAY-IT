@@ -2,6 +2,8 @@ import Resource
 import SwiftUI
 
 public struct SearchBox: View {
+    @AppStorage("hasShownTutorial")
+    private var hasShownTutorial: Bool = false
     @State private var text: String
     @Binding public var searchQuery: String
     @FocusState private var isFocused: Bool
@@ -33,6 +35,11 @@ public struct SearchBox: View {
         }
         .frame(height: 40)
         .cornerRadius(24)
+        .onAppear {
+            if self.hasShownTutorial {
+                self.isFocused = true
+            }
+        }
     }
 }
 

@@ -32,15 +32,12 @@ public struct CoreView: View {
                 }
             }
             .overlay {
-                if !hasShownTutorial {
+                if !self.hasShownTutorial {
                     TutorialView()
                 }
             }
             .onAppear {
                 viewStore.send(.onAppear)
-            }
-            .onDisappear {
-                viewStore.send(.onDisappear)
             }
             .alert(
                 item: viewStore.binding(
