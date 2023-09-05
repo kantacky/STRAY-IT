@@ -4,7 +4,14 @@ import SwiftUI
 struct WatchAppMainView: App {
     var body: some Scene {
         WindowGroup {
-            Text("STRAY-IT")
+            VStack {
+                Text("Welcome to STRAY-IT!!")
+                    .multilineTextAlignment(.center)
+                Text("Watch App is Currently Under Development")
+                    .multilineTextAlignment(.center)
+                Text("Stay Tuned!!")
+                    .multilineTextAlignment(.center)
+            }
         }
     }
 }

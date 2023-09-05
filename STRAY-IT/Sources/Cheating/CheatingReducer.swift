@@ -42,15 +42,12 @@ public struct CheatingReducer: Reducer {
         case onChangePosition(MapCameraPosition)
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
-        case onAppendPoint(CLLocationCoordinate2D)
+        case onResetPosition
     }
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
-            allPoints.append(contentsOf: state.points)
-            state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
             if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.start) {
                 if coordinate != state.start {
                     state.start = coordinate
@@ -61,24 +58,24 @@ public struct CheatingReducer: Reducer {
                     state.goal = coordinate
                 }
             }
-            return .none
+            return .run { send in
+                await send(.onResetPosition)
+            }
 
         case let .onChangePosition(position):
             state.position = position
             return .none
 
-        case let .onAppendPoint(point):
-            state.points.append(point)
-            var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
-            allPoints.append(contentsOf: state.points)
-            state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
-            return .none
+        case .onResetPosition:
+            return .run { [state] send in
+                var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
+                allPoints.append(contentsOf: state.points)
+                await send(.onChangePosition(.region(LocationLogic.getRegion(coordinates: allPoints))))
+            }
 
         case let .onChangeCoordinate(coordinate):
             state.coordinate = coordinate
-            return .run { send in
-                await send(.onAppendPoint(coordinate))
-            }
+            return .none
 
         case let .onChangeDegrees(degrees):
             state.degrees = degrees

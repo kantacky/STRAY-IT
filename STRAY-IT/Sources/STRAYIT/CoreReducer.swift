@@ -60,6 +60,7 @@ public struct CoreReducer: Reducer {
         case onChangeDegrees(CLLocationDirection)
         case onSearchButtonTapped
         case setTabSelection(TabItem)
+        case onResetStartAndGoal
         case search(SearchReducer.Action)
         case direction(DirectionReducer.Action)
         case adventure(AdventureReducer.Action)
@@ -71,16 +72,15 @@ public struct CoreReducer: Reducer {
         case .onAppear:
             locationManager.startUpdatingLocation()
             return .run { send in
-                Task.detached {
-                    await send(.subscribeCoordinate)
-                }
-                Task.detached {
-                    await send(.subscribeDegrees)
-                }
+                async let subscribeCoordinate: Void = await send(.subscribeCoordinate)
+                async let subscribeDegrees: Void = await send(.subscribeDegrees)
+                _ = await (subscribeCoordinate, subscribeDegrees)
             }
 
         case .onDisappear:
-            return .none
+            return .run { send in
+                await send(.onResetStartAndGoal)
+            }
 
         case let .setAlert(title, message):
             state.alert = .init(title: title, message: message)
@@ -125,12 +125,17 @@ public struct CoreReducer: Reducer {
             }
 
         case .onSearchButtonTapped:
-            UserDefaults.standard.removeObject(forKey: "start")
-            UserDefaults.standard.removeObject(forKey: "goal")
-            return .none
+            return .run { send in
+                await send(.onResetStartAndGoal)
+            }
 
         case let .setTabSelection(newTab):
             state.tabSelection = newTab
+            return .none
+
+        case .onResetStartAndGoal:
+            UserDefaults.standard.removeObject(forKey: "start")
+            UserDefaults.standard.removeObject(forKey: "goal")
             return .none
 
         default:

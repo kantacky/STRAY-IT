@@ -14,7 +14,10 @@ public struct AdventureView: View {
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            Map(position: viewStore.binding(get: \.position, send: Reducer.Action.onChangePosition)) {
+            Map(position: viewStore.binding(
+                get: \.position,
+                send: Reducer.Action.onChangePosition
+            )) {
                 UserAnnotation()
                     .mapOverlayLevel(level: .aboveLabels)
 
@@ -27,6 +30,10 @@ public struct AdventureView: View {
                     Asset.Assets.marker.swiftUIImage
                 }
                 .mapOverlayLevel(level: .aboveRoads)
+
+                MapPolyline(coordinates: viewStore.points)
+                    .stroke(Asset.Colors.route.swiftUIColor, lineWidth: 8)
+                    .mapOverlayLevel(level: .aboveRoads)
             }
             .mapControlVisibility(.hidden)
             .background(Asset.Colors.background.swiftUIColor)

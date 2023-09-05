@@ -14,7 +14,10 @@ public struct CheatingView: View {
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            Map(position: viewStore.binding(get: \.position, send: Reducer.Action.onChangePosition)) {
+            Map(position: viewStore.binding(
+                get: \.position,
+                send: Reducer.Action.onChangePosition
+            )) {
                 UserAnnotation()
                     .mapOverlayLevel(level: .aboveLabels)
 

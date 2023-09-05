@@ -17,18 +17,23 @@ public struct AdventureReducer: Reducer {
         public var degrees: CLLocationDirection
         public var start: CLLocationCoordinate2D
         public var goal: CLLocationCoordinate2D
+        public var points: [CLLocationCoordinate2D]
 
         public init(
             coordinate: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
             degrees: CLLocationDirection = 0,
             start: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0)
+            goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
+            points: [CLLocationCoordinate2D] = []
         ) {
             self.coordinate = coordinate
             self.degrees = degrees
             self.start = start
             self.goal = goal
-            self.position = .region(LocationLogic.getRegion(coordinates: [start, goal]))
+            self.points = points
+            var allPoints: [CLLocationCoordinate2D] = [self.start, self.goal]
+            allPoints.append(contentsOf: self.points)
+            self.position = .region(LocationLogic.getRegion(coordinates: allPoints))
         }
     }
 
@@ -37,12 +42,13 @@ public struct AdventureReducer: Reducer {
         case onChangePosition(MapCameraPosition)
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
+        case onAppendPoint(CLLocationCoordinate2D)
+        case onResetPosition
     }
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            state.position = .region(LocationLogic.getRegion(coordinates: [state.start, state.goal]))
             if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.start) {
                 if coordinate != state.start {
                     state.start = coordinate
@@ -53,7 +59,9 @@ public struct AdventureReducer: Reducer {
                     state.goal = coordinate
                 }
             }
-            return .none
+            return .run { send in
+                await send(.onResetPosition)
+            }
 
         case let .onChangePosition(position):
             state.position = position
@@ -61,10 +69,26 @@ public struct AdventureReducer: Reducer {
 
         case let .onChangeCoordinate(coordinate):
             state.coordinate = coordinate
-            return .none
+            return .run { send in
+                await send(.onAppendPoint(coordinate))
+            }
+
+        case .onResetPosition:
+            return .run { [state] send in
+                var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
+                allPoints.append(contentsOf: state.points)
+                await send(.onChangePosition(.region(LocationLogic.getRegion(coordinates: allPoints))))
+            }
 
         case let .onChangeDegrees(degrees):
             state.degrees = degrees
+            return .none
+
+        case let .onAppendPoint(point):
+            state.points.append(point)
+            var allPoints: [CLLocationCoordinate2D] = [state.start, state.goal]
+            allPoints.append(contentsOf: state.points)
+            state.position = .region(LocationLogic.getRegion(coordinates: allPoints))
             return .none
         }
     }
