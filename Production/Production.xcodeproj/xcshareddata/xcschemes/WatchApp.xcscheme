@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F1AC6C012A7F2FF70047C136"
                BuildableName = "STRAY-IT.app"
-               BlueprintName = "WatchApp"
-               ReferencedContainer = "container:App.xcodeproj">
+               BlueprintName = "WatchProduction"
+               ReferencedContainer = "container:Production.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F11485442A02735F00E0EA01"
-               BuildableName = "App.app"
-               BlueprintName = "App"
-               ReferencedContainer = "container:App.xcodeproj">
+               BuildableName = "Production.app"
+               BlueprintName = "Production"
+               ReferencedContainer = "container:Production.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -59,8 +59,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F1AC6C012A7F2FF70047C136"
             BuildableName = "STRAY-IT.app"
-            BlueprintName = "WatchApp"
-            ReferencedContainer = "container:App.xcodeproj">
+            BlueprintName = "WatchProduction"
+            ReferencedContainer = "container:Production.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -76,8 +76,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F1AC6C012A7F2FF70047C136"
             BuildableName = "STRAY-IT.app"
-            BlueprintName = "WatchApp"
-            ReferencedContainer = "container:App.xcodeproj">
+            BlueprintName = "WatchProduction"
+            ReferencedContainer = "container:Production.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

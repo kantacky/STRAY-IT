@@ -1,10 +1,10 @@
 import ComposableArchitecture
+import CoreLocation
 import Resource
 import SwiftUI
 
 public struct SearchButton: View {
-    public typealias Reducer = CoreReducer
-
+    public typealias Reducer = ComposedReducer
     private let store: StoreOf<Reducer>
 
     public init(store: StoreOf<Reducer>) {
@@ -30,8 +30,10 @@ public struct SearchButton: View {
 
 #Preview {
     SearchButton(store: Store(
-        initialState: SearchButton.Reducer.State()
-    ) {
-        SearchButton.Reducer()
-    })
+        initialState: SearchButton.Reducer.State(
+            start: CLLocationCoordinate2DMake(35.683588, 139.750323),
+            goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
+        ),
+        reducer: { SearchButton.Reducer() }
+    ))
 }

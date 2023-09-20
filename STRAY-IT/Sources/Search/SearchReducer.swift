@@ -1,13 +1,11 @@
 import ComposableArchitecture
-import Dependency
+import LocationManager
 import MapKit
 import SharedModel
 
 public struct SearchReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
-    @Dependency(\.userDefaults)
-    private var userDefaults: UserDefaultsClient
 
     public init() {}
 
@@ -103,13 +101,7 @@ public struct SearchReducer: Reducer {
             return .none
 
         case let .onSelectResult(result):
-            return .run { send in
-                if let coordinate: CLLocationCoordinate2D = locationManager.getCoordinate() {
-                    try? await userDefaults.set(coordinate, forKey: UserDefaultsKeys.start)
-                }
-                let coordinate: CLLocationCoordinate2D = result.placemark.coordinate
-                try? await userDefaults.set(coordinate, forKey: UserDefaultsKeys.goal)
-            }
+            return .none
         }
     }
 }

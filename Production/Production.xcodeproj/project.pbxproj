@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		F11485502A02736100E0EA01 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F114854F2A02736100E0EA01 /* Preview Assets.xcassets */; };
 		F11485AB2A0274F900E0EA01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11485AA2A0274F900E0EA01 /* Assets.xcassets */; };
-		F11485AE2A02750F00E0EA01 /* AppMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11485AD2A02750E00E0EA01 /* AppMainView.swift */; };
+		F11485AE2A02750F00E0EA01 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11485AD2A02750E00E0EA01 /* main.swift */; };
 		F11485B22A027BD000E0EA01 /* STRAYIT in Frameworks */ = {isa = PBXBuildFile; productRef = F11485B12A027BD000E0EA01 /* STRAYIT */; };
 		F1AC6C0F2A7F2FF90047C136 /* STRAY-IT.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F1B0DF692A187D4F005498D7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F1B0DF682A187D4F005498D7 /* Settings.bundle */; };
 		F1D3E1112A7F30600096E962 /* WatchAppMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D3E10C2A7F30600096E962 /* WatchAppMainView.swift */; };
 		F1D3E1142A7F328B0096E962 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11485AA2A0274F900E0EA01 /* Assets.xcassets */; };
-		F1D3E1152A7F32900096E962 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F1B0DF682A187D4F005498D7 /* Settings.bundle */; };
 		F1D3E1162A7F32950096E962 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F114854F2A02736100E0EA01 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -44,13 +42,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F11485452A02735F00E0EA01 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F11485452A02735F00E0EA01 /* Production.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Production.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F114854F2A02736100E0EA01 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F11485AA2A0274F900E0EA01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F11485AD2A02750E00E0EA01 /* AppMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppMainView.swift; sourceTree = "<group>"; };
+		F11485AD2A02750E00E0EA01 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F1A516B92A188F7800A24F8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "STRAY-IT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F1B0DF682A187D4F005498D7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F1BE6F672AA5A933006CCDE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F1D3E10C2A7F30600096E962 /* WatchAppMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchAppMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,7 +84,7 @@
 		F11485462A02735F00E0EA01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F11485452A02735F00E0EA01 /* App.app */,
+				F11485452A02735F00E0EA01 /* Production.app */,
 				F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */,
 			);
 			name = Products;
@@ -97,10 +94,9 @@
 			isa = PBXGroup;
 			children = (
 				F1A516B92A188F7800A24F8B /* Info.plist */,
-				F11485AD2A02750E00E0EA01 /* AppMainView.swift */,
+				F11485AD2A02750E00E0EA01 /* main.swift */,
 				F11485AA2A0274F900E0EA01 /* Assets.xcassets */,
 				F114854E2A02736100E0EA01 /* Preview Content */,
-				F1B0DF682A187D4F005498D7 /* Settings.bundle */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -132,9 +128,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F11485442A02735F00E0EA01 /* App */ = {
+		F11485442A02735F00E0EA01 /* Production */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F11485692A02736100E0EA01 /* Build configuration list for PBXNativeTarget "App" */;
+			buildConfigurationList = F11485692A02736100E0EA01 /* Build configuration list for PBXNativeTarget "Production" */;
 			buildPhases = (
 				F11485412A02735F00E0EA01 /* Sources */,
 				F11485422A02735F00E0EA01 /* Frameworks */,
@@ -146,17 +142,17 @@
 			dependencies = (
 				F1AC6C0E2A7F2FF90047C136 /* PBXTargetDependency */,
 			);
-			name = App;
+			name = Production;
 			packageProductDependencies = (
 				F11485B12A027BD000E0EA01 /* STRAYIT */,
 			);
 			productName = App;
-			productReference = F11485452A02735F00E0EA01 /* App.app */;
+			productReference = F11485452A02735F00E0EA01 /* Production.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F1AC6C012A7F2FF70047C136 /* WatchApp */ = {
+		F1AC6C012A7F2FF70047C136 /* WatchProduction */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F1AC6C102A7F2FF90047C136 /* Build configuration list for PBXNativeTarget "WatchApp" */;
+			buildConfigurationList = F1AC6C102A7F2FF90047C136 /* Build configuration list for PBXNativeTarget "WatchProduction" */;
 			buildPhases = (
 				F1AC6BFE2A7F2FF70047C136 /* Sources */,
 				F1AC6BFF2A7F2FF70047C136 /* Frameworks */,
@@ -166,7 +162,7 @@
 			);
 			dependencies = (
 			);
-			name = WatchApp;
+			name = WatchProduction;
 			productName = "WatchApp Watch App";
 			productReference = F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */;
 			productType = "com.apple.product-type.application";
@@ -191,7 +187,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F11485402A02735F00E0EA01 /* Build configuration list for PBXProject "App" */;
+			buildConfigurationList = F11485402A02735F00E0EA01 /* Build configuration list for PBXProject "Production" */;
 			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -205,8 +201,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F11485442A02735F00E0EA01 /* App */,
-				F1AC6C012A7F2FF70047C136 /* WatchApp */,
+				F11485442A02735F00E0EA01 /* Production */,
+				F1AC6C012A7F2FF70047C136 /* WatchProduction */,
 			);
 		};
 /* End PBXProject section */
@@ -217,7 +213,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11485502A02736100E0EA01 /* Preview Assets.xcassets in Resources */,
-				F1B0DF692A187D4F005498D7 /* Settings.bundle in Resources */,
 				F11485AB2A0274F900E0EA01 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,7 +221,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1D3E1152A7F32900096E962 /* Settings.bundle in Resources */,
 				F1D3E1162A7F32950096E962 /* Preview Assets.xcassets in Resources */,
 				F1D3E1142A7F328B0096E962 /* Assets.xcassets in Resources */,
 			);
@@ -239,7 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F11485AE2A02750F00E0EA01 /* AppMainView.swift in Sources */,
+				F11485AE2A02750F00E0EA01 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,7 +250,7 @@
 /* Begin PBXTargetDependency section */
 		F1AC6C0E2A7F2FF90047C136 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F1AC6C012A7F2FF70047C136 /* WatchApp */;
+			target = F1AC6C012A7F2FF70047C136 /* WatchProduction */;
 			targetProxy = F1AC6C0D2A7F2FF90047C136 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -539,7 +533,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F11485402A02735F00E0EA01 /* Build configuration list for PBXProject "App" */ = {
+		F11485402A02735F00E0EA01 /* Build configuration list for PBXProject "Production" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F11485672A02736100E0EA01 /* Debug */,
@@ -548,7 +542,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F11485692A02736100E0EA01 /* Build configuration list for PBXNativeTarget "App" */ = {
+		F11485692A02736100E0EA01 /* Build configuration list for PBXNativeTarget "Production" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F114856A2A02736100E0EA01 /* Debug */,
@@ -557,7 +551,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F1AC6C102A7F2FF90047C136 /* Build configuration list for PBXNativeTarget "WatchApp" */ = {
+		F1AC6C102A7F2FF90047C136 /* Build configuration list for PBXNativeTarget "WatchProduction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F1AC6C112A7F2FF90047C136 /* Debug */,

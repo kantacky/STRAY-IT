@@ -5,6 +5,6 @@
       location = "group:STRAY-IT">
    </FileRef>
    <FileRef
-      location = "group:App/App.xcodeproj">
+      location = "group:Production/Production.xcodeproj">
    </FileRef>
 </Workspace>

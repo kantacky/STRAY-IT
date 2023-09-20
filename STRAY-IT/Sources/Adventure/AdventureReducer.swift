@@ -1,13 +1,11 @@
 import _MapKit_SwiftUI
 import ComposableArchitecture
-import Dependency
+import LocationManager
 import SharedModel
 
 public struct AdventureReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
-    @Dependency(\.userDefaults)
-    private var userDefaults: UserDefaultsClient
 
     public init() {}
 
@@ -20,17 +18,14 @@ public struct AdventureReducer: Reducer {
         public var points: [CLLocationCoordinate2D]
 
         public init(
-            coordinate: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            degrees: CLLocationDirection = 0,
-            start: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            points: [CLLocationCoordinate2D] = []
+            start: CLLocationCoordinate2D,
+            goal: CLLocationCoordinate2D
         ) {
-            self.coordinate = coordinate
-            self.degrees = degrees
+            self.coordinate = .init(latitude: 0, longitude: 0)
+            self.degrees = 0
             self.start = start
             self.goal = goal
-            self.points = points
+            self.points = []
             var allPoints: [CLLocationCoordinate2D] = [self.start, self.goal]
             allPoints.append(contentsOf: self.points)
             self.position = .region(LocationLogic.getRegion(coordinates: allPoints))
@@ -49,16 +44,6 @@ public struct AdventureReducer: Reducer {
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.start) {
-                if coordinate != state.start {
-                    state.start = coordinate
-                }
-            }
-            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.goal) {
-                if coordinate != state.goal {
-                    state.goal = coordinate
-                }
-            }
             return .run { send in
                 await send(.onResetPosition)
             }

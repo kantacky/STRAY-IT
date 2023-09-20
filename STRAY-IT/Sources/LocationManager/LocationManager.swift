@@ -1,9 +1,7 @@
 import CoreLocation
 
 public class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    let locationManager: CLLocationManager
-//    @Published public private (set) var coordinate: CLLocationCoordinate2D?
-//    @Published public private (set) var degrees: CLLocationDirection?
+    private let locationManager: CLLocationManager
 
     private var coordinateChangeHandler: ((CLLocationCoordinate2D) -> Void)?
     public var coordinate: AsyncStream<CLLocationCoordinate2D> {

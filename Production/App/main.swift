@@ -1,0 +1,3 @@
+import STRAYIT
+
+AppRoot.main()

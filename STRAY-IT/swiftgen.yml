@@ -1,14 +1,5 @@
-input_dir: Sources/Resource
-output_dir: Sources/Resource
-
-strings:
-    inputs:
-        - ja.lproj/Localizable.strings
-    outputs:
-        templateName: structured-swift5
-        output: Strings.swift
-        params:
-            publicAccess: true
+input_dir: Sources/Resource/Resource
+output_dir: Sources/Resource/Generated/
 
 xcassets:
     inputs:
@@ -17,7 +8,15 @@ xcassets:
         - Symbols.xcassets
     outputs:
         templateName: swift5
-        output: Assets.swift
+        output: Asset.generated.swift
         params:
             publicAccess: true
-            bundle: PreviewBundleToken.bundle
+
+strings:
+    inputs:
+        - ja.lproj/Localizable.strings
+    outputs:
+        templateName: structured-swift5
+        output: String.generated.swift
+        params:
+            publicAccess: true

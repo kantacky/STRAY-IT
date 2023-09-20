@@ -1,13 +1,11 @@
 import _MapKit_SwiftUI
 import ComposableArchitecture
-import Dependency
+import LocationManager
 import SharedModel
 
 public struct CheatingReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
-    @Dependency(\.userDefaults)
-    private var userDefaults: UserDefaultsClient
 
     public init() {}
 
@@ -48,16 +46,6 @@ public struct CheatingReducer: Reducer {
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.start) {
-                if coordinate != state.start {
-                    state.start = coordinate
-                }
-            }
-            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.goal) {
-                if coordinate != state.goal {
-                    state.goal = coordinate
-                }
-            }
             return .run { send in
                 await send(.onResetPosition)
             }

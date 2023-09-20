@@ -1,13 +1,11 @@
 import ComposableArchitecture
 import CoreLocation
-import Dependency
+import LocationManager
 import SharedModel
 
 public struct DirectionReducer: Reducer {
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
-    @Dependency(\.userDefaults)
-    private var userDefaults: UserDefaultsClient
 
     public init() {}
 
@@ -46,11 +44,6 @@ public struct DirectionReducer: Reducer {
         case .onAppear:
             if let coordinate = locationManager.getCoordinate() {
                 state.coordinate = coordinate
-            }
-            if let coordinate: CLLocationCoordinate2D = try? userDefaults.customType(forKey: UserDefaultsKeys.goal) {
-                if coordinate != state.goal {
-                    state.goal = coordinate
-                }
             }
             if let degrees = locationManager.getHeading() {
                 state.degrees = degrees

@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import CoreLocation
+import Composed
 import Search
 import SharedModel
 import SwiftUI
@@ -7,37 +7,39 @@ import Tutorial
 
 public struct CoreView: View {
     public typealias Reducer = CoreReducer
-
     private let store: StoreOf<Reducer>
     @AppStorage("hasShownTutorial")
     private var hasShownTutorial: Bool = .init(false)
-    @AppStorage("goal")
-    private var goal: Data?
 
     public init() {
         self.store = Store(
-            initialState: Reducer.State()
-        ) {
-            Reducer()
-        }
+            initialState: Reducer.State(),
+            reducer: { Reducer() }
+        )
     }
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            VStack(spacing: 0) {
-                if self.goal == nil {
-                    SearchView(store: store.scope(state: \.search, action: Reducer.Action.search))
-                } else {
-                    ComposedTabView(store: store)
+            SwitchStore(store.scope(
+                state: \.status,
+                action: { $0 }
+            )) { state in
+                switch state {
+                case .search:
+                    CaseLet(/Reducer.State.Status.search, action: Reducer.Action.search) { store in
+                        SearchView(store: store)
+                    }
+
+                case .navigation:
+                    CaseLet(/Reducer.State.Status.navigation, action: Reducer.Action.navigation) { store in
+                        ComposedView(store: store)
+                    }
                 }
             }
             .overlay {
                 if !self.hasShownTutorial {
                     TutorialView()
                 }
-            }
-            .onAppear {
-                viewStore.send(.onAppear)
             }
             .alert(
                 item: viewStore.binding(
