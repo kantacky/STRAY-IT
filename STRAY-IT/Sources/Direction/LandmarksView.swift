@@ -41,8 +41,10 @@ public struct LandmarksView: View {
 
 #Preview {
     LandmarksView(store: Store(
-        initialState: LandmarksView.Reducer.State()
-    ) {
-        LandmarksView.Reducer()
-    })
+        initialState: LandmarksView.Reducer.State(
+            start: .init(latitude: 35.681042, longitude: 139.767214),
+            goal: .init(latitude: 35.683588, longitude: 139.750323)
+        ),
+        reducer: { LandmarksView.Reducer() }
+    ))
 }

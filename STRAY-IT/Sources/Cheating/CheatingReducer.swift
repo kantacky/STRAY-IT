@@ -16,7 +16,7 @@ public struct CheatingReducer: Reducer {
             start: CLLocationCoordinate2D,
             goal: CLLocationCoordinate2D
         ) {
-            self.coordinate = .init(latitude: 0, longitude: 0)
+            self.coordinate = start
             self.degrees = 0
             self.start = start
             self.goal = goal

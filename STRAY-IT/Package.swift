@@ -125,5 +125,12 @@ let package = Package(
                 "SharedModel"
             ]
         ),
+        .testTarget(
+            name: "DirectionTests",
+            dependencies: [
+                "Direction",
+                "SharedModel"
+            ]
+        ),
     ]
 )
