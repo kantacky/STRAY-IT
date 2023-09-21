@@ -5,7 +5,6 @@ import SwiftUI
 
 public struct AdventureView: View {
     public typealias Reducer = AdventureReducer
-
     private let store: StoreOf<Reducer>
 
     public init(store: StoreOf<Reducer>) {
@@ -37,9 +36,6 @@ public struct AdventureView: View {
             }
             .mapControlVisibility(.hidden)
             .background(Asset.Colors.background.swiftUIColor)
-            .onAppear {
-                viewStore.send(.onAppear)
-            }
         })
     }
 }
@@ -47,10 +43,9 @@ public struct AdventureView: View {
 #Preview {
     AdventureView(store: Store(
         initialState: AdventureView.Reducer.State(
-            start: CLLocationCoordinate2DMake(35.683588, 139.750323),
-            goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
-        )
-    ) {
-        AdventureView.Reducer()
-    })
+            start: .init(latitude: 35.681042, longitude: 139.767214),
+            goal: .init(latitude: 35.683588, longitude: 139.750323)
+        ),
+        reducer: { AdventureView.Reducer() }
+    ))
 }

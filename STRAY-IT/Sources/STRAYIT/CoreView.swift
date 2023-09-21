@@ -42,13 +42,7 @@ public struct CoreView: View {
                 }
             }
             .alert(
-                item: viewStore.binding(
-                    get: { $0.alert },
-                    send: .alertDismissed
-                ),
-                content: {
-                    Alert(title: Text($0.title), message: Text($0.message))
-                }
+                store: self.store.scope(state: \.$alert, action: { .alert($0) })
             )
         })
     }

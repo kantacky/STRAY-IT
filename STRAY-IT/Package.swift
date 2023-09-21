@@ -35,11 +35,6 @@ let package = Package(
             ],
             plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
         ),
-        .testTarget(
-            name: "STRAYITTests",
-            dependencies: ["STRAYIT"],
-            plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
-        ),
         .target(
             name: "Adventure",
             dependencies: [
@@ -111,6 +106,24 @@ let package = Package(
             name: "Tutorial",
             dependencies: ["Resource"],
             plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
-        )
+        ),
+        .testTarget(
+            name: "STRAYITTests",
+            dependencies: ["STRAYIT"]
+        ),
+        .testTarget(
+            name: "AdventureTests",
+            dependencies: [
+                "Adventure",
+                "SharedModel"
+            ]
+        ),
+        .testTarget(
+            name: "CheatingTests",
+            dependencies: [
+                "Cheating",
+                "SharedModel"
+            ]
+        ),
     ]
 )
