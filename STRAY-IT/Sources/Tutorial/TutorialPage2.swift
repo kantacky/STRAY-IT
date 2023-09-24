@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 public struct TutorialPage2: View {
@@ -16,9 +15,9 @@ public struct TutorialPage2: View {
                 .padding()
                 .padding(.horizontal, 16.0)
                 .font(.system(.title, design: .monospaced, weight: .bold))
-                .foregroundColor(Asset.Colors.background.swiftUIColor)
+                .foregroundStyle(Color(.background))
             })
-            .background(Asset.Colors.accent.swiftUIColor)
+            .background(Color(.accent))
             .cornerRadius(64.0)
         }
     }

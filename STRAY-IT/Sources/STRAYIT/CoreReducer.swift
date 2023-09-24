@@ -25,8 +25,6 @@ public struct CoreReducer: Reducer {
     public enum Action: Equatable {
         case alert(PresentationAction<Alert>)
         case setAlert(String, String)
-        case alertDismissed
-        case onResetStartAndGoal
         case search(SearchReducer.Action)
         case navigation(ComposedReducer.Action)
 
@@ -66,9 +64,10 @@ public struct CoreReducer: Reducer {
                 }
                 return .none
 
-            case .alertDismissed:
-                state.alert = nil
-                return .none
+            case let .search(.querySearchResponse(.failure(error))):
+                return .run { send in
+                    await send(.setAlert("Search Error", error.localizedDescription))
+                }
 
             case let .search(.onSelectResult(item)):
                 if let start: CLLocationCoordinate2D = self.locationManager.getCoordinate() {
@@ -76,6 +75,7 @@ public struct CoreReducer: Reducer {
                     state.status = .navigation(.init(start: start, goal: goal))
                     return .none
                 }
+                state.status = .search(.init())
                 return .run { send in
                     await send(.setAlert("Failed to get current location", ""))
                 }

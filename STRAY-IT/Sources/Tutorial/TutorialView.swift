@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 public struct TutorialView: View {
@@ -22,7 +21,7 @@ public struct TutorialView: View {
 
             SliderIndicator(page: $page)
         }
-        .background(Asset.Colors.background.swiftUIColor)
+        .background(Color(.background))
     }
 }
 

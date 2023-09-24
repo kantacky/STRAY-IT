@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 public struct TutorialPage0: View {

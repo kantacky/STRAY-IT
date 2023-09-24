@@ -39,30 +39,32 @@ public struct DirectionReducer: Reducer {
         case onChangeDegrees(CLLocationDirection)
     }
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .calculate:
-            state.distanceToGoal = LocationLogic.getDistance(
-                originLC: state.coordinate,
-                targetLC: state.goal
-            )
-            state.directionToGoal = LocationLogic.getDirectionDelta(
-                state.coordinate,
-                state.goal,
-                heading: state.degrees
-            )
-            return .none
-
-        case let .onChangeCoordinate(coordinate):
-            state.coordinate = coordinate
-            return .run { send in
-                await send(.calculate)
-            }
-
-        case let .onChangeDegrees(degrees):
-            state.degrees = degrees
-            return .run { send in
-                await send(.calculate)
+    public var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .calculate:
+                state.distanceToGoal = LocationLogic.getDistance(
+                    originLC: state.coordinate,
+                    targetLC: state.goal
+                )
+                state.directionToGoal = LocationLogic.getDirectionDelta(
+                    state.coordinate,
+                    state.goal,
+                    heading: state.degrees
+                )
+                return .none
+                
+            case let .onChangeCoordinate(coordinate):
+                state.coordinate = coordinate
+                return .run { send in
+                    await send(.calculate)
+                }
+                
+            case let .onChangeDegrees(degrees):
+                state.degrees = degrees
+                return .run { send in
+                    await send(.calculate)
+                }
             }
         }
     }

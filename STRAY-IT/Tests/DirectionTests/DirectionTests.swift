@@ -46,7 +46,6 @@ public final class DirectionTests: XCTestCase {
             $0.degrees = self.direction
         }
 
-
         await store.receive(.calculate) {
             $0.distanceToGoal = LocationLogic.getDistance(
                 originLC: self.point,

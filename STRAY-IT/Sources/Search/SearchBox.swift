@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 public struct SearchBox: View {
@@ -16,21 +15,21 @@ public struct SearchBox: View {
     public var body: some View {
         ZStack {
             Rectangle()
-                .foregroundColor(Asset.Colors.accent.swiftUIColor)
+                .foregroundStyle(Color(.accent))
             HStack {
                 Image(systemName: "magnifyingglass")
                     .bold()
                 TextField(text: $text) {
                     Text("Search")
-                        .foregroundColor(Asset.Colors.background.swiftUIColor)
+                        .foregroundStyle(Color(.background))
                 }
                 .onChange(of: text) {
                     searchQuery = text
                 }
                 .focused($isFocused)
-                .accentColor(Asset.Colors.background.swiftUIColor)
+                .accentColor(Color(.background))
             }
-            .foregroundColor(Asset.Colors.background.swiftUIColor)
+            .foregroundStyle(Color(.background))
             .padding(.leading, 12)
         }
         .frame(height: 40)

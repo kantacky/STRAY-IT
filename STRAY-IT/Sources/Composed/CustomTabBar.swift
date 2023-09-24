@@ -1,4 +1,3 @@
-import Resource
 import SharedModel
 import SwiftUI
 
@@ -20,7 +19,7 @@ public struct CustomTabBar: View {
             Spacer()
         }
         .padding(.top, 4.0)
-        .background(Asset.Colors.background.swiftUIColor)
+        .background(Color(.background))
     }
 }
 

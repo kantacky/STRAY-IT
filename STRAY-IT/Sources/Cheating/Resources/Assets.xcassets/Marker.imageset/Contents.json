@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "SearchSmallLight.svg",
+      "filename" : "MarkerLight.svg",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "SearchSmallDark.svg",
+      "filename" : "MarkerDark.svg",
       "idiom" : "universal"
     }
   ],

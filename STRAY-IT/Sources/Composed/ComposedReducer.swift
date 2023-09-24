@@ -7,7 +7,6 @@ import Direction
 import Foundation
 import LocationManager
 import MapKit
-import Search
 import SharedModel
 
 public struct ComposedReducer: Reducer {
@@ -31,7 +30,7 @@ public struct ComposedReducer: Reducer {
             self.tabSelection = .direction
             self.start = start
             self.goal = goal
-            self.direction = .init(goal: goal)
+            self.direction = .init(start: start, goal: goal)
             self.adventure = .init(start: start, goal: goal)
             self.cheating = .init(start: start, goal: goal)
         }

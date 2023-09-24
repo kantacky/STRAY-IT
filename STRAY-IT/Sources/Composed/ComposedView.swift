@@ -47,7 +47,10 @@ public struct ComposedView: View {
 
                 VStack {
                     HStack {
-                        SearchButton(store: store)
+                        SearchButton()
+                            .onTapGesture {
+                                viewStore.send(.onSearchButtonTapped)
+                            }
                             .padding()
                         Spacer()
                     }

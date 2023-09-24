@@ -1,6 +1,5 @@
 import ComposableArchitecture
 import CoreLocation
-import Resource
 import SwiftUI
 
 public struct DirectionView: View {
@@ -14,8 +13,8 @@ public struct DirectionView: View {
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             ZStack {
-                Asset.Assets.directionViewDecoration.swiftUIImage
-                Asset.Assets.direction.swiftUIImage
+                Image(.directionViewDecoration)
+                Image(.direction)
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -24,12 +23,12 @@ public struct DirectionView: View {
                 LandmarksView(store: self.store)
 
                 Text("\(Int(viewStore.state.distanceToGoal)) m")
-                    .foregroundColor(Asset.Colors.accentFont.swiftUIColor)
+                    .foregroundStyle(Color(.accentFont))
                     .font(.title2)
                     .fontWeight(.semibold)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Asset.Colors.background.swiftUIColor)
+            .background(Color(.background))
             .ignoresSafeArea(edges: [.top, .horizontal])
         })
     }

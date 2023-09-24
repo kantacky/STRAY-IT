@@ -1,6 +1,5 @@
 import _MapKit_SwiftUI
 import ComposableArchitecture
-import Resource
 import SwiftUI
 
 public struct CheatingView: View {
@@ -21,21 +20,21 @@ public struct CheatingView: View {
                     .mapOverlayLevel(level: .aboveLabels)
 
                 Annotation("Start", coordinate: viewStore.start, anchor: .bottom) {
-                    Asset.Assets.marker.swiftUIImage
+                    Image(.marker)
                 }
                 .mapOverlayLevel(level: .aboveRoads)
 
                 Annotation("Goal", coordinate: viewStore.goal, anchor: .bottom) {
-                    Asset.Assets.marker.swiftUIImage
+                    Image(.marker)
                 }
                 .mapOverlayLevel(level: .aboveRoads)
 
                 MapPolyline(coordinates: viewStore.points)
-                    .stroke(Asset.Colors.route.swiftUIColor, lineWidth: 8)
+                    .stroke(Color(.route), lineWidth: 8)
                     .mapOverlayLevel(level: .aboveRoads)
             }
             .mapControlVisibility(.visible)
-            .background(Asset.Colors.background.swiftUIColor)
+            .background(Color(.background))
         })
     }
 }
