@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 public struct SliderIndicator: View {
@@ -20,7 +19,7 @@ public struct SliderIndicator: View {
                 }
                 .padding()
                 .font(.caption)
-                .foregroundColor(Asset.Colors.accent.swiftUIColor)
+                .foregroundStyle(Color(.accent))
             }
         }
         .padding()

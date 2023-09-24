@@ -18,56 +18,54 @@ public struct DirectionReducer: Reducer {
         public var landmarks: [Landmark]
 
         public init(
-            coordinate: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            degrees: CLLocationDirection = 0,
-            goal: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0),
-            landmarks: [Landmark] = []
+            start: CLLocationCoordinate2D,
+            goal: CLLocationCoordinate2D
         ) {
-            self.coordinate = coordinate
-            self.degrees = degrees
+            self.coordinate = start
+            self.degrees = 0
             self.goal = goal
-            self.distanceToGoal = 0
+            self.distanceToGoal = LocationLogic.getDistance(
+                originLC: start,
+                targetLC: goal
+            )
             self.directionToGoal = 0
-            self.landmarks = landmarks
+            self.landmarks = []
         }
     }
 
     public enum Action: Equatable {
-        case onAppear
+        case calculate
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
-        case calculate
     }
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .onAppear:
-            if let coordinate = locationManager.getCoordinate() {
+    public var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .calculate:
+                state.distanceToGoal = LocationLogic.getDistance(
+                    originLC: state.coordinate,
+                    targetLC: state.goal
+                )
+                state.directionToGoal = LocationLogic.getDirectionDelta(
+                    state.coordinate,
+                    state.goal,
+                    heading: state.degrees
+                )
+                return .none
+                
+            case let .onChangeCoordinate(coordinate):
                 state.coordinate = coordinate
-            }
-            if let degrees = locationManager.getHeading() {
+                return .run { send in
+                    await send(.calculate)
+                }
+                
+            case let .onChangeDegrees(degrees):
                 state.degrees = degrees
+                return .run { send in
+                    await send(.calculate)
+                }
             }
-            return .run { send in
-                await send(.calculate)
-            }
-
-        case let .onChangeCoordinate(coordinate):
-            state.coordinate = coordinate
-            return .run { send in
-                await send(.calculate)
-            }
-
-        case let .onChangeDegrees(degrees):
-            state.degrees = degrees
-            return .run { send in
-                await send(.calculate)
-            }
-
-        case .calculate:
-            state.distanceToGoal = LocationLogic.getDistance(originLC: state.coordinate, targetLC: state.goal)
-            state.directionToGoal = LocationLogic.getDirectionDelta(state.coordinate, state.goal, heading: state.degrees)
-            return .none
         }
     }
 }

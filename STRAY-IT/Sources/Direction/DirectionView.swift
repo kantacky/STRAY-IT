@@ -1,11 +1,9 @@
 import ComposableArchitecture
 import CoreLocation
-import Resource
 import SwiftUI
 
 public struct DirectionView: View {
     public typealias Reducer = DirectionReducer
-
     private let store: StoreOf<Reducer>
 
     public init(store: StoreOf<Reducer>) {
@@ -15,8 +13,8 @@ public struct DirectionView: View {
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             ZStack {
-                Asset.Assets.directionViewDecoration.swiftUIImage
-                Asset.Assets.direction.swiftUIImage
+                Image(.decoration)
+                Image(.direction)
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -25,16 +23,13 @@ public struct DirectionView: View {
                 LandmarksView(store: self.store)
 
                 Text("\(Int(viewStore.state.distanceToGoal)) m")
-                    .foregroundColor(Asset.Colors.accentFont.swiftUIColor)
+                    .foregroundStyle(Color(.accentFont))
                     .font(.title2)
                     .fontWeight(.semibold)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Asset.Colors.background.swiftUIColor)
+            .background(Color(.background))
             .ignoresSafeArea(edges: [.top, .horizontal])
-            .onAppear {
-                viewStore.send(.onAppear)
-            }
         })
     }
 }
@@ -42,11 +37,9 @@ public struct DirectionView: View {
 #Preview {
     DirectionView(store: Store(
         initialState: DirectionView.Reducer.State(
-            coordinate: CLLocationCoordinate2DMake(35.683588, 139.750323),
-            degrees: 0,
-            goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
-        )
-    ) {
-        DirectionView.Reducer()
-    })
+            start: .init(latitude: 35.681042, longitude: 139.767214),
+            goal: .init(latitude: 35.683588, longitude: 139.750323)
+        ),
+        reducer: { DirectionView.Reducer() }
+    ))
 }

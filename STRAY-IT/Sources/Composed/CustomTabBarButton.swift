@@ -1,4 +1,3 @@
-import Resource
 import SharedModel
 import SwiftUI
 
@@ -18,9 +17,9 @@ public struct CustomTabBarButton: View {
             VStack {
                 VStack {
                     if selection == tab {
-                        tab.tabButtonIconFilledSymbol.swiftUIImage
+                        tab.tabButtonIconFilledSymbol
                     } else {
-                        tab.tabButtonIconSymbol.swiftUIImage
+                        tab.tabButtonIconSymbol
                     }
                 }
                 .font(.system(size: 32.0))
@@ -29,7 +28,7 @@ public struct CustomTabBarButton: View {
                 Text(tab.rawValue.uppercased())
                     .font(.system(size: 12.0, design: .monospaced))
             }
-            .foregroundColor(Asset.Colors.accent.swiftUIColor)
+            .foregroundStyle(Color(.accent))
         })
     }
 }

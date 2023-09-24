@@ -1,5 +1,4 @@
 import ComposableArchitecture
-import Resource
 import SwiftUI
 
 public struct SearchView: View {
@@ -26,21 +25,17 @@ public struct SearchView: View {
 
                 Spacer()
             }
-            .onAppear {
-                viewStore.send(.onAppear)
-            }
             .onDisappear {
                 viewStore.send(.onDisappear)
             }
-            .background(Asset.Colors.background.swiftUIColor)
+            .background(Color(.background))
         })
     }
 }
 
 #Preview {
     SearchView(store: Store(
-        initialState: SearchView.Reducer.State()
-    ) {
-        SearchView.Reducer()
-    })
+        initialState: SearchView.Reducer.State(),
+        reducer: { SearchView.Reducer() }
+    ))
 }

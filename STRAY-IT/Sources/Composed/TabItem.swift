@@ -1,31 +1,31 @@
-import Resource
+import SwiftUI
 
 public enum TabItem: String, CaseIterable {
     case direction, adventure, cheating
 
-    public var tabButtonIconFilledSymbol: SymbolAsset {
+    public var tabButtonIconFilledSymbol: Image {
         switch self {
         case .direction:
-            return Asset.Symbols.starFill
+            return Image(.starFill)
 
         case .adventure:
-            return Asset.Symbols.telescopeFill
+            return Image(.telescopeFill)
 
         case .cheating:
-            return Asset.Symbols.satelliteFill
+            return Image(.satelliteFill)
         }
     }
 
-    public var tabButtonIconSymbol: SymbolAsset {
+    public var tabButtonIconSymbol: Image {
         switch self {
         case .direction:
-            return Asset.Symbols.star
+            return Image(.star)
 
         case .adventure:
-            return Asset.Symbols.telescope
+            return Image(.telescope)
 
         case .cheating:
-            return Asset.Symbols.satellite
+            return Image(.satellite)
         }
     }
 }

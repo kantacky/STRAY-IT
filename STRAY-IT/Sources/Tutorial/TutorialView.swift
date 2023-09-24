@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 public struct TutorialView: View {
@@ -18,11 +17,13 @@ public struct TutorialView: View {
                 TutorialPage2()
                     .tag(2)
             }
+            #if os(iOS)
             .tabViewStyle(.page(indexDisplayMode: .never))
+            #endif
 
             SliderIndicator(page: $page)
         }
-        .background(Asset.Colors.background.swiftUIColor)
+        .background(Color(.background))
     }
 }
 

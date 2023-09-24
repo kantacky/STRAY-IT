@@ -13,7 +13,7 @@ public struct CoreReducer: Reducer {
             case navigation(ComposedReducer.State)
         }
 
-        public var alert: Alert?
+        @PresentationState var alert: AlertState<Action.Alert>?
         public var status: Status
 
         public init() {
@@ -23,11 +23,14 @@ public struct CoreReducer: Reducer {
 
     // MARK: - Action
     public enum Action: Equatable {
+        case alert(PresentationAction<Alert>)
         case setAlert(String, String)
-        case alertDismissed
-        case onResetStartAndGoal
         case search(SearchReducer.Action)
         case navigation(ComposedReducer.Action)
+
+        public enum Alert: Equatable {
+            case incrementButtonTapped
+        }
     }
 
     // MARK: - Dependency
@@ -50,12 +53,21 @@ public struct CoreReducer: Reducer {
         Reduce { state, action in
             switch action {
             case let .setAlert(title, message):
-                state.alert = .init(title: title, message: message)
+                state.alert = AlertState {
+                    TextState(title)
+                } actions: {
+                    ButtonState(role: .cancel) {
+                        TextState("OK")
+                    }
+                } message: {
+                    TextState(message)
+                }
                 return .none
 
-            case .alertDismissed:
-                state.alert = nil
-                return .none
+            case let .search(.querySearchResponse(.failure(error))):
+                return .run { send in
+                    await send(.setAlert("Search Error", error.localizedDescription))
+                }
 
             case let .search(.onSelectResult(item)):
                 if let start: CLLocationCoordinate2D = self.locationManager.getCoordinate() {
@@ -63,6 +75,7 @@ public struct CoreReducer: Reducer {
                     state.status = .navigation(.init(start: start, goal: goal))
                     return .none
                 }
+                state.status = .search(.init())
                 return .run { send in
                     await send(.setAlert("Failed to get current location", ""))
                 }
