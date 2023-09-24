@@ -74,6 +74,8 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
 
     public func stopUpdatingLocation() {
         self.locationManager.stopUpdatingLocation()
+#if os(iOS)
         self.locationManager.stopUpdatingHeading()
+#endif
     }
 }

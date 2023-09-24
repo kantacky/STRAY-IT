@@ -5,7 +5,10 @@ import PackageDescription
 let package = Package(
     name: "STRAY-IT",
     defaultLocalization: "en",
-    platforms: [.iOS(.v17)],
+    platforms: [
+        .iOS(.v17),
+        .macOS(.v14)
+    ],
     products: [
         .library(name: "STRAYIT", targets: ["STRAYIT"]),
         .library(name: "Adventure", targets: ["Adventure"]),

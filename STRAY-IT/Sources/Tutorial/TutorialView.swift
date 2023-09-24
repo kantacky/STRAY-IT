@@ -17,7 +17,9 @@ public struct TutorialView: View {
                 TutorialPage2()
                     .tag(2)
             }
+            #if os(iOS)
             .tabViewStyle(.page(indexDisplayMode: .never))
+            #endif
 
             SliderIndicator(page: $page)
         }
