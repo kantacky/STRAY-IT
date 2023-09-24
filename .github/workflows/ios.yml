@@ -19,7 +19,7 @@ jobs:
     - name: Test
       env:
         platform: ${{ 'iOS Simulator' }}
-        device: ${{ 'iPhone 15 Pro Max Simulator (17.0)' }}
+        device: ${{ 'iPhone 14 Pro Max' }}
       run: |
         xcodebuild test -workspace STRAY-IT.xcworkspace -scheme DirectionTests -destination "platform=$platform,name=$device"
         xcodebuild test -workspace STRAY-IT.xcworkspace -scheme AdventureTests -destination "platform=$platform,name=$device"
