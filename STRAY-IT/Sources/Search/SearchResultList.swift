@@ -25,7 +25,7 @@ public struct SearchResultList: View {
                         .multilineTextAlignment(.leading)
                         Spacer()
                     }
-                    .foregroundColor(Color(.accent))
+                    .foregroundStyle(Color(.accent))
                 })
                 .padding(.top, 8.0)
                 .padding(.bottom, 2.0)

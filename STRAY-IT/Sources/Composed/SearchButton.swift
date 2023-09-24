@@ -1,6 +1,8 @@
 import SwiftUI
 
 public struct SearchButton: View {
+    public init() {}
+
     public var body: some View {
         Image(systemName: "magnifyingglass")
             .font(.title3)

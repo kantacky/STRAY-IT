@@ -19,7 +19,7 @@ public struct SliderIndicator: View {
                 }
                 .padding()
                 .font(.caption)
-                .foregroundColor(Color(.accent))
+                .foregroundStyle(Color(.accent))
             }
         }
         .padding()

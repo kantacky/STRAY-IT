@@ -1,0 +1,28 @@
+name: iOS
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_15.0.app
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Test
+      env:
+        platform: ${{ 'iOS Simulator' }}
+        device: ${{ 'iPhone 15 Pro Max Simulator (17.0)' }}
+      run: |
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme DirectionTests -destination "platform=$platform,name=$device"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme AdventureTests -destination "platform=$platform,name=$device"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme CheatingTests -destination "platform=$platform,name=$device"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme STRAYITTests -destination "platform=$platform,name=$device"
+

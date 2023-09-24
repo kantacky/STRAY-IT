@@ -13,31 +13,26 @@ public struct SearchBox: View {
     }
 
     public var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundStyle(Color(.accent))
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .bold()
-                TextField(text: $text) {
-                    Text("Search")
-                        .foregroundStyle(Color(.background))
-                }
-                .onChange(of: text) {
-                    searchQuery = text
-                }
-                .focused($isFocused)
-                .accentColor(Color(.background))
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .bold()
+            TextField(text: $text) {
+                Text("Search")
+                    .foregroundStyle(Color(.background))
             }
-            .foregroundStyle(Color(.background))
-            .padding(.leading, 12)
+            .onChange(of: text) {
+                searchQuery = text
+            }
+            .focused($isFocused)
+            .accentColor(Color(.background))
         }
+        .padding(12)
+        .foregroundStyle(Color(.background))
+        .background(Color(.accent))
         .frame(height: 40)
-        .cornerRadius(24)
+        .clipShape(Capsule())
         .onAppear {
-            if self.hasShownTutorial {
-                self.isFocused = true
-            }
+            self.isFocused = true
         }
     }
 }

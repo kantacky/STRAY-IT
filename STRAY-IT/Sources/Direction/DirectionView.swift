@@ -13,7 +13,7 @@ public struct DirectionView: View {
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }, content: { viewStore in
             ZStack {
-                Image(.directionViewDecoration)
+                Image(.decoration)
                 Image(.direction)
                     .resizable()
                     .scaledToFit()
