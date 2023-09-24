@@ -12,18 +12,16 @@ env:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
     - uses: actions/checkout@v3
-    - name: Show Xcode list
-      run: ls /Applications | grep 'Xcode'
-    # - name: Test
-    #   env:
-    #     platform: ${{ 'iOS Simulator' }}
-    #     device: ${{ 'iPhone 15 Pro Max Simulator (17.0)' }}
-    #   run: |
-    #     xcodebuild test -workspace STRAY-IT.xcworkspace -scheme DirectionTests -destination "platform=$platform,name=$device"
-    #     xcodebuild test -workspace STRAY-IT.xcworkspace -scheme AdventureTests -destination "platform=$platform,name=$device"
-    #     xcodebuild test -workspace STRAY-IT.xcworkspace -scheme CheatingTests -destination "platform=$platform,name=$device"
-    #     xcodebuild test -workspace STRAY-IT.xcworkspace -scheme STRAYITTests -destination "platform=$platform,name=$device"
+    - name: Test
+      env:
+        platform: ${{ 'iOS Simulator' }}
+        device: ${{ 'iPhone 15 Pro Max Simulator (17.0)' }}
+      run: |
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme DirectionTests -destination "platform=$platform,name=$device"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme AdventureTests -destination "platform=$platform,name=$device"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme CheatingTests -destination "platform=$platform,name=$device"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme STRAYITTests -destination "platform=$platform,name=$device"
