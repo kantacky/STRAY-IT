@@ -20,8 +20,9 @@ jobs:
       env:
         platform: ${{ 'iOS Simulator' }}
         device: ${{ 'iPhone 14 Pro Max' }}
+        os: ${{ '17.0' }}
       run: |
-        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme DirectionTests -destination "platform=$platform,name=$device"
-        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme AdventureTests -destination "platform=$platform,name=$device"
-        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme CheatingTests -destination "platform=$platform,name=$device"
-        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme STRAYITTests -destination "platform=$platform,name=$device"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme DirectionTests -destination "platform=$platform,name=$device,OS=$os"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme AdventureTests -destination "platform=$platform,name=$device,OS=$os"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme CheatingTests -destination "platform=$platform,name=$device,OS=$os"
+        xcodebuild test -workspace STRAY-IT.xcworkspace -scheme STRAYITTests -destination "platform=$platform,name=$device,OS=$os"
