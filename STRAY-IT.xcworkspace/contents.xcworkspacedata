@@ -7,4 +7,7 @@
    <FileRef
       location = "group:Production/Production.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:In-House/In-House.xcodeproj">
+   </FileRef>
 </Workspace>

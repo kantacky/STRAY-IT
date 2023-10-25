@@ -1,16 +1,16 @@
 import _MapKit_SwiftUI
 import ComposableArchitecture
-import SharedModel
+import Models
 
 public struct CheatingReducer: Reducer {
     // MARK: - State
     public struct State: Equatable {
-        public var position: MapCameraPosition
-        public var coordinate: CLLocationCoordinate2D
-        public var degrees: CLLocationDirection
-        public var start: CLLocationCoordinate2D
-        public var goal: CLLocationCoordinate2D
-        public var points: [CLLocationCoordinate2D]
+        var position: MapCameraPosition
+        var coordinate: CLLocationCoordinate2D
+        var degrees: CLLocationDirection
+        var start: CLLocationCoordinate2D
+        var goal: CLLocationCoordinate2D
+        var points: [CLLocationCoordinate2D]
 
         public init(
             start: CLLocationCoordinate2D,

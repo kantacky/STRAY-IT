@@ -1,13 +1,13 @@
 import ComposableArchitecture
 import MapKit
-import SharedModel
+import Models
 
 public struct SearchReducer: Reducer {
     // MARK: - State
     public struct State: Equatable {
-        public var searchQuery: String
-        public var querySearchResults: [MKMapItem]
-        public var searchStatus: SearchStatus?
+        var searchQuery: String
+        var querySearchResults: [MKMapItem]
+        var searchStatus: SearchStatus?
 
         public init() {
             self.searchQuery = ""
@@ -85,12 +85,14 @@ public struct SearchReducer: Reducer {
                 return .none
 
             case let .querySearchResponse(.failure(error)):
+#if DEBUG
                 print(error.localizedDescription)
+#endif
                 state.querySearchResults = []
                 state.searchStatus = nil
                 return .none
 
-            case let .onSelectResult(result):
+            case .onSelectResult(_):
                 return .none
             }
         }

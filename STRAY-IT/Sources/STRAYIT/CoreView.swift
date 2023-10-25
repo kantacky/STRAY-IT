@@ -1,25 +1,26 @@
 import ComposableArchitecture
-import Composed
+import Navigation
 import Search
-import SharedModel
+import Models
 import SwiftUI
 import Tutorial
 
-public struct CoreView: View {
-    public typealias Reducer = CoreReducer
+struct CoreView: View {
+    typealias Reducer = CoreReducer
     private let store: StoreOf<Reducer>
+    @StateObject private var viewStore: ViewStoreOf<Reducer>
     @AppStorage("hasShownTutorial")
-    private var hasShownTutorial: Bool = .init(false)
+    private var hasShownTutorial: Bool = .init(true)
 
-    public init() {
-        self.store = Store(
-            initialState: Reducer.State(),
-            reducer: { Reducer() }
-        )
+    init(store: StoreOf<Reducer>) {
+        self.store = store
+        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
-    public var body: some View {
-        WithViewStore(self.store, observe: { $0 }, content: { viewStore in
+    var body: some View {
+        if !self.hasShownTutorial {
+            TutorialView()
+        } else {
             SwitchStore(store.scope(
                 state: \.status,
                 action: { $0 }
@@ -36,18 +37,14 @@ public struct CoreView: View {
                     }
                 }
             }
-            .overlay {
-                if !self.hasShownTutorial {
-                    TutorialView()
-                }
-            }
-            .alert(
-                store: self.store.scope(state: \.$alert, action: { .alert($0) })
-            )
-        })
+            .onAppear { viewStore.send(.onAppear) }
+            .alert(store: self.store.scope(state: \.$alert, action: { .alert($0) }))
+        }
     }
 }
 
+#if DEBUG
 #Preview {
-    CoreView()
+    CoreView(store: Store(initialState: CoreView.Reducer.State(), reducer: { CoreView.Reducer() }))
 }
+#endif

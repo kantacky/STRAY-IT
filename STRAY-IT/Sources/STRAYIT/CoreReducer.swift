@@ -1,46 +1,45 @@
 import ComposableArchitecture
-import Composed
+import Navigation
 import CoreLocation
 import LocationManager
 import Search
-import SharedModel
+import Models
 
-public struct CoreReducer: Reducer {
+struct CoreReducer: Reducer {
     // MARK: - State
-    public struct State: Equatable {
-        public enum Status: Equatable {
+    struct State: Equatable {
+        enum Status: Equatable {
             case search(SearchReducer.State)
             case navigation(ComposedReducer.State)
         }
 
-        @PresentationState var alert: AlertState<Action.Alert>?
-        public var status: Status
+        @PresentationState var alert: AlertState<AlertAction>?
+        var status: Status
 
-        public init() {
+        init() {
             self.status = .search(.init())
         }
     }
 
     // MARK: - Action
-    public enum Action: Equatable {
-        case alert(PresentationAction<Alert>)
-        case setAlert(String, String)
+    enum Action: Equatable {
+        case onAppear
+        case alert(PresentationAction<AlertAction>)
+        case setAlert(String)
         case search(SearchReducer.Action)
         case navigation(ComposedReducer.Action)
-
-        public enum Alert: Equatable {
-            case incrementButtonTapped
-        }
     }
+
+    enum AlertAction: Equatable {}
 
     // MARK: - Dependency
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
 
-    public init() {}
+    init() {}
 
     // MARK: - Reducer
-    public var body: some Reducer<State, Action> {
+    var body: some Reducer<State, Action> {
         Scope(state: \.status, action: .self) {
             Scope(state: /State.Status.search, action: /Action.search) {
                 SearchReducer()
@@ -52,21 +51,26 @@ public struct CoreReducer: Reducer {
 
         Reduce { state, action in
             switch action {
-            case let .setAlert(title, message):
+            case .onAppear:
+                if self.locationManager.requestWhenInUseAuthorization() {
+                    return .none
+                } else if self.locationManager.isValidAuthoriztionStatus() {
+                    return .none
+                }
+
+                return .run { send in
+                    await send(.setAlert("Allow us to use your location service"))
+                }
+
+            case let .setAlert(message):
                 state.alert = AlertState {
-                    TextState(title)
-                } actions: {
-                    ButtonState(role: .cancel) {
-                        TextState("OK")
-                    }
-                } message: {
                     TextState(message)
                 }
                 return .none
 
             case let .search(.querySearchResponse(.failure(error))):
                 return .run { send in
-                    await send(.setAlert("Search Error", error.localizedDescription))
+                    await send(.setAlert(error.localizedDescription))
                 }
 
             case let .search(.onSelectResult(item)):
@@ -77,7 +81,7 @@ public struct CoreReducer: Reducer {
                 }
                 state.status = .search(.init())
                 return .run { send in
-                    await send(.setAlert("Failed to get current location", ""))
+                    await send(.setAlert("Failed to get current location"))
                 }
 
             case .navigation(.onSearchButtonTapped):
@@ -88,5 +92,6 @@ public struct CoreReducer: Reducer {
                 return .none
             }
         }
+        .ifLet(\.$alert, action: /Action.alert)
     }
 }

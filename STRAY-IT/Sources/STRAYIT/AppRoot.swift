@@ -1,11 +1,17 @@
+import ComposableArchitecture
 import SwiftUI
 
 public struct AppRoot: App {
-    public init() {}
+    private typealias Reducer = CoreReducer
+    private let store: StoreOf<Reducer>
+
+    public init() {
+        self.store = Store(initialState: Reducer.State(), reducer: { Reducer() })
+    }
 
     public var body: some Scene {
         WindowGroup {
-            CoreView()
+            CoreView(store: self.store)
         }
     }
 }

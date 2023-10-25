@@ -9,9 +9,11 @@ let package = Package(
     products: [
         .library(name: "STRAYIT", targets: ["STRAYIT"]),
         .library(name: "Adventure", targets: ["Adventure"]),
+        .library(name: "Assets", targets: ["Assets"]),
         .library(name: "Cheating", targets: ["Cheating"]),
-        .library(name: "Composed", targets: ["Composed"]),
         .library(name: "Direction", targets: ["Direction"]),
+        .library(name: "Models", targets: ["Models"]),
+        .library(name: "Navigation", targets: ["Navigation"]),
         .library(name: "Search", targets: ["Search"]),
         .library(name: "Tutorial", targets: ["Tutorial"]),
     ],
@@ -24,77 +26,69 @@ let package = Package(
         .target(
             name: "STRAYIT",
             dependencies: [
-                "Composed",
                 "LocationManager",
+                "Navigation",
                 "Search",
                 "Tutorial",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ],
-            plugins: []
+                .composableArchitecture,
+            ]
         ),
         .target(
             name: "Adventure",
             dependencies: [
+                "Assets",
                 "LocationManager",
-                "SharedModel",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ],
-            plugins: []
+                "Models",
+                .composableArchitecture,
+            ]
         ),
+        .target(name: "Assets"),
         .target(
             name: "Cheating",
             dependencies: [
+                "Assets",
                 "LocationManager",
-                "SharedModel",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ],
-            plugins: []
-        ),
-        .target(
-            name: "Composed",
-            dependencies: [
-                "Adventure",
-                "Cheating",
-                "Direction",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ],
-            plugins: []
+                "Models",
+                .composableArchitecture,
+            ]
         ),
         .target(
             name: "Direction",
             dependencies: [
+                "Assets",
                 "LocationManager",
-                "SharedModel",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ],
-            plugins: []
+                "Models",
+                .composableArchitecture,
+            ]
         ),
         .target(
             name: "LocationManager",
             dependencies: [
-                .product(name: "Dependencies", package: "swift-dependencies"),
-            ],
-            plugins: []
+                .dependencies,
+            ]
+        ),
+        .target(name: "Models"),
+        .target(
+            name: "Navigation",
+            dependencies: [
+                "Adventure",
+                "Cheating",
+                "Direction",
+                .composableArchitecture,
+            ]
         ),
         .target(
             name: "Search",
             dependencies: [
-                "SharedModel",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ],
-            plugins: []
-        ),
-        .target(
-            name: "SharedModel",
-            dependencies: [],
-            plugins: []
+                "Models",
+                .composableArchitecture,
+            ]
         ),
         .target(
             name: "Tutorial",
             dependencies: [
-                "Composed",
-            ],
-            plugins: []
+                "Navigation",
+            ]
         ),
         .testTarget(
             name: "STRAYITTests",
@@ -106,22 +100,27 @@ let package = Package(
             name: "AdventureTests",
             dependencies: [
                 "Adventure",
-                "SharedModel"
+                "Models"
             ]
         ),
         .testTarget(
             name: "CheatingTests",
             dependencies: [
                 "Cheating",
-                "SharedModel"
+                "Models"
             ]
         ),
         .testTarget(
             name: "DirectionTests",
             dependencies: [
                 "Direction",
-                "SharedModel"
+                "Models"
             ]
         ),
     ]
 )
+
+private extension Target.Dependency {
+    static let composableArchitecture: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
+}

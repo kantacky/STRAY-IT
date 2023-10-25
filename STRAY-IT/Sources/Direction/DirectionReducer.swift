@@ -1,21 +1,17 @@
 import ComposableArchitecture
 import CoreLocation
 import LocationManager
-import SharedModel
+import Models
 
 public struct DirectionReducer: Reducer {
-    @Dependency(\.locationManager)
-    private var locationManager: LocationManager
-
-    public init() {}
-
+    // MARK: - State
     public struct State: Equatable {
-        public var coordinate: CLLocationCoordinate2D
-        public var degrees: CLLocationDirection
-        public var goal: CLLocationCoordinate2D
-        public var distanceToGoal: Double
-        public var directionToGoal: Double
-        public var landmarks: [Landmark]
+        var coordinate: CLLocationCoordinate2D
+        var degrees: CLLocationDirection
+        var goal: CLLocationCoordinate2D
+        var distanceToGoal: Double
+        var directionToGoal: Double
+        var landmarks: [Landmark]
 
         public init(
             start: CLLocationCoordinate2D,
@@ -33,12 +29,20 @@ public struct DirectionReducer: Reducer {
         }
     }
 
+    // MARK: - Action
     public enum Action: Equatable {
         case calculate
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
     }
 
+    // MARK: - Dependency
+    @Dependency(\.locationManager)
+    private var locationManager: LocationManager
+
+    public init() {}
+
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {

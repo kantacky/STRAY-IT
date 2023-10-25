@@ -1,3 +1,4 @@
+import Assets
 import SwiftUI
 
 public struct TutorialView: View {
@@ -23,10 +24,12 @@ public struct TutorialView: View {
 
             SliderIndicator(page: $page)
         }
-        .background(Color(.background))
+        .background(ColorAssets.background)
     }
 }
 
+#if DEBUG
 #Preview {
     TutorialView()
 }
+#endif

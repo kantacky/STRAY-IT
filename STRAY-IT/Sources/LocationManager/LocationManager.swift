@@ -29,7 +29,6 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
         self.locationManager = .init()
         super.init()
         self.locationManager.delegate = self
-        self.requestWhenInUseAuthorization()
         if let coordinate = self.getCoordinate() {
             self.coordinateChangeHandler?(coordinate)
         }
@@ -42,10 +41,16 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
         self.locationManager.activityType = .fitness
     }
 
-    private func requestWhenInUseAuthorization() {
+    public func requestWhenInUseAuthorization() -> Bool {
         if self.locationManager.authorizationStatus == .notDetermined {
             self.locationManager.requestWhenInUseAuthorization()
+            return true
         }
+        return false
+    }
+
+    public func isValidAuthoriztionStatus() -> Bool {
+        self.locationManager.authorizationStatus == .authorizedWhenInUse || self.locationManager.authorizationStatus == .authorizedAlways
     }
 
     public func getCoordinate() -> CLLocationCoordinate2D? {
@@ -74,8 +79,6 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
 
     public func stopUpdatingLocation() {
         self.locationManager.stopUpdatingLocation()
-#if os(iOS)
         self.locationManager.stopUpdatingHeading()
-#endif
     }
 }

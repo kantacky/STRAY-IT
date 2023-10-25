@@ -1,49 +1,41 @@
+import Assets
 import ComposableArchitecture
+import Models
 import SwiftUI
 
-public struct LandmarksView: View {
-    public typealias Reducer = DirectionReducer
+struct LandmarksView: View {
+    private let landmarks: [Landmark]
 
-    private let store: StoreOf<Reducer>
-
-    public init(store: StoreOf<Reducer>) {
-        self.store = store
+    init(landmarks: [Landmark]) {
+        self.landmarks = landmarks
     }
 
-    public var body: some View {
-        WithViewStore(self.store, observe: { $0 }, content: { viewStore in
-            GeometryReader { geometry in
-                ZStack {
-                    Image(.circle)
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                ImageAssets.circle
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+
+                ForEach(self.landmarks) { item in
+                    item.category.image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-
-//                    ForEach(viewStore.state.landmarks) { item in
-//                        if let category = item.category {
-//                            Image(.category)
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 50, height: 50)
-//                                .position(
-//                                    x: geometry.size.width / 2 + LocationLogic.getPosition(geometry.size.width * 0.8 / 2, item.direction)[0],
-//                                    y: geometry.size.height / 2 + LocationLogic.getPosition(geometry.size.width * 0.8 / 2, item.direction)[1]
-//                                )
-//                        }
-//                    }
+                        .frame(width: 50, height: 50)
+                        .position(
+                            x: geometry.size.width / 2 + LocationLogic.getPosition(geometry.size.width * 0.8 / 2.0, item.direction).0,
+                            y: geometry.size.height / 2 + LocationLogic.getPosition(geometry.size.width * 0.8 / 2.0, item.direction).1
+                        )
                 }
             }
-        })
+        }
     }
 }
 
+#if DEBUG
 #Preview {
-    LandmarksView(store: Store(
-        initialState: LandmarksView.Reducer.State(
-            start: .init(latitude: 35.681042, longitude: 139.767214),
-            goal: .init(latitude: 35.683588, longitude: 139.750323)
-        ),
-        reducer: { LandmarksView.Reducer() }
-    ))
+    LandmarksView(landmarks: [])
 }
+#endif

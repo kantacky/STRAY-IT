@@ -1,7 +1,7 @@
 import _MapKit_SwiftUI
 import ComposableArchitecture
 import CoreLocation
-import SharedModel
+import Models
 import XCTest
 
 @testable import Direction

@@ -1,13 +1,14 @@
+import Assets
 import SwiftUI
 
-public struct SliderIndicator: View {
+struct SliderIndicator: View {
     @Binding private var page: Int
 
-    public init(page: Binding<Int>) {
+    init(page: Binding<Int>) {
         self._page = page
     }
 
-    public var body: some View {
+    var body: some View {
         HStack {
             ForEach(0...2, id: \.self) { index in
                 VStack {
@@ -19,13 +20,15 @@ public struct SliderIndicator: View {
                 }
                 .padding()
                 .font(.caption)
-                .foregroundStyle(Color(.accent))
+                .foregroundStyle(ColorAssets.accent)
             }
         }
         .padding()
     }
 }
 
+#if DEBUG
 #Preview {
     SliderIndicator(page: .constant(0))
 }
+#endif

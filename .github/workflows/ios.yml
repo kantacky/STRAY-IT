@@ -15,11 +15,11 @@ jobs:
     runs-on: macos-13
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Test
       env:
         platform: ${{ 'iOS Simulator' }}
-        device: ${{ 'iPhone 14 Pro Max' }}
+        device: ${{ 'iPhone 15 Pro Max' }}
         os: ${{ '17.0' }}
       run: |
         xcodebuild test -workspace STRAY-IT.xcworkspace -scheme DirectionTests -destination "platform=$platform,name=$device,OS=$os"
