@@ -25,8 +25,14 @@ struct LandmarksView: View {
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                         .position(
-                            x: geometry.size.width / 2 + LocationLogic.getPosition(geometry.size.width * 0.8 / 2.0, item.direction).0,
-                            y: geometry.size.height / 2 + LocationLogic.getPosition(geometry.size.width * 0.8 / 2.0, item.direction).1
+                            x: geometry.size.width / 2 + CGFloat.getCoordinate(
+                                radius: geometry.size.width * 0.8 / 2.0,
+                                degrees: item.direction
+                            ).0,
+                            y: geometry.size.height / 2 + CGFloat.getCoordinate(
+                                radius: geometry.size.width * 0.8 / 2.0,
+                                degrees: item.direction
+                            ).1
                         )
                 }
             }

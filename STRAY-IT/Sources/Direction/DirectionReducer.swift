@@ -20,10 +20,7 @@ public struct DirectionReducer: Reducer {
             self.coordinate = start
             self.degrees = 0
             self.goal = goal
-            self.distanceToGoal = LocationLogic.getDistance(
-                originLC: start,
-                targetLC: goal
-            )
+            self.distanceToGoal = start.distance(from: goal)
             self.directionToGoal = 0
             self.landmarks = []
         }
@@ -47,13 +44,9 @@ public struct DirectionReducer: Reducer {
         Reduce { state, action in
             switch action {
             case .calculate:
-                state.distanceToGoal = LocationLogic.getDistance(
-                    originLC: state.coordinate,
-                    targetLC: state.goal
-                )
-                state.directionToGoal = LocationLogic.getDirectionDelta(
-                    state.coordinate,
-                    state.goal,
+                state.distanceToGoal = state.coordinate.distance(from: state.goal)
+                state.directionToGoal = state.coordinate.directionDelta(
+                    from: state.goal,
                     heading: state.degrees
                 )
                 return .none

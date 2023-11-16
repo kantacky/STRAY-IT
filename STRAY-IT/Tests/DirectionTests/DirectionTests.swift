@@ -31,15 +31,8 @@ public final class DirectionTests: XCTestCase {
         }
 
         await store.receive(.calculate) {
-            $0.distanceToGoal = LocationLogic.getDistance(
-                originLC: self.point,
-                targetLC: self.goal
-            )
-            $0.directionToGoal = LocationLogic.getDirectionDelta(
-                self.point,
-                self.goal,
-                heading: 0
-            )
+            $0.distanceToGoal = self.point.distance(from: self.goal)
+            $0.directionToGoal = self.point.directionDelta(from: self.goal, heading: 0)
         }
 
         await store.send(.onChangeDegrees(direction)) {
@@ -47,15 +40,8 @@ public final class DirectionTests: XCTestCase {
         }
 
         await store.receive(.calculate) {
-            $0.distanceToGoal = LocationLogic.getDistance(
-                originLC: self.point,
-                targetLC: self.goal
-            )
-            $0.directionToGoal = LocationLogic.getDirectionDelta(
-                self.point,
-                self.goal,
-                heading: self.direction
-            )
+            $0.distanceToGoal = self.point.distance(from: self.goal)
+            $0.directionToGoal = self.point.directionDelta(from: self.goal, heading: self.direction)
         }
     }
 }

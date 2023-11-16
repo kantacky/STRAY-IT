@@ -34,7 +34,7 @@ public final class CheatingTests: XCTestCase {
                 self.start,
                 self.point
             ]
-            $0.position = MapCameraPosition.region(LocationLogic.getRegion(coordinates: [
+            $0.position = MapCameraPosition.region(.getRegion(from: [
                 self.start,
                 self.goal,
                 self.point

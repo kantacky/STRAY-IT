@@ -21,7 +21,7 @@ public struct CheatingReducer: Reducer {
             self.start = start
             self.goal = goal
             self.points = [start]
-            self.position = .region(LocationLogic.getRegion(coordinates: [start, goal]))
+            self.position = .region(.getRegion(from: [start, goal]))
         }
     }
 
@@ -47,9 +47,7 @@ public struct CheatingReducer: Reducer {
 
             case let .appendPoint(point):
                 state.points.append(point)
-                state.position = .region(LocationLogic.getRegion(
-                    coordinates: state.points + [state.goal]
-                ))
+                state.position = .region(.getRegion(from: state.points + [state.goal]))
                 return .none
 
             case let .onChangeCoordinate(coordinate):
