@@ -1,6 +1,6 @@
 import _MapKit_SwiftUI
-import Assets
 import ComposableArchitecture
+import Resources
 import SwiftUI
 
 public struct CheatingView: View {
@@ -14,40 +14,43 @@ public struct CheatingView: View {
     }
 
     public var body: some View {
-        Map(position: viewStore.binding(
-            get: \.position,
-            send: Reducer.Action.onChangePosition
-        )) {
+        Map(position: self.viewStore.$position) {
             UserAnnotation()
                 .mapOverlayLevel(level: .aboveLabels)
 
             Annotation("Start", coordinate: viewStore.start, anchor: .bottom) {
-                ImageAssets.marker
+                Image.marker
             }
             .mapOverlayLevel(level: .aboveRoads)
 
             Annotation("Goal", coordinate: viewStore.goal, anchor: .bottom) {
-                ImageAssets.marker
+                Image.marker
             }
             .mapOverlayLevel(level: .aboveRoads)
 
             MapPolyline(coordinates: viewStore.points)
-                .stroke(ColorAssets.route, lineWidth: 8)
+                .stroke(
+                    Color.route,
+                    style: .init(
+                        lineWidth: 8,
+                        lineCap: .round,
+                        lineJoin: .round
+                    )
+                )
                 .mapOverlayLevel(level: .aboveRoads)
         }
         .mapControlVisibility(.visible)
-        .background(ColorAssets.background)
+        .background(Color.background)
     }
 }
 
-#if DEBUG
 #Preview {
     CheatingView(store: Store(
         initialState: CheatingView.Reducer.State(
             start: .init(latitude: 35.681042, longitude: 139.767214),
             goal: .init(latitude: 35.683588, longitude: 139.750323)
-        ),
-        reducer: { CheatingView.Reducer() }
-    ))
+        )
+    ) {
+        CheatingView.Reducer()
+    })
 }
-#endif

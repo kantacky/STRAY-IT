@@ -1,4 +1,4 @@
-import Assets
+import Resources
 import SwiftUI
 
 struct SliderIndicator: View {
@@ -20,15 +20,13 @@ struct SliderIndicator: View {
                 }
                 .padding()
                 .font(.caption)
-                .foregroundStyle(ColorAssets.accent)
+                .foregroundStyle(Color.accent)
             }
         }
         .padding()
     }
 }
 
-#if DEBUG
 #Preview {
     SliderIndicator(page: .constant(0))
 }
-#endif

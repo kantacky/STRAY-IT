@@ -1,5 +1,5 @@
-import Assets
 import ComposableArchitecture
+import Resources
 import SwiftUI
 
 public struct SearchResultList: View {
@@ -29,7 +29,7 @@ public struct SearchResultList: View {
 
                     Spacer()
                 }
-                .foregroundStyle(ColorAssets.accent)
+                .foregroundStyle(Color.accent)
             }
             .padding(.top, 8.0)
             .padding(.bottom, 2.0)
@@ -40,7 +40,6 @@ public struct SearchResultList: View {
     }
 }
 
-#if DEBUG
 #Preview {
     SearchResultList(store: Store(
         initialState: SearchResultList.Reducer.State()
@@ -48,4 +47,3 @@ public struct SearchResultList: View {
         SearchResultList.Reducer()
     })
 }
-#endif

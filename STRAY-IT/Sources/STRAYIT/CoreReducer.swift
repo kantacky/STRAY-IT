@@ -1,50 +1,63 @@
 import ComposableArchitecture
-import Navigation
 import CoreLocation
 import LocationManager
-import Search
 import Models
+import Navigation
+import Search
+import Tutorial
+import UserDefaultsClient
 
-struct CoreReducer: Reducer {
+@Reducer
+struct CoreReducer {
     // MARK: - State
     struct State: Equatable {
-        enum Status: Equatable {
-            case search(SearchReducer.State)
-            case navigation(ComposedReducer.State)
-        }
-
-        @PresentationState var alert: AlertState<AlertAction>?
-        var status: Status
+        @PresentationState var alert: AlertState<Action.Alert>?
+        var scene: Scene
 
         init() {
-            self.status = .search(.init())
+            self.scene = .launch
+        }
+
+        @CasePathable
+        enum Scene: Equatable {
+            case launch
+            case tutorial(TutorialReducer.State)
+            case search(SearchReducer.State)
+            case navigation(ComposedReducer.State)
         }
     }
 
     // MARK: - Action
     enum Action: Equatable {
         case onAppear
-        case alert(PresentationAction<AlertAction>)
-        case setAlert(String)
+        case alert(PresentationAction<Alert>)
+        case tutorial(TutorialReducer.Action)
         case search(SearchReducer.Action)
         case navigation(ComposedReducer.Action)
-    }
 
-    enum AlertAction: Equatable {}
+        enum Alert: Equatable {}
+    }
 
     // MARK: - Dependency
     @Dependency(\.locationManager)
     private var locationManager: LocationManager
+    @Dependency(\.userDefaultsClient)
+    private var userDefaultsClient: UserDefaultsClient
 
     init() {}
 
     // MARK: - Reducer
     var body: some Reducer<State, Action> {
-        Scope(state: \.status, action: .self) {
-            Scope(state: /State.Status.search, action: /Action.search) {
+        Scope(state: \.scene, action: .self) {
+            Scope(state: \.tutorial, action: \.tutorial) {
+                TutorialReducer()
+            }
+
+            Scope(state: \.search, action: \.search) {
                 SearchReducer()
             }
-            Scope(state: /State.Status.navigation, action: /Action.navigation) {
+
+            Scope(state: \.navigation, action: \.navigation) {
                 ComposedReducer()
             }
         }
@@ -53,45 +66,61 @@ struct CoreReducer: Reducer {
             switch action {
             case .onAppear:
                 if self.locationManager.requestWhenInUseAuthorization() {
-                    return .none
-                } else if self.locationManager.isValidAuthoriztionStatus() {
-                    return .none
-                }
-
-                return .run { send in
-                    await send(.setAlert("Allow us to use your location service"))
-                }
-
-            case let .setAlert(message):
-                state.alert = AlertState {
-                    TextState(message)
+                    if self.userDefaultsClient.boolForKey("hasShownTutorial") {
+                        state.scene = .search(.init())
+                    } else {
+                        state.scene = .tutorial(.init())
+                    }
+                } else {
+                    state.alert = .init(title: {
+                        .init("Allow us to use your location service")
+                    })
                 }
                 return .none
 
-            case let .search(.querySearchResponse(.failure(error))):
-                return .run { send in
-                    await send(.setAlert(error.localizedDescription))
+            case .tutorial(.onSearchButtonTapped):
+                state.scene = .search(.init())
+                return .run { _ in
+                    await self.userDefaultsClient.setBool(true, "hasShownTutorial")
                 }
+
+            case let .search(.querySearchResponse(.failure(error))):
+                state.alert = .init(title: {
+                    .init(error.localizedDescription)
+                })
+                return .none
 
             case let .search(.onSelectResult(item)):
                 if let start: CLLocationCoordinate2D = self.locationManager.getCoordinate() {
                     let goal: CLLocationCoordinate2D = item.placemark.coordinate
-                    state.status = .navigation(.init(start: start, goal: goal))
+                    state.scene = .navigation(.init(start: start, goal: goal))
+                    self.locationManager.enableBackgroundLocationUpdates()
                     return .none
                 }
-                state.status = .search(.init())
-                return .run { send in
-                    await send(.setAlert("Failed to get current location"))
-                }
-
-            case .navigation(.onSearchButtonTapped):
-                state.status = .search(.init())
+                state.scene = .search(.init())
+                state.alert = .init(title: {
+                    .init("Failed to get current location")
+                })
                 return .none
 
-            default:
+            case .navigation(.onSearchButtonTapped):
+                self.locationManager.disableBackgroundLocationUpdates()
+                state.scene = .search(.init())
+                return .none
+
+            case .alert:
+                return .none
+
+            case .tutorial:
+                return .none
+
+            case .search:
+                return .none
+
+            case .navigation:
                 return .none
             }
         }
-        .ifLet(\.$alert, action: /Action.alert)
+        .ifLet(\.$alert, action: \.alert)
     }
 }

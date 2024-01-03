@@ -1,5 +1,5 @@
-import Assets
 import Models
+import Resources
 import SwiftUI
 
 struct CustomTabBar: View {
@@ -18,12 +18,10 @@ struct CustomTabBar: View {
             }
         }
         .padding(.top, 4.0)
-        .background(ColorAssets.background)
+        .background(Color.background)
     }
 }
 
-#if DEBUG
 #Preview {
     CustomTabBar(selection: .constant(.direction))
 }
-#endif

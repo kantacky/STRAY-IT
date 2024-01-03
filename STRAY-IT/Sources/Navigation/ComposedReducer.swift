@@ -9,7 +9,8 @@ import LocationManager
 import MapKit
 import Models
 
-public struct ComposedReducer: Reducer {
+@Reducer
+public struct ComposedReducer {
     // MARK: - State
     public struct State: Equatable {
         var tabSelection: TabItem

@@ -1,8 +1,8 @@
 import MapKit
 import SwiftUI
 
-extension MKPointOfInterestCategory {
-    public var image: Image {
+public extension MKPointOfInterestCategory {
+    var image: Image {
         switch self {
 //        case .airport: Image(.airport)
 //        case .amusementPark: Image(.amusementPark)

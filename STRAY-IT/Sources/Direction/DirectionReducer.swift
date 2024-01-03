@@ -3,7 +3,8 @@ import CoreLocation
 import LocationManager
 import Models
 
-public struct DirectionReducer: Reducer {
+@Reducer
+public struct DirectionReducer {
     // MARK: - State
     public struct State: Equatable {
         var coordinate: CLLocationCoordinate2D

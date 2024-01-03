@@ -9,10 +9,8 @@ let package = Package(
     products: [
         .library(name: "STRAYIT", targets: ["STRAYIT"]),
         .library(name: "Adventure", targets: ["Adventure"]),
-        .library(name: "Assets", targets: ["Assets"]),
         .library(name: "Cheating", targets: ["Cheating"]),
         .library(name: "Direction", targets: ["Direction"]),
-        .library(name: "Models", targets: ["Models"]),
         .library(name: "Navigation", targets: ["Navigation"]),
         .library(name: "Search", targets: ["Search"]),
         .library(name: "Tutorial", targets: ["Tutorial"]),
@@ -28,36 +26,37 @@ let package = Package(
             dependencies: [
                 "LocationManager",
                 "Navigation",
+                "Resources",
                 "Search",
                 "Tutorial",
+                "UserDefaultsClient",
                 .composableArchitecture,
             ]
         ),
         .target(
             name: "Adventure",
             dependencies: [
-                "Assets",
                 "LocationManager",
                 "Models",
+                "Resources",
                 .composableArchitecture,
             ]
         ),
-        .target(name: "Assets"),
         .target(
             name: "Cheating",
             dependencies: [
-                "Assets",
                 "LocationManager",
                 "Models",
+                "Resources",
                 .composableArchitecture,
             ]
         ),
         .target(
             name: "Direction",
             dependencies: [
-                "Assets",
                 "LocationManager",
                 "Models",
+                "Resources",
                 .composableArchitecture,
             ]
         ),
@@ -77,6 +76,7 @@ let package = Package(
                 .composableArchitecture,
             ]
         ),
+        .target(name: "Resources"),
         .target(
             name: "Search",
             dependencies: [
@@ -88,6 +88,12 @@ let package = Package(
             name: "Tutorial",
             dependencies: [
                 "Navigation",
+            ]
+        ),
+        .target(
+            name: "UserDefaultsClient",
+            dependencies: [
+                .dependencies,
             ]
         ),
         .testTarget(

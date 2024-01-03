@@ -32,11 +32,9 @@ public struct SearchResultView: View {
     }
 }
 
-#if DEBUG
 #Preview {
     SearchResultView(store: Store(
         initialState: SearchResultView.Reducer.State(),
         reducer: { SearchResultView.Reducer() }
     ))
 }
-#endif

@@ -1,4 +1,4 @@
-import Assets
+import Resources
 import SwiftUI
 
 public struct SearchButton: View {
@@ -8,15 +8,13 @@ public struct SearchButton: View {
         Image(systemName: "magnifyingglass")
             .font(.title3)
             .bold()
-            .foregroundStyle(ColorAssets.background)
+            .foregroundStyle(Color.background)
             .padding()
-            .background(ColorAssets.accent)
+            .background(Color.accent)
             .clipShape(Circle())
     }
 }
 
-#if DEBUG
 #Preview {
     SearchButton()
 }
-#endif

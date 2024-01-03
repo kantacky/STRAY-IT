@@ -7,8 +7,6 @@ struct TutorialPage0: View {
     }
 }
 
-#if DEBUG
 #Preview {
     TutorialPage0()
 }
-#endif

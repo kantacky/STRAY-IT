@@ -2,7 +2,8 @@ import _MapKit_SwiftUI
 import ComposableArchitecture
 import Models
 
-public struct AdventureReducer: Reducer {
+@Reducer
+public struct AdventureReducer {
     // MARK: - State
     public struct State: Equatable {
         var position: MapCameraPosition

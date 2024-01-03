@@ -9,8 +9,6 @@ struct CoreView: View {
     typealias Reducer = CoreReducer
     private let store: StoreOf<Reducer>
     @StateObject private var viewStore: ViewStoreOf<Reducer>
-    @AppStorage("hasShownTutorial")
-    private var hasShownTutorial: Bool = .init(true)
 
     init(store: StoreOf<Reducer>) {
         self.store = store
@@ -18,33 +16,41 @@ struct CoreView: View {
     }
 
     var body: some View {
-        if !self.hasShownTutorial {
-            TutorialView()
-        } else {
             SwitchStore(store.scope(
-                state: \.status,
+                state: \.scene,
                 action: { $0 }
             )) { state in
                 switch state {
+                case .launch:
+                    LaunchView()
+
+                case .tutorial:
+                    CaseLet(/Reducer.State.Scene.tutorial, action: Reducer.Action.tutorial) { store in
+                        TutorialView(store: store)
+                    }
+
                 case .search:
-                    CaseLet(/Reducer.State.Status.search, action: Reducer.Action.search) { store in
+                    CaseLet(/Reducer.State.Scene.search, action: Reducer.Action.search) { store in
                         SearchView(store: store)
                     }
 
                 case .navigation:
-                    CaseLet(/Reducer.State.Status.navigation, action: Reducer.Action.navigation) { store in
+                    CaseLet(/Reducer.State.Scene.navigation, action: Reducer.Action.navigation) { store in
                         ComposedView(store: store)
                     }
                 }
             }
-            .onAppear { viewStore.send(.onAppear) }
-            .alert(store: self.store.scope(state: \.$alert, action: { .alert($0) }))
-        }
+            .onAppear {
+                self.viewStore.send(.onAppear)
+            }
+            .alert(store: self.store.scope(state: \.$alert, action: \.alert))
     }
 }
 
-#if DEBUG
 #Preview {
-    CoreView(store: Store(initialState: CoreView.Reducer.State(), reducer: { CoreView.Reducer() }))
+    CoreView(store: Store(
+        initialState: CoreView.Reducer.State()
+    ) {
+        CoreView.Reducer()
+    })
 }
-#endif

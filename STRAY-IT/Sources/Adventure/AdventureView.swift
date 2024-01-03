@@ -1,6 +1,6 @@
 import _MapKit_SwiftUI
-import Assets
 import ComposableArchitecture
+import Resources
 import SwiftUI
 
 public struct AdventureView: View {
@@ -22,32 +22,38 @@ public struct AdventureView: View {
                 .mapOverlayLevel(level: .aboveLabels)
 
             Annotation("Start", coordinate: viewStore.start, anchor: .bottom) {
-                ImageAssets.marker
+                Image.marker
             }
             .mapOverlayLevel(level: .aboveRoads)
 
             Annotation("Goal", coordinate: viewStore.goal, anchor: .bottom) {
-                ImageAssets.marker
+                Image.marker
             }
             .mapOverlayLevel(level: .aboveRoads)
 
             MapPolyline(coordinates: viewStore.points)
-                .stroke(ColorAssets.route, lineWidth: 8)
+                .stroke(
+                    Color.route,
+                    style: .init(
+                        lineWidth: 8,
+                        lineCap: .round,
+                        lineJoin: .round
+                    )
+                )
                 .mapOverlayLevel(level: .aboveRoads)
         }
         .mapControlVisibility(.hidden)
-        .background(ColorAssets.background)
+        .background(Color.background)
     }
 }
 
-#if DEBUG
 #Preview {
     AdventureView(store: Store(
         initialState: AdventureView.Reducer.State(
             start: .init(latitude: 35.681042, longitude: 139.767214),
             goal: .init(latitude: 35.683588, longitude: 139.750323)
-        ),
-        reducer: { AdventureView.Reducer() }
-    ))
+        )
+    ) {
+        AdventureView.Reducer()
+    })
 }
-#endif

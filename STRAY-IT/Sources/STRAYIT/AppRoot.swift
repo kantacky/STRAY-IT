@@ -6,7 +6,9 @@ public struct AppRoot: App {
     private let store: StoreOf<Reducer>
 
     public init() {
-        self.store = Store(initialState: Reducer.State(), reducer: { Reducer() })
+        self.store = Store(initialState: Reducer.State()) {
+            Reducer()
+        }
     }
 
     public var body: some Scene {

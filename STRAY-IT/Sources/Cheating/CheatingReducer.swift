@@ -2,10 +2,11 @@ import _MapKit_SwiftUI
 import ComposableArchitecture
 import Models
 
-public struct CheatingReducer: Reducer {
+@Reducer
+public struct CheatingReducer {
     // MARK: - State
     public struct State: Equatable {
-        var position: MapCameraPosition
+        @BindingState var position: MapCameraPosition
         var coordinate: CLLocationCoordinate2D
         var degrees: CLLocationDirection
         var start: CLLocationCoordinate2D
@@ -26,8 +27,8 @@ public struct CheatingReducer: Reducer {
     }
 
     // MARK: - Action
-    public enum Action: Equatable {
-        case onChangePosition(MapCameraPosition)
+    public enum Action: Equatable, BindableAction {
+        case binding(BindingAction<State>)
         case appendPoint(CLLocationCoordinate2D)
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
@@ -39,10 +40,11 @@ public struct CheatingReducer: Reducer {
 
     // MARK: - Reducer
     public var body: some ReducerOf<Self> {
+        BindingReducer()
+
         Reduce { state, action in
             switch action {
-            case let .onChangePosition(position):
-                state.position = position
+            case .binding:
                 return .none
 
             case let .appendPoint(point):

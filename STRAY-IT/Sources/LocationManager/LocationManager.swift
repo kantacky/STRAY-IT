@@ -35,7 +35,6 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
         if let degrees = self.getHeading() {
             self.degreesChangeHandler?(degrees)
         }
-        self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.distanceFilter = 1
         self.locationManager.activityType = .fitness
@@ -44,12 +43,12 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     public func requestWhenInUseAuthorization() -> Bool {
         if self.locationManager.authorizationStatus == .notDetermined {
             self.locationManager.requestWhenInUseAuthorization()
-            return true
         }
-        return false
+
+        return self.isValidAuthoriztionStatus
     }
 
-    public func isValidAuthoriztionStatus() -> Bool {
+    public var isValidAuthoriztionStatus: Bool {
         self.locationManager.authorizationStatus == .authorizedWhenInUse || self.locationManager.authorizationStatus == .authorizedAlways
     }
 
@@ -80,5 +79,13 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     public func stopUpdatingLocation() {
         self.locationManager.stopUpdatingLocation()
         self.locationManager.stopUpdatingHeading()
+    }
+
+    public func enableBackgroundLocationUpdates() {
+        self.locationManager.allowsBackgroundLocationUpdates = true
+    }
+
+    public func disableBackgroundLocationUpdates() {
+        self.locationManager.allowsBackgroundLocationUpdates = false
     }
 }

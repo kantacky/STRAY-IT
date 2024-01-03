@@ -1,4 +1,4 @@
-import Assets
+import Resources
 import SwiftUI
 
 public struct SearchBox: View {
@@ -19,17 +19,17 @@ public struct SearchBox: View {
                 .bold()
             TextField(text: $text) {
                 Text("Search")
-                    .foregroundStyle(ColorAssets.background)
+                    .foregroundStyle(Color.background)
             }
             .onChange(of: text) {
                 searchQuery = text
             }
             .focused($isFocused)
-            .accentColor(ColorAssets.background)
+            .accentColor(Color.background)
         }
         .padding(12)
-        .foregroundStyle(ColorAssets.background)
-        .background(ColorAssets.accent)
+        .foregroundStyle(Color.background)
+        .background(Color.accent)
         .frame(height: 40)
         .clipShape(Capsule())
         .onAppear {
@@ -38,8 +38,6 @@ public struct SearchBox: View {
     }
 }
 
-#if DEBUG
 #Preview {
     SearchBox(searchQuery: .constant(""))
 }
-#endif

@@ -1,6 +1,6 @@
-import Assets
 import ComposableArchitecture
 import Models
+import Resources
 import SwiftUI
 
 struct LandmarksView: View {
@@ -13,11 +13,17 @@ struct LandmarksView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                ImageAssets.circle
+                Image.circle
                     .resizable()
                     .scaledToFit()
-                    .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
-                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                    .frame(
+                        width: geometry.size.width * 0.8,
+                        height: geometry.size.width * 0.8
+                    )
+                    .position(
+                        x: geometry.size.width / 2,
+                        y: geometry.size.height / 2
+                    )
 
                 ForEach(self.landmarks) { item in
                     item.category.image
@@ -40,8 +46,6 @@ struct LandmarksView: View {
     }
 }
 
-#if DEBUG
 #Preview {
     LandmarksView(landmarks: [])
 }
-#endif

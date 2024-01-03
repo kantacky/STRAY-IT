@@ -2,7 +2,8 @@ import ComposableArchitecture
 import MapKit
 import Models
 
-public struct SearchReducer: Reducer {
+@Reducer
+public struct SearchReducer {
     // MARK: - State
     public struct State: Equatable {
         var searchQuery: String
@@ -85,9 +86,7 @@ public struct SearchReducer: Reducer {
                 return .none
 
             case let .querySearchResponse(.failure(error)):
-#if DEBUG
                 print(error.localizedDescription)
-#endif
                 state.querySearchResults = []
                 state.searchStatus = nil
                 return .none

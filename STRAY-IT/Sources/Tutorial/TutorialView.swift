@@ -1,35 +1,37 @@
-import Assets
+import ComposableArchitecture
+import Resources
 import SwiftUI
 
 public struct TutorialView: View {
-    @State private var page: Int
+    public typealias Reducer = TutorialReducer
+    private let store: StoreOf<Reducer>
+    @StateObject private var viewStore: ViewStoreOf<Reducer>
 
-    public init() {
-        self.page = 0
+    public init(store: StoreOf<Reducer>) {
+        self.store = store
+        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
     public var body: some View {
         VStack {
-            TabView(selection: $page) {
+            TabView(selection: self.viewStore.$page) {
                 TutorialPage0()
                     .tag(0)
                 TutorialPage1()
                     .tag(1)
-                TutorialPage2()
+                TutorialPage2(store: self.store)
                     .tag(2)
             }
-            #if os(iOS)
             .tabViewStyle(.page(indexDisplayMode: .never))
-            #endif
 
-            SliderIndicator(page: $page)
+            SliderIndicator(page: self.viewStore.$page)
         }
-        .background(ColorAssets.background)
+        .background(Color.background)
     }
 }
 
-#if DEBUG
 #Preview {
-    TutorialView()
+    TutorialView(store: Store(initialState: TutorialView.Reducer.State()) {
+        TutorialView.Reducer()
+    })
 }
-#endif

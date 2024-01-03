@@ -9,8 +9,6 @@ struct TutorialPage1: View {
     }
 }
 
-#if DEBUG
 #Preview {
     TutorialPage1()
 }
-#endif

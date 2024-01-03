@@ -1,5 +1,5 @@
-import Assets
 import Models
+import Resources
 import SwiftUI
 
 public struct CustomTabBarButton: View {
@@ -29,13 +29,14 @@ public struct CustomTabBarButton: View {
                 Text(tab.title)
                     .font(.system(size: 12.0, design: .monospaced))
             }
-            .foregroundStyle(ColorAssets.accent)
+            .foregroundStyle(Color.accent)
         })
     }
 }
 
-#if DEBUG
 #Preview {
-    CustomTabBarButton(tab: .direction, selection: .constant(.direction))
+    CustomTabBarButton(
+        tab: .direction,
+        selection: .constant(.direction)
+    )
 }
-#endif

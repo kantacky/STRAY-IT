@@ -1,4 +1,4 @@
-import Assets
+import Resources
 import SwiftUI
 
 public enum TabItem: Identifiable, CaseIterable {
@@ -9,26 +9,26 @@ public enum TabItem: Identifiable, CaseIterable {
     public var tabButtonIconFilledSymbol: Image {
         switch self {
         case .direction:
-            return SymbolAssets.starFill
+            return Image.starFill
 
 //        case .adventure:
-//            return SymbolAssets.telescopeFill
+//            return Image.telescopeFill
 
         case .cheating:
-            return SymbolAssets.satelliteFill
+            return Image.satelliteFill
         }
     }
 
     public var tabButtonIconSymbol: Image {
         switch self {
         case .direction:
-            return SymbolAssets.star
+            return Image.star
 
 //        case .adventure:
-//            return SymbolAssets.telescope
+//            return Image.telescope
 
         case .cheating:
-            return SymbolAssets.satellite
+            return Image.satellite
         }
     }
 

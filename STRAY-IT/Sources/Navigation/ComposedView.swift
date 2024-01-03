@@ -63,14 +63,13 @@ public struct ComposedView: View {
     }
 }
 
-#if DEBUG
 #Preview {
     ComposedView(store: Store(
         initialState: ComposedView.Reducer.State(
             start: CLLocationCoordinate2DMake(35.683588, 139.750323),
             goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
-        ),
-        reducer: { ComposedView.Reducer() }
-    ))
+        )
+    ) {
+        ComposedView.Reducer()
+    })
 }
-#endif
