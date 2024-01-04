@@ -20,6 +20,11 @@ public struct SearchView: View {
                     send: Reducer.Action.setSearchQuery
                 )
             )
+            .shadow(
+                radius: 4,
+                x: 4,
+                y: 4
+            )
             .padding()
 
             SearchResultView(store: self.store)
@@ -29,7 +34,7 @@ public struct SearchView: View {
         .onDisappear {
             viewStore.send(.onDisappear)
         }
-        .background(Color.background)
+        .background(Color.primaryBackground)
     }
 }
 

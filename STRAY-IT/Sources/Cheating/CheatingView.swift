@@ -16,31 +16,41 @@ public struct CheatingView: View {
     public var body: some View {
         Map(position: self.viewStore.$position) {
             UserAnnotation()
-                .mapOverlayLevel(level: .aboveLabels)
 
-            Annotation("Start", coordinate: viewStore.start, anchor: .bottom) {
+            Annotation(
+                "Start",
+                coordinate: self.viewStore.start,
+                anchor: .bottom
+            ) {
                 Image.marker
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 48, height: 48)
             }
-            .mapOverlayLevel(level: .aboveRoads)
 
-            Annotation("Goal", coordinate: viewStore.goal, anchor: .bottom) {
+            Annotation(
+                "Goal",
+                coordinate: self.viewStore.goal,
+                anchor: .bottom
+            ) {
                 Image.marker
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 48, height: 48)
             }
-            .mapOverlayLevel(level: .aboveRoads)
 
-            MapPolyline(coordinates: viewStore.points)
+            MapPolyline(coordinates: self.viewStore.points)
                 .stroke(
-                    Color.route,
+                    Color.primaryFont,
                     style: .init(
                         lineWidth: 8,
                         lineCap: .round,
                         lineJoin: .round
                     )
                 )
-                .mapOverlayLevel(level: .aboveRoads)
         }
         .mapControlVisibility(.visible)
-        .background(Color.background)
+        .background(Color.primaryBackground)
     }
 }
 

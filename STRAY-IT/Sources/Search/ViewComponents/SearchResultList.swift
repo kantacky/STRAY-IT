@@ -29,11 +29,12 @@ public struct SearchResultList: View {
 
                     Spacer()
                 }
-                .foregroundStyle(Color.accent)
+                .foregroundStyle(Color.primaryFont)
             }
             .padding(.top, 8.0)
             .padding(.bottom, 2.0)
             .padding(.horizontal, 32.0)
+
             Divider()
                 .padding(.horizontal)
         }

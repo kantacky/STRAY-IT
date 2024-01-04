@@ -29,7 +29,7 @@ public struct CustomTabBarButton: View {
                 Text(tab.title)
                     .font(.system(size: 12.0, design: .monospaced))
             }
-            .foregroundStyle(Color.accent)
+            .foregroundStyle(Color.primaryFont)
         })
     }
 }

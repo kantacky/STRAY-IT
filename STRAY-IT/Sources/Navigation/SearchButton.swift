@@ -6,11 +6,10 @@ public struct SearchButton: View {
 
     public var body: some View {
         Image(systemName: "magnifyingglass")
-            .font(.title3)
-            .bold()
-            .foregroundStyle(Color.background)
-            .padding()
-            .background(Color.accent)
+            .font(.system(size: 24, weight: .bold))
+            .foregroundStyle(Color.secondaryFont)
+            .padding(16)
+            .background(Color.secondaryBackground)
             .clipShape(Circle())
     }
 }

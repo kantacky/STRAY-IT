@@ -26,7 +26,7 @@ public struct TutorialView: View {
 
             SliderIndicator(page: self.viewStore.$page)
         }
-        .background(Color.background)
+        .background(Color.primaryBackground)
     }
 }
 

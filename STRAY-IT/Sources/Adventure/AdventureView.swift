@@ -14,36 +14,43 @@ public struct AdventureView: View {
     }
 
     public var body: some View {
-        Map(position: viewStore.binding(
-            get: \.position,
-            send: Reducer.Action.onChangePosition
-        )) {
+        Map(position: self.viewStore.$position) {
             UserAnnotation()
-                .mapOverlayLevel(level: .aboveLabels)
 
-            Annotation("Start", coordinate: viewStore.start, anchor: .bottom) {
+            Annotation(
+                "Start",
+                coordinate: viewStore.start,
+                anchor: .bottom
+            ) {
                 Image.marker
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 48, height: 48)
             }
-            .mapOverlayLevel(level: .aboveRoads)
 
-            Annotation("Goal", coordinate: viewStore.goal, anchor: .bottom) {
+            Annotation(
+                "Goal",
+                coordinate: viewStore.goal,
+                anchor: .bottom
+            ) {
                 Image.marker
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 48, height: 48)
             }
-            .mapOverlayLevel(level: .aboveRoads)
 
             MapPolyline(coordinates: viewStore.points)
                 .stroke(
-                    Color.route,
+                    Color.primaryFont,
                     style: .init(
                         lineWidth: 8,
                         lineCap: .round,
                         lineJoin: .round
                     )
                 )
-                .mapOverlayLevel(level: .aboveRoads)
         }
         .mapControlVisibility(.hidden)
-        .background(Color.background)
+        .background(Color.primaryBackground)
     }
 }
 

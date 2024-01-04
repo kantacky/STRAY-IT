@@ -36,7 +36,6 @@ public struct ComposedReducer {
     // MARK: - Action
     public enum Action: Equatable {
         case onAppear
-        case onDisappear
         case subscribeCoordinate
         case subscribeDegrees
         case onChangeCoordinate(CLLocationCoordinate2D)
@@ -70,18 +69,13 @@ public struct ComposedReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                locationManager.startUpdatingLocation()
+                self.locationManager.startUpdatingLocation()
+                self.locationManager.enableBackgroundLocationUpdates()
                 return .run { send in
                     async let subscribeCoordinate: Void = await send(.subscribeCoordinate)
                     async let subscribeDegrees: Void = await send(.subscribeDegrees)
                     _ = await (subscribeCoordinate, subscribeDegrees)
                 }
-
-            case .onDisappear:
-                Task.cancel(id: CancelID.coordinateSubscription)
-                Task.cancel(id: CancelID.degreesSubscription)
-                locationManager.stopUpdatingLocation()
-                return .none
 
             case .subscribeCoordinate:
                 return .run { send in
@@ -116,6 +110,10 @@ public struct ComposedReducer {
                 }
 
             case .onSearchButtonTapped:
+                Task.cancel(id: CancelID.coordinateSubscription)
+                Task.cancel(id: CancelID.degreesSubscription)
+                self.locationManager.disableBackgroundLocationUpdates()
+                self.locationManager.stopUpdatingLocation()
                 return .none
 
             case let .setTabSelection(newTab):

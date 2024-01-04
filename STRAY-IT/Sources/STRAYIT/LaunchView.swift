@@ -8,7 +8,7 @@ struct LaunchView: View {
             .scaledToFit()
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.background)
+            .background(Color.primaryBackground)
     }
 }
 

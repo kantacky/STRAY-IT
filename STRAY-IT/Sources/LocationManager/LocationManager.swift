@@ -41,10 +41,7 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     }
 
     public func requestWhenInUseAuthorization() -> Bool {
-        if self.locationManager.authorizationStatus == .notDetermined {
-            self.locationManager.requestWhenInUseAuthorization()
-        }
-
+        self.locationManager.requestWhenInUseAuthorization()
         return self.isValidAuthoriztionStatus
     }
 

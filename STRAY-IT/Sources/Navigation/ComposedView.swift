@@ -25,12 +25,6 @@ public struct ComposedView: View {
                         action: Reducer.Action.direction
                     ))
 
-                    //                    case .adventure:
-                    //                        AdventureView(store: store.scope(
-                    //                            state: \.adventure,
-                    //                            action: Reducer.Action.adventure
-                    //                        ))
-
                 case .cheating:
                     CheatingView(store: store.scope(
                         state: \.cheating,
@@ -58,8 +52,9 @@ public struct ComposedView: View {
                 Spacer()
             }
         }
-        .onAppear { viewStore.send(.onAppear) }
-        .onDisappear { viewStore.send(.onDisappear) }
+        .onAppear {
+            self.viewStore.send(.onAppear)
+        }
     }
 }
 

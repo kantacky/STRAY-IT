@@ -65,17 +65,20 @@ struct CoreReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                if self.locationManager.requestWhenInUseAuthorization() {
-                    if self.userDefaultsClient.boolForKey("hasShownTutorial") {
-                        state.scene = .search(.init())
-                    } else {
-                        state.scene = .tutorial(.init())
+                if self.userDefaultsClient.boolForKey("hasShownTutorial") {
+                    if !self.locationManager.requestWhenInUseAuthorization() {
+                        state.alert = .init(title: {
+                            .init("Allow us to use your location service")
+                        })
                     }
+
+                    state.scene = .search(.init())
                 } else {
-                    state.alert = .init(title: {
-                        .init("Allow us to use your location service")
-                    })
+                    _ = self.locationManager.requestWhenInUseAuthorization()
+
+                    state.scene = .tutorial(.init())
                 }
+
                 return .none
 
             case .tutorial(.onSearchButtonTapped):
@@ -94,7 +97,6 @@ struct CoreReducer {
                 if let start: CLLocationCoordinate2D = self.locationManager.getCoordinate() {
                     let goal: CLLocationCoordinate2D = item.placemark.coordinate
                     state.scene = .navigation(.init(start: start, goal: goal))
-                    self.locationManager.enableBackgroundLocationUpdates()
                     return .none
                 }
                 state.scene = .search(.init())
@@ -104,7 +106,6 @@ struct CoreReducer {
                 return .none
 
             case .navigation(.onSearchButtonTapped):
-                self.locationManager.disableBackgroundLocationUpdates()
                 state.scene = .search(.init())
                 return .none
 

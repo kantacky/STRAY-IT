@@ -18,7 +18,7 @@ struct CustomTabBar: View {
             }
         }
         .padding(.top, 4.0)
-        .background(Color.background)
+        .background(Color.primaryBackground)
     }
 }
 

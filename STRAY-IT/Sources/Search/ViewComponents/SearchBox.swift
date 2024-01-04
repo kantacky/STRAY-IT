@@ -2,10 +2,8 @@ import Resources
 import SwiftUI
 
 public struct SearchBox: View {
-    @AppStorage("hasShownTutorial")
-    private var hasShownTutorial: Bool = false
     @State private var text: String
-    @Binding public var searchQuery: String
+    @Binding private var searchQuery: String
     @FocusState private var isFocused: Bool
 
     public init(searchQuery: Binding<String>) {
@@ -19,17 +17,17 @@ public struct SearchBox: View {
                 .bold()
             TextField(text: $text) {
                 Text("Search")
-                    .foregroundStyle(Color.background)
+                    .foregroundStyle(Color.secondaryFont)
             }
             .onChange(of: text) {
                 searchQuery = text
             }
             .focused($isFocused)
-            .accentColor(Color.background)
+            .accentColor(Color.secondaryFont)
         }
         .padding(12)
-        .foregroundStyle(Color.background)
-        .background(Color.accent)
+        .foregroundStyle(Color.secondaryFont)
+        .background(Color.secondaryBackground)
         .frame(height: 40)
         .clipShape(Capsule())
         .onAppear {

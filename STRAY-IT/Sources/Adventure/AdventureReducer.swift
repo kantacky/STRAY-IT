@@ -6,7 +6,7 @@ import Models
 public struct AdventureReducer {
     // MARK: - State
     public struct State: Equatable {
-        var position: MapCameraPosition
+        @BindingState var position: MapCameraPosition
         var coordinate: CLLocationCoordinate2D
         var degrees: CLLocationDirection
         var start: CLLocationCoordinate2D
@@ -27,7 +27,8 @@ public struct AdventureReducer {
     }
 
     // MARK: - Action
-    public enum Action: Equatable {
+    public enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
         case onChangePosition(MapCameraPosition)
         case appendPoint(CLLocationCoordinate2D)
         case onChangeCoordinate(CLLocationCoordinate2D)
@@ -40,6 +41,8 @@ public struct AdventureReducer {
 
     // MARK: - Reducer
     public var body: some ReducerOf<Self> {
+        BindingReducer()
+
         Reduce { state, action in
             switch action {
             case let .onChangePosition(position):
@@ -59,6 +62,9 @@ public struct AdventureReducer {
 
             case let .onChangeDegrees(degrees):
                 state.degrees = degrees
+                return .none
+
+            case .binding:
                 return .none
             }
         }
