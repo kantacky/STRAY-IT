@@ -2,18 +2,28 @@ import Resources
 import SwiftUI
 
 public struct SearchButton: View {
-    public init() {}
+    private let action: () -> Void
+
+    public init(action: @escaping () -> Void) {
+        self.action = action
+    }
 
     public var body: some View {
-        Image(systemName: "magnifyingglass")
-            .font(.system(size: 24, weight: .bold))
-            .foregroundStyle(Color.secondaryFont)
-            .padding(16)
-            .background(Color.secondaryBackground)
-            .clipShape(Circle())
+        Button {
+            self.action()
+        } label: {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundStyle(Color.secondaryFont)
+                .padding(16)
+                .background(Color.secondaryBackground)
+                .clipShape(Circle())
+        }
     }
 }
 
 #Preview {
-    SearchButton()
+    SearchButton {
+        print("Tapped")
+    }
 }

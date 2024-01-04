@@ -32,23 +32,19 @@ public struct ComposedView: View {
                     ))
                 }
 
-                CustomTabBar(
-                    selection: viewStore.binding(
-                        get: \.tabSelection,
-                        send: Reducer.Action.setTabSelection
-                    )
-                )
+                CustomTabBar(selection: self.viewStore.$tabSelection)
             }
 
             VStack {
                 HStack {
-                    SearchButton()
-                        .onTapGesture {
-                            viewStore.send(.onSearchButtonTapped)
-                        }
-                        .padding()
+                    SearchButton {
+                        self.viewStore.send(.onSearchButtonTapped)
+                    }
+                    .padding()
+
                     Spacer()
                 }
+
                 Spacer()
             }
         }

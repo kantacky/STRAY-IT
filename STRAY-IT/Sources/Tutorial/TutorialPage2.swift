@@ -13,10 +13,8 @@ struct TutorialPage2: View {
     }
 
     var body: some View {
-        Button {
+        SearchButton {
             self.viewStore.send(.onSearchButtonTapped)
-        } label: {
-            SearchButton()
         }
     }
 }

@@ -13,7 +13,7 @@ import Models
 public struct ComposedReducer {
     // MARK: - State
     public struct State: Equatable {
-        var tabSelection: TabItem
+        @BindingState var tabSelection: TabItem
         var coordinate: CLLocationCoordinate2D?
         var degrees: CLLocationDirection?
         var start: CLLocationCoordinate2D
@@ -34,14 +34,14 @@ public struct ComposedReducer {
     }
 
     // MARK: - Action
-    public enum Action: Equatable {
+    public enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
         case onAppear
         case subscribeCoordinate
         case subscribeDegrees
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
         case onSearchButtonTapped
-        case setTabSelection(TabItem)
         case direction(DirectionReducer.Action)
         case cheating(CheatingReducer.Action)
     }
@@ -65,6 +65,8 @@ public struct ComposedReducer {
         Scope(state: \.cheating, action: /Action.cheating) {
             CheatingReducer()
         }
+
+        BindingReducer()
 
         Reduce { state, action in
             switch action {
@@ -116,8 +118,7 @@ public struct ComposedReducer {
                 self.locationManager.stopUpdatingLocation()
                 return .none
 
-            case let .setTabSelection(newTab):
-                state.tabSelection = newTab
+            case .binding:
                 return .none
 
             case .direction:
