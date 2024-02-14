@@ -18,7 +18,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", .upToNextMajor(from: "1.0.0")),
         .package(url: "https://github.com/pointfreeco/swift-dependencies.git", .upToNextMajor(from: "1.0.0")),
-        .package(url: "https://github.com/apple/swift-format.git", .upToNextMajor(from: "509.0.0")),
     ],
     targets: [
         .target(
