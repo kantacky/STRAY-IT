@@ -6,39 +6,36 @@ import Direction
 import SwiftUI
 
 public struct ComposedView: View {
-    public typealias Reducer = ComposedReducer
-    private let store: StoreOf<Reducer>
-    @StateObject private var viewStore: ViewStoreOf<Reducer>
+    @Bindable private var store: StoreOf<ComposedReducer>
 
-    public init(store: StoreOf<Reducer>) {
+    public init(store: StoreOf<ComposedReducer>) {
         self.store = store
-        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
     public var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                switch viewStore.state.tabSelection {
+                switch store.tabSelection {
                 case .direction:
                     DirectionView(store: store.scope(
                         state: \.direction,
-                        action: Reducer.Action.direction
+                        action: \.direction
                     ))
 
                 case .cheating:
                     CheatingView(store: store.scope(
                         state: \.cheating,
-                        action: Reducer.Action.cheating
+                        action: \.cheating
                     ))
                 }
 
-                CustomTabBar(selection: self.viewStore.$tabSelection)
+                CustomTabBar(selection: $store.tabSelection)
             }
 
             VStack {
                 HStack {
                     SearchButton {
-                        self.viewStore.send(.onSearchButtonTapped)
+                        store.send(.onSearchButtonTapped)
                     }
                     .padding()
 
@@ -48,19 +45,17 @@ public struct ComposedView: View {
                 Spacer()
             }
         }
-        .onAppear {
-            self.viewStore.send(.onAppear)
-        }
+        .onAppear { store.send(.onAppear) }
     }
 }
 
 #Preview {
     ComposedView(store: Store(
-        initialState: ComposedView.Reducer.State(
+        initialState: ComposedReducer.State(
             start: CLLocationCoordinate2DMake(35.683588, 139.750323),
             goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
         )
     ) {
-        ComposedView.Reducer()
+        ComposedReducer()
     })
 }

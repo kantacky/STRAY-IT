@@ -3,19 +3,16 @@ import Resources
 import SwiftUI
 
 public struct SearchResultList: View {
-    public typealias Reducer = SearchReducer
-    private let store: StoreOf<Reducer>
-    @StateObject private var viewStore: ViewStoreOf<Reducer>
+    private let store: StoreOf<Search>
 
-    public init(store: StoreOf<Reducer>) {
+    public init(store: StoreOf<Search>) {
         self.store = store
-        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
     public var body: some View {
-        ForEach(viewStore.state.querySearchResults, id: \.self) { result in
+        ForEach(store.querySearchResults, id: \.self) { result in
             Button {
-                viewStore.send(.onSelectResult(result), animation: .default)
+                store.send(.onSelectResult(result), animation: .default)
             } label: {
                 HStack {
                     VStack {
@@ -42,9 +39,7 @@ public struct SearchResultList: View {
 }
 
 #Preview {
-    SearchResultList(store: Store(
-        initialState: SearchResultList.Reducer.State()
-    ) {
-        SearchResultList.Reducer()
+    SearchResultList(store: Store(initialState: Search.State()) {
+        Search()
     })
 }

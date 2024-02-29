@@ -1,8 +1,10 @@
 import Resources
 import SwiftUI
 
-struct LaunchView: View {
-    var body: some View {
+public struct LaunchView: View {
+    public init() {}
+
+    public var body: some View {
         Image.logo
             .resizable()
             .scaledToFit()

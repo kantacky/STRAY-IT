@@ -3,37 +3,38 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F11F5C972AE8AADC008407A9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11F5C962AE8AADC008407A9 /* main.swift */; };
-		F11F5C9B2AE8AADD008407A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11F5C9A2AE8AADD008407A9 /* Assets.xcassets */; };
-		F11F5C9E2AE8AADD008407A9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11F5C9D2AE8AADD008407A9 /* Preview Assets.xcassets */; };
-		F11F5CA62AE8AAFA008407A9 /* STRAYIT in Frameworks */ = {isa = PBXBuildFile; productRef = F11F5CA52AE8AAFA008407A9 /* STRAYIT */; };
-		F11F5CB92AE8AB94008407A9 /* In-House.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F11F5CAC2AE8AB93008407A9 /* In-House.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F15E24382AE8AC1600F64248 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11F5C9A2AE8AADD008407A9 /* Assets.xcassets */; };
-		F15E24392AE8ADBB00F64248 /* AppRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15E24332AE8ABE500F64248 /* AppRoot.swift */; };
+		F11485502A02736100E0EA01 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F114854F2A02736100E0EA01 /* Preview Assets.xcassets */; };
+		F11485AB2A0274F900E0EA01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11485AA2A0274F900E0EA01 /* Assets.xcassets */; };
+		F11485AE2A02750F00E0EA01 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11485AD2A02750E00E0EA01 /* main.swift */; };
+		F11485B22A027BD000E0EA01 /* STRAYIT in Frameworks */ = {isa = PBXBuildFile; productRef = F11485B12A027BD000E0EA01 /* STRAYIT */; };
+		F1AC6C0F2A7F2FF90047C136 /* STRAY-IT.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F1D3E1112A7F30600096E962 /* AppRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D3E10C2A7F30600096E962 /* AppRoot.swift */; };
+		F1D3E1142A7F328B0096E962 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11485AA2A0274F900E0EA01 /* Assets.xcassets */; };
+		F1D3E1162A7F32950096E962 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F114854F2A02736100E0EA01 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F11F5CB72AE8AB94008407A9 /* PBXContainerItemProxy */ = {
+		F1AC6C0D2A7F2FF90047C136 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F11F5C8B2AE8AADC008407A9 /* Project object */;
+			containerPortal = F114853D2A02735F00E0EA01 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F11F5CAB2AE8AB93008407A9;
-			remoteInfo = "Watch In-House Watch App";
+			remoteGlobalIDString = F1AC6C012A7F2FF70047C136;
+			remoteInfo = "WatchApp Watch App";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F11F5CBD2AE8AB94008407A9 /* Embed Watch Content */ = {
+		F1AC6C132A7F2FF90047C136 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				F11F5CB92AE8AB94008407A9 /* In-House.app in Embed Watch Content */,
+				F1AC6C0F2A7F2FF90047C136 /* STRAY-IT.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,25 +42,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F11F5C932AE8AADC008407A9 /* In-House.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "In-House.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F11F5C962AE8AADC008407A9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		F11F5C9A2AE8AADD008407A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F11F5C9D2AE8AADD008407A9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F11F5CA72AE8AB3E008407A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		F11F5CAC2AE8AB93008407A9 /* In-House.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "In-House.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F15E24332AE8ABE500F64248 /* AppRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoot.swift; sourceTree = "<group>"; };
+		F11485452A02735F00E0EA01 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F114854F2A02736100E0EA01 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F11485AA2A0274F900E0EA01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F11485AD2A02750E00E0EA01 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F11F5C842AE8A552008407A9 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		F11F5C892AE8A930008407A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "STRAY-IT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1D3E10C2A7F30600096E962 /* AppRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F11F5C902AE8AADC008407A9 /* Frameworks */ = {
+		F11485422A02735F00E0EA01 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F11F5CA62AE8AAFA008407A9 /* STRAYIT in Frameworks */,
+				F11485B22A027BD000E0EA01 /* STRAYIT in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F11F5CA92AE8AB93008407A9 /* Frameworks */ = {
+		F1AC6BFF2A7F2FF70047C136 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -69,55 +71,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F11F5C8A2AE8AADC008407A9 = {
+		F114853C2A02735F00E0EA01 = {
 			isa = PBXGroup;
 			children = (
-				F11F5C952AE8AADC008407A9 /* In-House */,
-				F15E242E2AE8ABE500F64248 /* WatchApp */,
-				F11F5C942AE8AADC008407A9 /* Products */,
-				F11F5CA42AE8AAFA008407A9 /* Frameworks */,
+				F11485472A02735F00E0EA01 /* App */,
+				F1D3E10A2A7F30600096E962 /* WatchApp */,
+				F11485462A02735F00E0EA01 /* Products */,
+				F11485B02A027BD000E0EA01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		F11F5C942AE8AADC008407A9 /* Products */ = {
+		F11485462A02735F00E0EA01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F11F5C932AE8AADC008407A9 /* In-House.app */,
-				F11F5CAC2AE8AB93008407A9 /* In-House.app */,
+				F11485452A02735F00E0EA01 /* App.app */,
+				F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F11F5C952AE8AADC008407A9 /* In-House */ = {
+		F11485472A02735F00E0EA01 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				F11F5CA72AE8AB3E008407A9 /* Info.plist */,
-				F11F5C962AE8AADC008407A9 /* main.swift */,
-				F11F5C9A2AE8AADD008407A9 /* Assets.xcassets */,
-				F11F5C9C2AE8AADD008407A9 /* Preview Content */,
+				F11F5C892AE8A930008407A9 /* Info.plist */,
+				F11485AD2A02750E00E0EA01 /* main.swift */,
+				F11F5C842AE8A552008407A9 /* App.entitlements */,
+				F11485AA2A0274F900E0EA01 /* Assets.xcassets */,
+				F114854E2A02736100E0EA01 /* Preview Content */,
 			);
-			path = "In-House";
+			path = App;
 			sourceTree = "<group>";
 		};
-		F11F5C9C2AE8AADD008407A9 /* Preview Content */ = {
+		F114854E2A02736100E0EA01 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				F11F5C9D2AE8AADD008407A9 /* Preview Assets.xcassets */,
+				F114854F2A02736100E0EA01 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		F11F5CA42AE8AAFA008407A9 /* Frameworks */ = {
+		F11485B02A027BD000E0EA01 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F15E242E2AE8ABE500F64248 /* WatchApp */ = {
+		F1D3E10A2A7F30600096E962 /* WatchApp */ = {
 			isa = PBXGroup;
 			children = (
-				F15E24332AE8ABE500F64248 /* AppRoot.swift */,
+				F1D3E10C2A7F30600096E962 /* AppRoot.swift */,
 			);
 			path = WatchApp;
 			sourceTree = "<group>";
@@ -125,65 +128,67 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F11F5C922AE8AADC008407A9 /* In-House */ = {
+		F11485442A02735F00E0EA01 /* App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F11F5CA12AE8AADD008407A9 /* Build configuration list for PBXNativeTarget "In-House" */;
+			buildConfigurationList = F11485692A02736100E0EA01 /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
-				F11F5C8F2AE8AADC008407A9 /* Sources */,
-				F11F5C902AE8AADC008407A9 /* Frameworks */,
-				F11F5C912AE8AADC008407A9 /* Resources */,
-				F11F5CBD2AE8AB94008407A9 /* Embed Watch Content */,
+				F11485412A02735F00E0EA01 /* Sources */,
+				F11485422A02735F00E0EA01 /* Frameworks */,
+				F11485432A02735F00E0EA01 /* Resources */,
+				F1AC6C132A7F2FF90047C136 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F11F5CB82AE8AB94008407A9 /* PBXTargetDependency */,
+				F1AC6C0E2A7F2FF90047C136 /* PBXTargetDependency */,
 			);
-			name = "In-House";
+			name = App;
 			packageProductDependencies = (
-				F11F5CA52AE8AAFA008407A9 /* STRAYIT */,
+				F11485B12A027BD000E0EA01 /* STRAYIT */,
 			);
-			productName = "In-House";
-			productReference = F11F5C932AE8AADC008407A9 /* In-House.app */;
+			productName = App;
+			productReference = F11485452A02735F00E0EA01 /* App.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F11F5CAB2AE8AB93008407A9 /* In-House WatchApp */ = {
+		F1AC6C012A7F2FF70047C136 /* WatchApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F11F5CBA2AE8AB94008407A9 /* Build configuration list for PBXNativeTarget "In-House WatchApp" */;
+			buildConfigurationList = F1AC6C102A7F2FF90047C136 /* Build configuration list for PBXNativeTarget "WatchApp" */;
 			buildPhases = (
-				F11F5CA82AE8AB93008407A9 /* Sources */,
-				F11F5CA92AE8AB93008407A9 /* Frameworks */,
-				F11F5CAA2AE8AB93008407A9 /* Resources */,
+				F1AC6BFE2A7F2FF70047C136 /* Sources */,
+				F1AC6BFF2A7F2FF70047C136 /* Frameworks */,
+				F1AC6C002A7F2FF70047C136 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "In-House WatchApp";
-			productName = "Watch In-House Watch App";
-			productReference = F11F5CAC2AE8AB93008407A9 /* In-House.app */;
+			name = WatchApp;
+			productName = "WatchApp Watch App";
+			productReference = F1AC6C022A7F2FF70047C136 /* STRAY-IT.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		F11F5C8B2AE8AADC008407A9 /* Project object */ = {
+		F114853D2A02735F00E0EA01 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
+				ORGANIZATIONNAME = Kantacky;
 				TargetAttributes = {
-					F11F5C922AE8AADC008407A9 = {
-						CreatedOnToolsVersion = 15.0.1;
+					F11485442A02735F00E0EA01 = {
+						CreatedOnToolsVersion = 14.3;
+						LastSwiftMigration = 1430;
 					};
-					F11F5CAB2AE8AB93008407A9 = {
-						CreatedOnToolsVersion = 15.0.1;
+					F1AC6C012A7F2FF70047C136 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
-			buildConfigurationList = F11F5C8E2AE8AADC008407A9 /* Build configuration list for PBXProject "In-House" */;
-			compatibilityVersion = "Xcode 14.0";
+			buildConfigurationList = F11485402A02735F00E0EA01 /* Build configuration list for PBXProject "App" */;
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -191,70 +196,72 @@
 				Base,
 				ja,
 			);
-			mainGroup = F11F5C8A2AE8AADC008407A9;
-			productRefGroup = F11F5C942AE8AADC008407A9 /* Products */;
+			mainGroup = F114853C2A02735F00E0EA01;
+			productRefGroup = F11485462A02735F00E0EA01 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F11F5C922AE8AADC008407A9 /* In-House */,
-				F11F5CAB2AE8AB93008407A9 /* In-House WatchApp */,
+				F11485442A02735F00E0EA01 /* App */,
+				F1AC6C012A7F2FF70047C136 /* WatchApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		F11F5C912AE8AADC008407A9 /* Resources */ = {
+		F11485432A02735F00E0EA01 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F11F5C9E2AE8AADD008407A9 /* Preview Assets.xcassets in Resources */,
-				F11F5C9B2AE8AADD008407A9 /* Assets.xcassets in Resources */,
+				F11485502A02736100E0EA01 /* Preview Assets.xcassets in Resources */,
+				F11485AB2A0274F900E0EA01 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F11F5CAA2AE8AB93008407A9 /* Resources */ = {
+		F1AC6C002A7F2FF70047C136 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F15E24382AE8AC1600F64248 /* Assets.xcassets in Resources */,
+				F1D3E1162A7F32950096E962 /* Preview Assets.xcassets in Resources */,
+				F1D3E1142A7F328B0096E962 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F11F5C8F2AE8AADC008407A9 /* Sources */ = {
+		F11485412A02735F00E0EA01 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F11F5C972AE8AADC008407A9 /* main.swift in Sources */,
+				F11485AE2A02750F00E0EA01 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F11F5CA82AE8AB93008407A9 /* Sources */ = {
+		F1AC6BFE2A7F2FF70047C136 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F15E24392AE8ADBB00F64248 /* AppRoot.swift in Sources */,
+				F1D3E1112A7F30600096E962 /* AppRoot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F11F5CB82AE8AB94008407A9 /* PBXTargetDependency */ = {
+		F1AC6C0E2A7F2FF90047C136 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F11F5CAB2AE8AB93008407A9 /* In-House WatchApp */;
-			targetProxy = F11F5CB72AE8AB94008407A9 /* PBXContainerItemProxy */;
+			target = F1AC6C012A7F2FF70047C136 /* WatchApp */;
+			targetProxy = F1AC6C0D2A7F2FF90047C136 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		F11F5C9F2AE8AADD008407A9 /* Debug */ = {
+		F11485672A02736100E0EA01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -287,8 +294,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -302,21 +308,22 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
-		F11F5CA02AE8AADD008407A9 /* Release */ = {
+		F11485682A02736100E0EA01 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -349,8 +356,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -358,28 +364,31 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		F11F5CA22AE8AADD008407A9 /* Debug */ = {
+		F114856A2A02736100E0EA01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"In-House/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 4YP7SQBLYV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "In-House/Info.plist";
+				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "In-House";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location for navigation. Your location will not be collected or shared without your consent.";
@@ -402,25 +411,29 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
-		F11F5CA32AE8AADD008407A9 /* Release */ = {
+		F114856B2A02736100E0EA01 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"In-House/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 4YP7SQBLYV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "In-House/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "In-House";
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "STRAY-IT";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location for navigation. Your location will not be collected or shared without your consent.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location for navigation. Your location will not be collected or shared without your consent.";
@@ -435,40 +448,48 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT.In-House";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
-		F11F5CBB2AE8AB94008407A9 /* Debug */ = {
+		F1AC6C112A7F2FF90047C136 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"In-House/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 4YP7SQBLYV;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "STRAY-IT";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.kantacky.STRAY-IT.In-House";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.kantacky.STRAY-IT";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT.In-House.watchkitapp";
-				PRODUCT_NAME = "In-House";
+				PRODUCT_NAME = "STRAY-IT";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -476,26 +497,32 @@
 			};
 			name = Debug;
 		};
-		F11F5CBC2AE8AB94008407A9 /* Release */ = {
+		F1AC6C122A7F2FF90047C136 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"In-House/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 4YP7SQBLYV;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "STRAY-IT";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.kantacky.STRAY-IT.In-House";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.kantacky.STRAY-IT";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT.In-House.watchkitapp";
-				PRODUCT_NAME = "In-House";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT.watchkitapp";
+				PRODUCT_NAME = "STRAY-IT";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -508,29 +535,29 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F11F5C8E2AE8AADC008407A9 /* Build configuration list for PBXProject "In-House" */ = {
+		F11485402A02735F00E0EA01 /* Build configuration list for PBXProject "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F11F5C9F2AE8AADD008407A9 /* Debug */,
-				F11F5CA02AE8AADD008407A9 /* Release */,
+				F11485672A02736100E0EA01 /* Debug */,
+				F11485682A02736100E0EA01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F11F5CA12AE8AADD008407A9 /* Build configuration list for PBXNativeTarget "In-House" */ = {
+		F11485692A02736100E0EA01 /* Build configuration list for PBXNativeTarget "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F11F5CA22AE8AADD008407A9 /* Debug */,
-				F11F5CA32AE8AADD008407A9 /* Release */,
+				F114856A2A02736100E0EA01 /* Debug */,
+				F114856B2A02736100E0EA01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F11F5CBA2AE8AB94008407A9 /* Build configuration list for PBXNativeTarget "In-House WatchApp" */ = {
+		F1AC6C102A7F2FF90047C136 /* Build configuration list for PBXNativeTarget "WatchApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F11F5CBB2AE8AB94008407A9 /* Debug */,
-				F11F5CBC2AE8AB94008407A9 /* Release */,
+				F1AC6C112A7F2FF90047C136 /* Debug */,
+				F1AC6C122A7F2FF90047C136 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -538,11 +565,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F11F5CA52AE8AAFA008407A9 /* STRAYIT */ = {
+		F11485B12A027BD000E0EA01 /* STRAYIT */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = STRAYIT;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = F11F5C8B2AE8AADC008407A9 /* Project object */;
+	rootObject = F114853D2A02735F00E0EA01 /* Project object */;
 }

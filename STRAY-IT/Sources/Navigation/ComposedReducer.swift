@@ -12,14 +12,15 @@ import Models
 @Reducer
 public struct ComposedReducer {
     // MARK: - State
-    public struct State: Equatable {
-        @BindingState var tabSelection: TabItem
+    @ObservableState
+    public struct State {
+        var tabSelection: TabItem
         var coordinate: CLLocationCoordinate2D?
         var degrees: CLLocationDirection?
         var start: CLLocationCoordinate2D
         var goal: CLLocationCoordinate2D
-        var direction: DirectionReducer.State
-        var cheating: CheatingReducer.State
+        var direction: Direction.State
+        var cheating: Cheating.State
 
         public init(
             start: CLLocationCoordinate2D,
@@ -34,7 +35,7 @@ public struct ComposedReducer {
     }
 
     // MARK: - Action
-    public enum Action: BindableAction, Equatable {
+    public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case onAppear
         case subscribeCoordinate
@@ -42,16 +43,16 @@ public struct ComposedReducer {
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
         case onSearchButtonTapped
-        case direction(DirectionReducer.Action)
-        case cheating(CheatingReducer.Action)
+        case direction(Direction.Action)
+        case cheating(Cheating.Action)
     }
 
     // MARK: - Dependency
-    @Dependency(\.locationManager)
-    private var locationManager: LocationManager
+    @Dependency(LocationManager.self) private var locationManager
 
     public enum CancelID {
-        case coordinateSubscription, degreesSubscription
+        case coordinateSubscription
+        case degreesSubscription
     }
 
     public init() {}
@@ -59,17 +60,20 @@ public struct ComposedReducer {
     // MARK: - Reducer
     public var body: some Reducer<State, Action> {
         Scope(state: \.direction, action: /Action.direction) {
-            DirectionReducer()
+            Direction()
         }
 
         Scope(state: \.cheating, action: /Action.cheating) {
-            CheatingReducer()
+            Cheating()
         }
 
         BindingReducer()
 
         Reduce { state, action in
             switch action {
+            case .binding:
+                return .none
+
             case .onAppear:
                 self.locationManager.startUpdatingLocation()
                 self.locationManager.enableBackgroundLocationUpdates()
@@ -116,9 +120,6 @@ public struct ComposedReducer {
                 Task.cancel(id: CancelID.degreesSubscription)
                 self.locationManager.disableBackgroundLocationUpdates()
                 self.locationManager.stopUpdatingLocation()
-                return .none
-
-            case .binding:
                 return .none
 
             case .direction:

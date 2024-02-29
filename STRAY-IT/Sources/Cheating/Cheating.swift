@@ -3,10 +3,11 @@ import ComposableArchitecture
 import Models
 
 @Reducer
-public struct CheatingReducer {
+public struct Cheating {
     // MARK: - State
-    public struct State: Equatable {
-        @BindingState var position: MapCameraPosition
+    @ObservableState
+    public struct State {
+        var position: MapCameraPosition
         var coordinate: CLLocationCoordinate2D
         var degrees: CLLocationDirection
         var start: CLLocationCoordinate2D
@@ -27,7 +28,7 @@ public struct CheatingReducer {
     }
 
     // MARK: - Action
-    public enum Action: Equatable, BindableAction {
+    public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case appendPoint(CLLocationCoordinate2D)
         case onChangeCoordinate(CLLocationCoordinate2D)

@@ -10,7 +10,7 @@ import XCTest
 public final class CheatingTests: XCTestCase {
     deinit {}
 
-    typealias Reducer = CheatingReducer
+    typealias Reducer = Cheating
 
     let start: CLLocationCoordinate2D = .init(latitude: 35.681042, longitude: 139.767214)
     let goal: CLLocationCoordinate2D = .init(latitude: 35.683588, longitude: 139.750323)

@@ -4,22 +4,19 @@ import Resources
 import SwiftUI
 
 public struct CheatingView: View {
-    public typealias Reducer = CheatingReducer
-    private let store: StoreOf<Reducer>
-    @StateObject private var viewStore: ViewStoreOf<Reducer>
+    @Bindable private var store: StoreOf<Cheating>
 
-    public init(store: StoreOf<Reducer>) {
+    public init(store: StoreOf<Cheating>) {
         self.store = store
-        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
     public var body: some View {
-        Map(position: self.viewStore.$position) {
+        Map(position: $store.position) {
             UserAnnotation()
 
             Annotation(
                 "Start",
-                coordinate: self.viewStore.start,
+                coordinate: store.start,
                 anchor: .bottom
             ) {
                 Image.marker
@@ -30,7 +27,7 @@ public struct CheatingView: View {
 
             Annotation(
                 "Goal",
-                coordinate: self.viewStore.goal,
+                coordinate: store.goal,
                 anchor: .bottom
             ) {
                 Image.marker
@@ -39,7 +36,7 @@ public struct CheatingView: View {
                     .frame(width: 48, height: 48)
             }
 
-            MapPolyline(coordinates: self.viewStore.points)
+            MapPolyline(coordinates: store.points)
                 .stroke(
                     Color.primaryFont,
                     style: .init(
@@ -56,11 +53,11 @@ public struct CheatingView: View {
 
 #Preview {
     CheatingView(store: Store(
-        initialState: CheatingView.Reducer.State(
+        initialState: Cheating.State(
             start: .init(latitude: 35.681042, longitude: 139.767214),
             goal: .init(latitude: 35.683588, longitude: 139.750323)
         )
     ) {
-        CheatingView.Reducer()
+        Cheating()
     })
 }

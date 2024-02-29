@@ -1,18 +1,17 @@
 import ComposableArchitecture
 
 @Reducer
-public struct TutorialReducer {
+public struct Tutorial {
     // MARK: - State
-    public struct State: Equatable {
-        @BindingState var page: Int
+    @ObservableState
+    public struct State {
+        var page = 0
 
-        public init() {
-            self.page = 0
-        }
+        public init() {}
     }
 
     // MARK: - Action
-    public enum Action: Equatable, BindableAction {
+    public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case onSearchButtonTapped
     }

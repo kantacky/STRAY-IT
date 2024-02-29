@@ -1,17 +1,19 @@
-import _MapKit_SwiftUI
 import ComposableArchitecture
+import CoreLocation
+import LocationManager
 import Models
 
 @Reducer
-public struct AdventureReducer {
+public struct Direction {
     // MARK: - State
-    public struct State: Equatable {
-        @BindingState var position: MapCameraPosition
+    @ObservableState
+    public struct State {
         var coordinate: CLLocationCoordinate2D
         var degrees: CLLocationDirection
-        var start: CLLocationCoordinate2D
         var goal: CLLocationCoordinate2D
-        var points: [CLLocationCoordinate2D]
+        var distanceToGoal: Double
+        var directionToGoal: Double
+        var landmarks: [Landmark]
 
         public init(
             start: CLLocationCoordinate2D,
@@ -19,53 +21,48 @@ public struct AdventureReducer {
         ) {
             self.coordinate = start
             self.degrees = 0
-            self.start = start
             self.goal = goal
-            self.points = [start]
-            self.position = .region(.getRegion(from: [start, goal]))
+            self.distanceToGoal = start.distance(from: goal)
+            self.directionToGoal = 0
+            self.landmarks = []
         }
     }
 
     // MARK: - Action
-    public enum Action: BindableAction, Equatable {
-        case binding(BindingAction<State>)
-        case onChangePosition(MapCameraPosition)
-        case appendPoint(CLLocationCoordinate2D)
+    public enum Action {
+        case calculate
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
     }
 
     // MARK: - Dependency
+    @Dependency(LocationManager.self) private var locationManager
 
     public init() {}
 
     // MARK: - Reducer
     public var body: some ReducerOf<Self> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
-            case let .onChangePosition(position):
-                state.position = position
+            case .calculate:
+                state.distanceToGoal = state.coordinate.distance(from: state.goal)
+                state.directionToGoal = state.coordinate.directionDelta(
+                    from: state.goal,
+                    heading: state.degrees
+                )
                 return .none
-
-            case let .appendPoint(point):
-                state.points.append(point)
-                state.position = .region(.getRegion(from: state.points + [state.goal]))
-                return .none
-
+                
             case let .onChangeCoordinate(coordinate):
                 state.coordinate = coordinate
                 return .run { send in
-                    await send(.appendPoint(coordinate))
+                    await send(.calculate)
                 }
-
+                
             case let .onChangeDegrees(degrees):
                 state.degrees = degrees
-                return .none
-
-            case .binding:
-                return .none
+                return .run { send in
+                    await send(.calculate)
+                }
             }
         }
     }

@@ -3,18 +3,15 @@ import Resources
 import SwiftUI
 
 public struct TutorialView: View {
-    public typealias Reducer = TutorialReducer
-    private let store: StoreOf<Reducer>
-    @StateObject private var viewStore: ViewStoreOf<Reducer>
+    @Bindable private var store: StoreOf<Tutorial>
 
-    public init(store: StoreOf<Reducer>) {
+    public init(store: StoreOf<Tutorial>) {
         self.store = store
-        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
     public var body: some View {
         VStack {
-            TabView(selection: self.viewStore.$page) {
+            TabView(selection: $store.page) {
                 TutorialPage0()
                     .tag(0)
                 TutorialPage1()
@@ -24,14 +21,14 @@ public struct TutorialView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
 
-            SliderIndicator(page: self.viewStore.$page)
+            SliderIndicator(page: $store.page)
         }
         .background(Color.primaryBackground)
     }
 }
 
 #Preview {
-    TutorialView(store: Store(initialState: TutorialView.Reducer.State()) {
-        TutorialView.Reducer()
+    TutorialView(store: Store(initialState: Tutorial.State()) {
+        Tutorial()
     })
 }

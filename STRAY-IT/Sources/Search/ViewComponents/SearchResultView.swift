@@ -2,17 +2,14 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct SearchResultView: View {
-    public typealias Reducer = SearchReducer
-    private let store: StoreOf<Reducer>
-    @StateObject private var viewStore: ViewStoreOf<Reducer>
+    private let store: StoreOf<Search>
 
-    public init(store: StoreOf<Reducer>) {
+    public init(store: StoreOf<Search>) {
         self.store = store
-        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
     public var body: some View {
-        if let searchStatus = viewStore.state.searchStatus {
+        if let searchStatus = store.searchStatus {
             ScrollView {
                 switch searchStatus {
                 case .searching:
@@ -33,8 +30,7 @@ public struct SearchResultView: View {
 }
 
 #Preview {
-    SearchResultView(store: Store(
-        initialState: SearchResultView.Reducer.State(),
-        reducer: { SearchResultView.Reducer() }
-    ))
+    SearchResultView(store: Store(initialState: Search.State()) {
+        Search()
+    })
 }

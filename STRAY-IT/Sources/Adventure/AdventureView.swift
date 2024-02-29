@@ -4,22 +4,19 @@ import Resources
 import SwiftUI
 
 public struct AdventureView: View {
-    public typealias Reducer = AdventureReducer
-    private let store: StoreOf<Reducer>
-    @StateObject private var viewStore: ViewStoreOf<Reducer>
+    @Bindable private var store: StoreOf<Adventure>
 
-    public init(store: StoreOf<Reducer>) {
+    public init(store: StoreOf<Adventure>) {
         self.store = store
-        self._viewStore = .init(wrappedValue: ViewStore(store, observe: { $0 }))
     }
 
     public var body: some View {
-        Map(position: self.viewStore.$position) {
+        Map(position: $store.position) {
             UserAnnotation()
 
             Annotation(
                 "Start",
-                coordinate: viewStore.start,
+                coordinate: store.start,
                 anchor: .bottom
             ) {
                 Image.marker
@@ -30,7 +27,7 @@ public struct AdventureView: View {
 
             Annotation(
                 "Goal",
-                coordinate: viewStore.goal,
+                coordinate: store.goal,
                 anchor: .bottom
             ) {
                 Image.marker
@@ -39,7 +36,7 @@ public struct AdventureView: View {
                     .frame(width: 48, height: 48)
             }
 
-            MapPolyline(coordinates: viewStore.points)
+            MapPolyline(coordinates: store.points)
                 .stroke(
                     Color.primaryFont,
                     style: .init(
@@ -56,11 +53,11 @@ public struct AdventureView: View {
 
 #Preview {
     AdventureView(store: Store(
-        initialState: AdventureView.Reducer.State(
+        initialState: Adventure.State(
             start: .init(latitude: 35.681042, longitude: 139.767214),
             goal: .init(latitude: 35.683588, longitude: 139.750323)
         )
     ) {
-        AdventureView.Reducer()
+        Adventure()
     })
 }

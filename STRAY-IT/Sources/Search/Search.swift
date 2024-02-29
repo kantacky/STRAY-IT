@@ -3,9 +3,10 @@ import MapKit
 import Models
 
 @Reducer
-public struct SearchReducer {
+public struct Search {
     // MARK: - State
-    public struct State: Equatable {
+    @ObservableState
+    public struct State {
         var searchQuery: String
         var querySearchResults: [MKMapItem]
         var searchStatus: SearchStatus?
@@ -16,18 +17,18 @@ public struct SearchReducer {
         }
     }
 
-    public enum SearchStatus: Equatable {
+    public enum SearchStatus {
         case searching
         case noResult
         case searched
     }
 
     // MARK: - Action
-    public enum Action: Equatable {
+    public enum Action {
         case onDisappear
         case setSearchQuery(String)
         case executeQuery
-        case querySearchResponse(TaskResult<[MKMapItem]>)
+        case querySearchResponse(Result<[MKMapItem], Error>)
         case onSelectResult(MKMapItem)
     }
 
@@ -57,8 +58,7 @@ public struct SearchReducer {
                     .run { send in
                         try await Task.sleep(nanoseconds: 1_000_000_000)
                         await send(.executeQuery)
-                    }
-                        .cancellable(id: SearchExecutionId())
+                    }.cancellable(id: SearchExecutionId())
                 )
 
             case .executeQuery:
@@ -71,9 +71,7 @@ public struct SearchReducer {
                 request.naturalLanguageQuery = state.searchQuery
                 let search: MKLocalSearch = .init(request: request)
                 return .run { send in
-                    await send(.querySearchResponse(TaskResult {
-                        try await search.start().mapItems
-                    }))
+                    await send(.querySearchResponse(Result { try await search.start().mapItems }))
                 }
 
             case let .querySearchResponse(.success(results)):

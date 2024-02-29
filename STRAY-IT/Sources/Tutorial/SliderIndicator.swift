@@ -2,11 +2,7 @@ import Resources
 import SwiftUI
 
 struct SliderIndicator: View {
-    @Binding private var page: Int
-
-    init(page: Binding<Int>) {
-        self._page = page
-    }
+    @Binding var page: Int
 
     var body: some View {
         HStack {

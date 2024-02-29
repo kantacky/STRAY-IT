@@ -10,7 +10,9 @@ let package = Package(
         .library(name: "STRAYIT", targets: ["STRAYIT"]),
         .library(name: "Adventure", targets: ["Adventure"]),
         .library(name: "Cheating", targets: ["Cheating"]),
+        .library(name: "Core", targets: ["Core"]),
         .library(name: "Direction", targets: ["Direction"]),
+        .library(name: "Launch", targets: ["Launch"]),
         .library(name: "Navigation", targets: ["Navigation"]),
         .library(name: "Search", targets: ["Search"]),
         .library(name: "Tutorial", targets: ["Tutorial"]),
@@ -23,13 +25,14 @@ let package = Package(
         .target(
             name: "STRAYIT",
             dependencies: [
-                "LocationManager",
-                "Navigation",
-                "Resources",
-                "Search",
-                "Tutorial",
-                "UserDefaultsClient",
+                "Core",
                 .composableArchitecture,
+            ]
+        ),
+        .testTarget(
+            name: "STRAYITTests",
+            dependencies: [
+                "STRAYIT"
             ]
         ),
         .target(
@@ -41,6 +44,13 @@ let package = Package(
                 .composableArchitecture,
             ]
         ),
+        .testTarget(
+            name: "AdventureTests",
+            dependencies: [
+                "Adventure",
+                "Models"
+            ]
+        ),
         .target(
             name: "Cheating",
             dependencies: [
@@ -50,11 +60,45 @@ let package = Package(
                 .composableArchitecture,
             ]
         ),
+        .testTarget(
+            name: "CheatingTests",
+            dependencies: [
+                "Cheating",
+                "Models"
+            ]
+        ),
+        .target(
+            name: "Core",
+            dependencies: [
+                "LocationManager",
+                "Launch",
+                "Models",
+                "Navigation",
+                "Search",
+                "Tutorial",
+                "UserDefaultsClient",
+                .composableArchitecture,
+            ]
+        ),
         .target(
             name: "Direction",
             dependencies: [
                 "LocationManager",
                 "Models",
+                "Resources",
+                .composableArchitecture,
+            ]
+        ),
+        .testTarget(
+            name: "DirectionTests",
+            dependencies: [
+                "Direction",
+                "Models"
+            ]
+        ),
+        .target(
+            name: "Launch",
+            dependencies: [
                 "Resources",
                 .composableArchitecture,
             ]
@@ -93,33 +137,6 @@ let package = Package(
             name: "UserDefaultsClient",
             dependencies: [
                 .dependencies,
-            ]
-        ),
-        .testTarget(
-            name: "STRAYITTests",
-            dependencies: [
-                "STRAYIT"
-            ]
-        ),
-        .testTarget(
-            name: "AdventureTests",
-            dependencies: [
-                "Adventure",
-                "Models"
-            ]
-        ),
-        .testTarget(
-            name: "CheatingTests",
-            dependencies: [
-                "Cheating",
-                "Models"
-            ]
-        ),
-        .testTarget(
-            name: "DirectionTests",
-            dependencies: [
-                "Direction",
-                "Models"
             ]
         ),
     ]
