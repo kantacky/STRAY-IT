@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import CoreLocation
-import LocationManager
+import LocationClient
 import Models
 import Navigation
 import Search
@@ -9,17 +9,17 @@ import UserDefaultsClient
 
 @Reducer
 public struct Core {
-    @Reducer
+    @Reducer(state: .equatable)
     public enum Scene {
         case launch
         case tutorial(Tutorial)
         case search(Search)
-        case navigation(ComposedReducer)
+        case navigation(StrayNavigation)
     }
 
     // MARK: - State
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         @Presents var alert: AlertState<Action.Alert>?
         var scene: Scene.State
 
@@ -34,11 +34,11 @@ public struct Core {
         case onAppear
         case scene(Scene.Action)
 
-        public enum Alert {}
+        public enum Alert: Equatable {}
     }
 
     // MARK: - Dependency
-    @Dependency(LocationManager.self) private var locationManager
+    @Dependency(LocationClient.self) private var locationClient
     @Dependency(UserDefaultsClient.self) private var userDefaultsClient
 
     public init() {}
@@ -55,19 +55,20 @@ public struct Core {
                 return .none
 
             case .onAppear:
-                if !userDefaultsClient.boolForKey("hasShownTutorial") {
-                    _ = self.locationManager.requestWhenInUseAuthorization()
-                    state.scene = .tutorial(Tutorial.State())
-                    return .none
-                }
-
-                if !self.locationManager.requestWhenInUseAuthorization() {
+                do {
+                    try locationClient.requestWhenInUseAuthorization()
+                    if userDefaultsClient.boolForKey("hasShownTutorial") {
+                        state.scene = .search(Search.State())
+                    } else {
+                        state.scene = .tutorial(Tutorial.State())
+                    }
+                } catch {
                     state.alert = AlertState(
                         title: TextState("Something Went Wrong while Getting Your Location."),
                         message: TextState("Allow us to use your location service.")
                     )
                 }
-                state.scene = .search(Search.State())
+
                 return .none
 
             case .scene(.tutorial(.onSearchButtonTapped)):
@@ -84,16 +85,17 @@ public struct Core {
                 return .none
 
             case let .scene(.search(.onSelectResult(item))):
-                if let start: CLLocationCoordinate2D = self.locationManager.getCoordinate() {
-                    let goal: CLLocationCoordinate2D = item.placemark.coordinate
+                do {
+                    let start = try locationClient.getCoordinate()
+                    let goal = item.placemark.coordinate
                     state.scene = .navigation(.init(start: start, goal: goal))
-                    return .none
+                } catch {
+                    state.scene = .search(Search.State())
+                    state.alert = AlertState(
+                        title: TextState("Something Went Wrong."),
+                        message: TextState(error.localizedDescription)
+                    )
                 }
-                state.scene = .search(Search.State())
-                state.alert = AlertState(
-                    title: TextState("Something Went Wrong while Getting Your Location."),
-                    message: TextState("Please try again.")
-                )
                 return .none
 
             case .scene(.navigation(.onSearchButtonTapped)):

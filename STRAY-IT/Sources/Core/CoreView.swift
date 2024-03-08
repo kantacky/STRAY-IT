@@ -26,7 +26,7 @@ public struct CoreView: View {
                 SearchView(store: store)
 
             case let .navigation(store):
-                ComposedView(store: store)
+                StrayNavigationView(store: store)
             }
         }
         .onAppear { store.send(.onAppear) }

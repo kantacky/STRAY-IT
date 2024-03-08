@@ -6,39 +6,28 @@ import XCTest
 
 @testable import Adventure
 
-@MainActor
 public final class AdventureTests: XCTestCase {
-    deinit {}
-
-    typealias Reducer = Adventure
-
-    let start: CLLocationCoordinate2D = .init(latitude: 35.681042, longitude: 139.767214)
-    let goal: CLLocationCoordinate2D = .init(latitude: 35.683588, longitude: 139.750323)
-    let point: CLLocationCoordinate2D = .init(latitude: 35.681464, longitude: 139.765726)
-
+    @MainActor
     func testChangeCoordinate() async {
-        let store: TestStoreOf<Reducer> = TestStore(
-            initialState: Reducer.State(
-                start: start,
-                goal: goal
-            ),
-            reducer: { Reducer() }
-        )
+        // Given
+        let start = CLLocationCoordinate2D(latitude: 35.681042, longitude: 139.767214)
+        let goal = CLLocationCoordinate2D(latitude: 35.683588, longitude: 139.750323)
+        let point = CLLocationCoordinate2D(latitude: 35.681464, longitude: 139.765726)
 
+        let store: TestStoreOf<Adventure> = TestStore(initialState: Adventure.State(
+            start: start,
+            goal: goal
+        )) { Adventure() }
+
+        // When
         await store.send(.onChangeCoordinate(point)) {
-            $0.coordinate = self.point
+            $0.coordinate = point
         }
 
-        await store.receive(.appendPoint(point)) {
-            $0.points = [
-                self.start,
-                self.point
-            ]
-            $0.position = MapCameraPosition.region(.getRegion(from: [
-                self.start,
-                self.goal,
-                self.point
-            ]))
+        // Then
+        await store.receive(\.appendPoint) {
+            $0.points = [start, point]
+            $0.position = MapCameraPosition.region(.getRegion(from: [start, goal, point]))
         }
     }
 }

@@ -5,16 +5,16 @@ import ComposableArchitecture
 import CoreLocation
 import Direction
 import Foundation
-import LocationManager
+import LocationClient
 import MapKit
 import Models
 
 @Reducer
-public struct ComposedReducer {
+public struct StrayNavigation {
     // MARK: - State
     @ObservableState
-    public struct State {
-        var tabSelection: TabItem
+    public struct State: Equatable {
+        var tabSelection = TabItem.direction
         var coordinate: CLLocationCoordinate2D?
         var degrees: CLLocationDirection?
         var start: CLLocationCoordinate2D
@@ -26,11 +26,10 @@ public struct ComposedReducer {
             start: CLLocationCoordinate2D,
             goal: CLLocationCoordinate2D
         ) {
-            self.tabSelection = .direction
             self.start = start
             self.goal = goal
-            self.direction = .init(start: start, goal: goal)
-            self.cheating = .init(start: start, goal: goal)
+            self.direction = Direction.State(start: start, goal: goal)
+            self.cheating = Cheating.State(start: start, goal: goal)
         }
     }
 
@@ -38,8 +37,6 @@ public struct ComposedReducer {
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case onAppear
-        case subscribeCoordinate
-        case subscribeDegrees
         case onChangeCoordinate(CLLocationCoordinate2D)
         case onChangeDegrees(CLLocationDirection)
         case onSearchButtonTapped
@@ -48,7 +45,7 @@ public struct ComposedReducer {
     }
 
     // MARK: - Dependency
-    @Dependency(LocationManager.self) private var locationManager
+    @Dependency(LocationClient.self) private var locationClient
 
     public enum CancelID {
         case coordinateSubscription
@@ -59,11 +56,10 @@ public struct ComposedReducer {
 
     // MARK: - Reducer
     public var body: some Reducer<State, Action> {
-        Scope(state: \.direction, action: /Action.direction) {
+        Scope(state: \.direction, action: \.direction) {
             Direction()
         }
-
-        Scope(state: \.cheating, action: /Action.cheating) {
+        Scope(state: \.cheating, action: \.cheating) {
             Cheating()
         }
 
@@ -75,33 +71,20 @@ public struct ComposedReducer {
                 return .none
 
             case .onAppear:
-                self.locationManager.startUpdatingLocation()
-                self.locationManager.enableBackgroundLocationUpdates()
-                return .run { send in
-                    async let subscribeCoordinate: Void = await send(.subscribeCoordinate)
-                    async let subscribeDegrees: Void = await send(.subscribeDegrees)
-                    _ = await (subscribeCoordinate, subscribeDegrees)
-                }
-
-            case .subscribeCoordinate:
-                return .run { send in
-                    for await value in locationManager.coordinate {
-                        Task.detached { @MainActor in
-                            send(.onChangeCoordinate(value))
+                locationClient.startUpdatingLocation()
+                locationClient.enableBackgroundLocationUpdates()
+                return .merge(
+                    .run { send in
+                        for await value in locationClient.getCoordinateStream() {
+                            await send(.onChangeCoordinate(value))
                         }
-                    }
-                }
-                .cancellable(id: CancelID.coordinateSubscription)
-
-            case .subscribeDegrees:
-                return .run { send in
-                    for await value in locationManager.degrees {
-                        Task.detached { @MainActor in
-                            send(.onChangeDegrees(value))
+                    }.cancellable(id: CancelID.coordinateSubscription),
+                    .run { send in
+                        for await value in locationClient.getDegreesStream() {
+                            await send(.onChangeDegrees(value))
                         }
-                    }
-                }
-                .cancellable(id: CancelID.degreesSubscription)
+                    }.cancellable(id: CancelID.degreesSubscription)
+                )
 
             case let .onChangeCoordinate(coordinate):
                 return .run { send in
@@ -118,8 +101,8 @@ public struct ComposedReducer {
             case .onSearchButtonTapped:
                 Task.cancel(id: CancelID.coordinateSubscription)
                 Task.cancel(id: CancelID.degreesSubscription)
-                self.locationManager.disableBackgroundLocationUpdates()
-                self.locationManager.stopUpdatingLocation()
+                locationClient.disableBackgroundLocationUpdates()
+                locationClient.stopUpdatingLocation()
                 return .none
 
             case .direction:

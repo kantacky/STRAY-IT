@@ -6,7 +6,7 @@ import Models
 public struct Adventure {
     // MARK: - State
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         var position: MapCameraPosition
         var coordinate: CLLocationCoordinate2D
         var degrees: CLLocationDirection

@@ -6,15 +6,12 @@ import Models
 public struct Search {
     // MARK: - State
     @ObservableState
-    public struct State {
-        var searchQuery: String
-        var querySearchResults: [MKMapItem]
+    public struct State: Equatable {
+        var searchQuery = ""
+        var querySearchResults: [MKMapItem] = []
         var searchStatus: SearchStatus?
 
-        public init() {
-            self.searchQuery = ""
-            self.querySearchResults = []
-        }
+        public init() {}
     }
 
     public enum SearchStatus {
@@ -34,7 +31,7 @@ public struct Search {
 
     // MARK: - Dependency
 
-    private struct SearchExecutionId: Hashable {}
+    private enum CancelID { case search }
 
     public init() {}
 
@@ -43,7 +40,7 @@ public struct Search {
         Reduce { state, action in
             switch action {
             case .onDisappear:
-                return .cancel(id: SearchExecutionId())
+                return .cancel(id: CancelID.search)
 
             case let .setSearchQuery(newQuery):
                 state.searchQuery = newQuery
@@ -53,13 +50,12 @@ public struct Search {
                 } else {
                     state.searchStatus = .searching
                 }
-                return .merge(
-                    .cancel(id: SearchExecutionId()),
-                    .run { send in
-                        try await Task.sleep(nanoseconds: 1_000_000_000)
-                        await send(.executeQuery)
-                    }.cancellable(id: SearchExecutionId())
-                )
+                Task.cancel(id: CancelID.search)
+                return .run { send in
+                    try await Task.sleep(nanoseconds: 1_000_000_000)
+                    await send(.executeQuery)
+                }
+                .cancellable(id: CancelID.search)
 
             case .executeQuery:
                 if state.searchQuery.isEmpty {

@@ -5,10 +5,10 @@ import CoreLocation
 import Direction
 import SwiftUI
 
-public struct ComposedView: View {
-    @Bindable private var store: StoreOf<ComposedReducer>
+public struct StrayNavigationView: View {
+    @Bindable private var store: StoreOf<StrayNavigation>
 
-    public init(store: StoreOf<ComposedReducer>) {
+    public init(store: StoreOf<StrayNavigation>) {
         self.store = store
     }
 
@@ -50,12 +50,12 @@ public struct ComposedView: View {
 }
 
 #Preview {
-    ComposedView(store: Store(
-        initialState: ComposedReducer.State(
+    StrayNavigationView(store: Store(
+        initialState: StrayNavigation.State(
             start: CLLocationCoordinate2DMake(35.683588, 139.750323),
             goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
         )
     ) {
-        ComposedReducer()
+        StrayNavigation()
     })
 }

@@ -4,14 +4,14 @@ import ComposableArchitecture
 public struct Tutorial {
     // MARK: - State
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         var page = 0
 
         public init() {}
     }
 
     // MARK: - Action
-    public enum Action: BindableAction {
+    public enum Action: Equatable, BindableAction {
         case binding(BindingAction<State>)
         case onSearchButtonTapped
     }

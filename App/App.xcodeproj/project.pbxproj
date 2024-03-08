@@ -478,7 +478,7 @@
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "STRAY-IT";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.kantacky.STRAY-IT";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(WK_COMPANION_APP_BUNDLE_IDENTIFIER)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -494,6 +494,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WK_COMPANION_APP_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT.In-House";
 			};
 			name = Debug;
 		};
@@ -514,7 +515,7 @@
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "STRAY-IT";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.kantacky.STRAY-IT";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(WK_COMPANION_APP_BUNDLE_IDENTIFIER)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -529,6 +530,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WK_COMPANION_APP_BUNDLE_IDENTIFIER = "com.kantacky.STRAY-IT";
 			};
 			name = Release;
 		};

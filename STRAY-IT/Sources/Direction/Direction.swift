@@ -1,13 +1,12 @@
 import ComposableArchitecture
 import CoreLocation
-import LocationManager
 import Models
 
 @Reducer
 public struct Direction {
     // MARK: - State
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         var coordinate: CLLocationCoordinate2D
         var degrees: CLLocationDirection
         var goal: CLLocationCoordinate2D
@@ -36,7 +35,6 @@ public struct Direction {
     }
 
     // MARK: - Dependency
-    @Dependency(LocationManager.self) private var locationManager
 
     public init() {}
 
