@@ -1,6 +1,6 @@
 import ComposableArchitecture
+import Entity
 import MapKit
-import Models
 
 @Reducer
 public struct Search {

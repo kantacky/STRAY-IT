@@ -1,12 +1,22 @@
 import ComposableArchitecture
 import CoreLocation
+import Entity
 import LocationClient
-import Models
 import Navigation
 import Search
 import Tutorial
 import UserDefaultsClient
 
+/// A reducer that describes the Core feature.
+///
+/// The Core feature is the root of the application and is responsible for coordinating the
+/// different scenes of the application.
+///
+/// Declare the Core reducer in the following way:
+/// ```swift
+/// let store = Store(initialState: Core.State()) { Core() }
+/// let string = "ABC"
+/// ```
 @Reducer
 public struct Core {
     @Reducer(state: .equatable)
@@ -68,7 +78,6 @@ public struct Core {
                         message: TextState("Allow us to use your location service.")
                     )
                 }
-
                 return .none
 
             case .scene(.tutorial(.onSearchButtonTapped)):

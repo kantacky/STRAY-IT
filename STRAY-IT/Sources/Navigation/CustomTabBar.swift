@@ -1,4 +1,4 @@
-import Models
+import Entity
 import Resources
 import SwiftUI
 

@@ -1,8 +1,8 @@
 import ComposableArchitecture
+import Entity
+import Launch
 import Navigation
 import Search
-import Launch
-import Models
 import SwiftUI
 import Tutorial
 
@@ -15,7 +15,12 @@ public struct CoreView: View {
 
     public var body: some View {
         Group {
-            switch Core.Scene.scope(store.scope(state: \.scene, action: \.scene)) {
+            switch Core.Scene.scope(
+                store.scope(
+                    state: \.scene,
+                    action: \.scene
+                )
+            ) {
             case .launch:
                 LaunchView()
 

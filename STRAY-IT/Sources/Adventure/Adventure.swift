@@ -1,6 +1,6 @@
-import _MapKit_SwiftUI
 import ComposableArchitecture
-import Models
+import Entity
+import _MapKit_SwiftUI
 
 @Reducer
 public struct Adventure {

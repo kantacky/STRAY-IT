@@ -17,7 +17,7 @@ public struct SearchResultView: View {
                         .padding()
 
                 case .noResult:
-                    Text("No Results")
+                    Text("No Results", bundle: .module)
                         .foregroundStyle(.gray)
                         .padding()
 

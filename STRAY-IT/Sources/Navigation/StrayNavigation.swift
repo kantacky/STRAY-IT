@@ -4,10 +4,10 @@ import Combine
 import ComposableArchitecture
 import CoreLocation
 import Direction
+import Entity
 import Foundation
 import LocationClient
 import MapKit
-import Models
 
 @Reducer
 public struct StrayNavigation {

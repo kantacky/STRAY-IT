@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import CoreLocation
-import Models
+import Entity
 
 @Reducer
 public struct Direction {

@@ -1,15 +1,8 @@
 import CoreLocation
 
-extension CLLocationCoordinate2D: Equatable, Codable {
-    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        lhs.latitude == rhs.latitude
-        && lhs.longitude == rhs.longitude
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container: UnkeyedEncodingContainer = encoder.unkeyedContainer()
-        try container.encode(latitude)
-        try container.encode(longitude)
+extension CLLocationCoordinate2D: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
 
     public init(from decoder: Decoder) throws {
@@ -27,7 +20,7 @@ extension CLLocationCoordinate2D: Equatable, Codable {
     }
 
     public func directionDelta(from coordinate: CLLocationCoordinate2D, heading: Double) -> Double {
-        var direction: Double
+        let direction: Double
 
         let originalLatitude: Double = CGFloat.radian(from: self.latitude)
         let originalLongitude: Double = CGFloat.radian(from: self.longitude)
@@ -35,18 +28,16 @@ extension CLLocationCoordinate2D: Equatable, Codable {
         let targetLongitude: Double = CGFloat.radian(from: coordinate.longitude)
 
         let longitudeDelta: Double = targetLongitude - originalLongitude
-        let y: Double = sin(longitudeDelta)
-        let x: Double = cos(originalLatitude) * tan(targetLatitude) - sin(originalLatitude) * cos(longitudeDelta)
-        let p: Double = atan2(y, x) * 180 / CGFloat.pi
+        let positionY: Double = sin(longitudeDelta)
+        let positionX: Double = cos(originalLatitude) * tan(targetLatitude) - sin(originalLatitude) * cos(longitudeDelta)
+        let pValue: Double = atan2(positionY, positionX) * 180 / CGFloat.pi
 
-        if p < 0 {
-            direction = 360 + atan2(y, x) * 180 / CGFloat.pi
+        if pValue < 0 {
+            direction = 360 + atan2(positionY, positionX) * 180 / CGFloat.pi
         } else {
-            direction = atan2(y, x) * 180 / CGFloat.pi
+            direction = atan2(positionY, positionX) * 180 / CGFloat.pi
         }
 
-        direction -= heading
-
-        return direction
+        return direction - heading
     }
 }

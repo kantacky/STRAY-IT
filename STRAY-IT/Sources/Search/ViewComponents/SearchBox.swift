@@ -16,7 +16,7 @@ public struct SearchBox: View {
             Image(systemName: "magnifyingglass")
                 .bold()
             TextField(text: $text) {
-                Text("Search")
+                Text("Search", bundle: .module)
                     .foregroundStyle(Color.secondaryFont)
             }
             .onChange(of: text) {

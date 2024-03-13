@@ -1,0 +1,46 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Allow us to use your location service." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置情報サービスの利用を許可してください。"
+          }
+        }
+      }
+    },
+    "Something Went Wrong while Getting Your Location." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置情報取得時に問題が発生しました。"
+          }
+        }
+      }
+    },
+    "Something Went Wrong while Searching." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索時に問題が発生しました。"
+          }
+        }
+      }
+    },
+    "Something Went Wrong." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "問題が発生しました。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

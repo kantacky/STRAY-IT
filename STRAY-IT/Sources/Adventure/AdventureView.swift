@@ -1,5 +1,5 @@
-import _MapKit_SwiftUI
 import ComposableArchitecture
+import MapKit
 import Resources
 import SwiftUI
 
@@ -15,7 +15,7 @@ public struct AdventureView: View {
             UserAnnotation()
 
             Annotation(
-                "Start",
+                String(localized: "Start", bundle: .module),
                 coordinate: store.start,
                 anchor: .bottom
             ) {
@@ -26,7 +26,7 @@ public struct AdventureView: View {
             }
 
             Annotation(
-                "Goal",
+                String(localized: "Goal", bundle: .module),
                 coordinate: store.goal,
                 anchor: .bottom
             ) {
