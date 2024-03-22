@@ -1,44 +1,18 @@
 import ComposableArchitecture
 import Core
 import DebugUtils
-import FirebaseAnalytics
-import FirebaseCore
-import FirebaseMessaging
 import Foundation
 import SwiftUI
 
 public struct AppRoot: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
     private let store: StoreOf<Core> = Store(initialState: Core.State()) { Core() }
 #if DEBUG
     @State private var isDebugUtilsPresented = false
 #endif
 
-    public init() {
-        FirebaseApp.configure(
-            options: .init(
-                contentsOfFile: Bundle.module.path(
-                    forResource: "GoogleService-Info",
-                    ofType: "plist"
-                )!
-            )!
-        )
-
-        Messaging.messaging().delegate = UIApplication.shared.delegate as? MessagingDelegate
-
-        UNUserNotificationCenter.current().delegate = UIApplication.shared.delegate as? UNUserNotificationCenterDelegate
-
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: [.alert, .badge, .sound]
-        ) { granted, error in
-            if let error {
-                debugPrint(print("Error: \(error)"))
-                return
-            }
-            debugPrint(print("Permission granted: \(granted)"))
-        }
-
-        UIApplication.shared.registerForRemoteNotifications()
-    }
+    public init() {}
 
     public var body: some Scene {
         WindowGroup {

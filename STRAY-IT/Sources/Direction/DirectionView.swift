@@ -11,24 +11,28 @@ public struct DirectionView: View {
     }
 
     public var body: some View {
-        ZStack {
-            Image.decoration
-            Image.direction
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .rotationEffect(.degrees(store.directionToGoal))
-
-            LandmarksView(landmarks: store.landmarks)
-
-            Text("\(Int(store.distanceToGoal)) m")
-                .foregroundStyle(Color.accentFont)
-                .font(.title2)
-                .fontWeight(.semibold)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.primaryBackground)
-        .ignoresSafeArea(edges: [.top, .horizontal])
+        Image.decoration
+            .overlay {
+                LandmarksView(landmarks: store.landmarks)
+            }
+            .overlay {
+                Image.direction
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .rotationEffect(.degrees(store.directionToGoal))
+            }
+            .overlay {
+                Text("\(Int(store.distanceToGoal)) m")
+                    .frame(maxWidth: 100)
+                    .lineLimit(1)
+                    .foregroundStyle(Color.accentFont)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.primaryBackground)
+            .ignoresSafeArea(edges: [.top, .horizontal])
     }
 }
 

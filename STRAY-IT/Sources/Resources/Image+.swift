@@ -1,19 +1,20 @@
 import SwiftUI
 
 public extension Image {
-    static let circle: Self = .init(.circle)
-    static let decoration: Self = .init(.decoration)
-    static let direction: Self = .init(.direction)
-    static let directionSmall: Self = .init(.directionSmall)
-    static let marker: Self = .init(.marker)
-    static let logo: Self = .init(.logo)
+    static let circle = Image(.circle)
+    static let decoration = Image(.decoration)
+    static let direction = Image(.direction)
+    static let directionSmall = Image(.directionSmall)
+    static let marker = Image(.marker)
+    static let logo = Image(.logo)
 }
 
 public extension Image {
-    static let satelliteFill: Self = .init(.satelliteFill)
-    static let satellite: Self = .init(.satellite)
-    static let starFill: Self = .init(.starFill)
-    static let star: Self = .init(.star)
-    static let telescopeFill: Self = .init(.telescopeFill)
-    static let telescope: Self = .init(.telescope)
+    // Icon
+    static let satelliteFill = Image(.satelliteFill)
+    static let satellite = Image(.satellite)
+    static let starFill = Image(.starFill)
+    static let star = Image(.star)
+    static let telescopeFill = Image(.telescopeFill)
+    static let telescope = Image(.telescope)
 }
