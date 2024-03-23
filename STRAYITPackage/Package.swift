@@ -94,15 +94,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "STRAYITEntity",
-            dependencies: [
-                .strayitResource,
-            ],
-            plugins: [
-                .swiftLint,
-            ]
-        ),
-        .target(
             name: "Launch",
             dependencies: [
                 .strayitResource,
@@ -121,12 +112,23 @@ let package = Package(
                 .swiftLint,
             ]
         ),
+        .target(name: "STRAYITComponent"),
+        .target(
+            name: "STRAYITEntity",
+            dependencies: [
+                .strayitResource,
+            ],
+            plugins: [
+                .swiftLint,
+            ]
+        ),
         .target(
             name: "STRAYITNavigation",
             dependencies: [
                 .cheating,
                 .composableArchitecture,
                 .direction,
+                .strayitComponent,
             ],
             plugins: [
                 .swiftLint,
@@ -178,6 +180,7 @@ let package = Package(
         .target(
             name: "Tutorial",
             dependencies: [
+                .strayitComponent,
                 .strayitNavigation,
             ],
             plugins: [
@@ -205,6 +208,7 @@ private extension Target.Dependency {
     static let launch: Self = "Launch"
     static let locationClient: Self = "LocationClient"
     static let search: Self = "Search"
+    static let strayitComponent: Self = "STRAYITComponent"
     static let strayitNavigation: Self = "STRAYITNavigation"
     static let strayitPackage: Self = "STRAYITPackage"
     static let strayitResource: Self = "STRAYITResource"

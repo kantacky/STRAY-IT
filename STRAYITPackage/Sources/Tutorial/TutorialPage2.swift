@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import STRAYITNavigation
+import STRAYITComponent
 import SwiftUI
 
 struct TutorialPage2: View {

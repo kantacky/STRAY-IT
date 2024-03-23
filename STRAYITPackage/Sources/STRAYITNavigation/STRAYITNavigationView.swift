@@ -1,8 +1,7 @@
-import Adventure
 import Cheating
 import ComposableArchitecture
-import CoreLocation
 import Direction
+import STRAYITComponent
 import SwiftUI
 
 public struct STRAYITNavigationView: View {
@@ -52,8 +51,8 @@ public struct STRAYITNavigationView: View {
 #Preview {
     STRAYITNavigationView(store: Store(
         initialState: STRAYITNavigation.State(
-            start: CLLocationCoordinate2DMake(35.683588, 139.750323),
-            goal: CLLocationCoordinate2DMake(35.681042, 139.767214)
+            start: .init(latitude: 35.683588, longitude: 139.750323),
+            goal: .init(latitude: 35.681042, longitude: 139.767214)
         )
     ) {
         STRAYITNavigation()
