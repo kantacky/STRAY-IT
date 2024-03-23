@@ -1,0 +1,29 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "STRAY-IT was developed to help you improve your sense of direction while having fun." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "STRAY-ITは方向音痴を楽しみながら治すために開発されました。"
+          }
+        }
+      }
+    },
+    "Welcome to STRAY-IT!!" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ようこそSTRAY-ITへ!!"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

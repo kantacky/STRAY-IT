@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:STRAY-IT">
+      location = "group:STRAYITPackage">
    </FileRef>
    <FileRef
-      location = "group:App/App.xcodeproj">
+      location = "group:STRAYIT/STRAYIT.xcodeproj">
    </FileRef>
 </Workspace>

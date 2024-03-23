@@ -1,0 +1,3 @@
+import STRAYITPackage
+
+STRAYITApp.main()
