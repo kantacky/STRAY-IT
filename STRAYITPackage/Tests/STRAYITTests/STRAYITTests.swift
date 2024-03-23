@@ -3,5 +3,4 @@ import XCTest
 
 @testable import STRAYIT
 
-public final class STRAYITTests: XCTestCase {
-}
+public final class STRAYITTests: XCTestCase {}

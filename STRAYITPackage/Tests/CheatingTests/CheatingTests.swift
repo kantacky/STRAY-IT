@@ -1,7 +1,7 @@
+import _MapKit_SwiftUI
 import ComposableArchitecture
 import CoreLocation
 import STRAYITEntity
-import _MapKit_SwiftUI
 import XCTest
 
 @testable import Cheating
