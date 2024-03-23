@@ -11,7 +11,10 @@ public struct CheatingView: View {
     }
 
     public var body: some View {
-        Map(position: $store.position) {
+        Map(
+            position: $store.position,
+            interactionModes: []
+        ) {
             UserAnnotation()
 
             Annotation(
