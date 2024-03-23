@@ -53,8 +53,8 @@ let package = Package(
                 .entity,
                 .launch,
                 .locationClient,
-                .strayitNavigation,
                 .search,
+                .strayitNavigation,
                 .tutorial,
                 .userDefaultsClient,
             ],
@@ -95,7 +95,9 @@ let package = Package(
         ),
         .target(
             name: "STRAYITEntity",
-            dependencies: [],
+            dependencies: [
+                .strayitResource,
+            ],
             plugins: [
                 .swiftLint,
             ]
