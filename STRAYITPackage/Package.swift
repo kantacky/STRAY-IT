@@ -112,7 +112,22 @@ let package = Package(
                 .swiftLint,
             ]
         ),
-        .target(name: "STRAYITComponent"),
+        .target(
+            name: "Search",
+            dependencies: [
+                .composableArchitecture,
+                .entity,
+            ],
+            plugins: [
+                .swiftLint,
+            ]
+        ),
+        .target(
+            name: "STRAYITComponent",
+            dependencies: [
+                .strayitResource,
+            ]
+        ),
         .target(
             name: "STRAYITEntity",
             dependencies: [
@@ -151,18 +166,8 @@ let package = Package(
                 .swiftLint,
             ]
         ),
-        .target(
-            name: "Search",
-            dependencies: [
-                .composableArchitecture,
-                .entity,
-            ],
-            plugins: [
-                .swiftLint,
-            ]
-        ),
         .testTarget(
-            name: "STRAYITTests",
+            name: "STRAYITPackageTests",
             dependencies: [
                 .strayitPackage,
             ],
